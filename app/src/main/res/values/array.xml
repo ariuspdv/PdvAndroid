@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="combo_produto_codigo">
+        <item><string>sigla</string></item>
+        <!-- <item>produto</item>  nome do sub campo ou entity -->
+        <item>@id/combobox_codigo</item>
+    </array>
+    <array name="combo_produto_descricao">
+            <item><string>descricao</string></item>
+            <!-- <item>produto</item>  nome do sub campo ou entity -->
+            <item>@id/combobox_descricao</item>
+    </array>
+
+    <array name="combo_produto">
+        <item>@array/combo_produto_codigo</item>
+        <item>@array/combo_produto_descricao</item>
+    </array>
+
+    <string-array name="combo_produto_selecionado">
+        <item>descricao</item>
+    </string-array>
+
+    <string-array name="combo_produto_filtro">
+        <item>descricao</item>
+        <item>codigo</item>
+    </string-array>
+
+</resources>

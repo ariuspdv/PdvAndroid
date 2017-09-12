@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="br.com.arius.pdvarius.MainActivity" >
+    <item android:id="@+id/itemFechar_Caixa"
+        android:title="@string/action_FecharCaixa"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:visible="true"/>
+    <item android:id="@+id/itemSangria"
+        android:title="@string/action_Sangria"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:visible="true"/>
+    <item
+        android:id="@+id/itemReforco"
+        android:orderInCategory="100"
+        android:title="@string/action_Reforco"
+        android:visible="true"
+        app:showAsAction="never" />
+</menu>

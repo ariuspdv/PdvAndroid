@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SplitPaneLayout">
+        <attr name="orientation">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+        <attr name="splitterSize" format="dimension" />
+        <attr name="splitterMovable" format="boolean" />
+        <attr name="splitterPosition" format="dimension|fraction" />
+        <attr name="splitterBackground" format="reference|color" />
+        <attr name="splitterDraggingBackground" format="reference|color" />
+    </declare-styleable>
+
+    <declare-styleable name="AriusAutoCompleteTextView">
+        <attr name="layout_arius_autocomplete" format="integer"/>
+        <attr name="layout_arius_dropdown_autocomplete" format="integer"/>
+        <attr name="entity_autocomplete" format="string" />
+        <attr name="comp_campos_autocomplete" format="reference" />
+        <attr name="campos_exibir_autocomplete" format="reference" />
+        <attr name="campos_fitlro" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="AriusListView">
+        <attr name="layout_arius_listview" format="integer"/>
+        <attr name="entity_listview" format="string" />
+        <attr name="comp_campos_listview" format="reference" />
+        <attr name="campos_exibir_listview" format="reference" />
+        <attr name="swipe_delete" format="boolean" />
+        <attr name="montaAdapter" format="boolean" />
+    </declare-styleable>
+
+</resources>
