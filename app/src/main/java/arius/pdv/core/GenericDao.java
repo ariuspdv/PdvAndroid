@@ -81,14 +81,14 @@ public abstract class GenericDao<T extends Entity> {
 	}
 
 	private void prepareInsert() throws SQLException {
-		if (stInsertUpdate == null) {
+		if (stInsertUpdate == null || !stInsertUpdate.getInsert()) {
 			String fieldsComma = "";
 			String params = "";
 			for(int i = 0; i < fields.length; i++) {
-				if (i > 0) {
+				if (i > 0){
 					fieldsComma += ",";
 					params += ",";
-				}
+				}	
 				fieldsComma += fields[i];
 				params += "?";
 			}
@@ -98,13 +98,14 @@ public abstract class GenericDao<T extends Entity> {
 				sql += " returning id";
 			}
 			stInsertUpdate = conn.prepareStatement(sql);
-			stInsertUpdate.setInsert(true);
 			stInsertUpdate.setParametersIndexes(fields);
 		}
+		if (stInsertUpdate != null)
+			stInsertUpdate.setInsert(true);
 	}
 	
 	private void prepareUpdate() throws SQLException {
-		if (stInsertUpdate == null) {
+		if (stInsertUpdate == null || stInsertUpdate.getInsert()) {
 			String set = null;
 			for(String f: fields) {
 				if (set == null) {
@@ -116,12 +117,13 @@ public abstract class GenericDao<T extends Entity> {
 			String sql = "update " + tableName + " set " + set + " where id = ?";
 			
 			stInsertUpdate = conn.prepareStatement(sql);
-			stInsertUpdate.setInsert(false);
 			String[] parameters = new String[fields.length + 1];
 			System.arraycopy(fields, 0, parameters, 0, fields.length);
 			parameters[parameters.length - 1] = "id";
 			stInsertUpdate.setParametersIndexes(parameters);
 		}
+		if (stInsertUpdate != null)
+			stInsertUpdate.setInsert(false);
 	}
 		
 	private void prepareDelete() throws SQLException {
@@ -129,6 +131,8 @@ public abstract class GenericDao<T extends Entity> {
 			String sql = "delete from " + tableName + " where id = ?";
 			stDelete = conn.prepareStatement(sql);
 		}
+		if (stDelete != null)
+			stDelete.setInsert(false);
 	}	
 
 	private void prepareFind(int id) throws SQLException {

@@ -2,7 +2,7 @@ package arius.pdv.core;
 
 public class Metadata {
 	
-	public static final int ULTIMA_VERSAO_METADATA = 3;
+	public static final int ULTIMA_VERSAO_METADATA = 1;
 	
 	public static String[] metadata_execute(){
 		return versao(ULTIMA_VERSAO_METADATA);
@@ -12,6 +12,7 @@ public class Metadata {
 		String[] vcmd = {};
 		switch (versao_metada){
 			case 1 : vcmd = versao1();
+					break;
 		}
 		return vcmd;
 	}
@@ -49,7 +50,9 @@ public class Metadata {
 			    "    saldodinheiro DOUBLE(15, 2) DEFAULT 0, " +
 			    "    operador_id INTEGER REFERENCES usuarios(id), " +
 			    "    vendaativa_id INTEGER REFERENCES vendas(id), " +
-			    "    aberto BOOLEAN NOT NULL DEFAULT False); ",
+			    "    aberto BOOLEAN NOT NULL DEFAULT False," +
+			    "	 codigo_pdv INTEGER," + 
+			    "	 dataabertura DATETIME); ",
 
 			    "CREATE TABLE pdvs_valores(" +
 			    "    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
@@ -74,7 +77,7 @@ public class Metadata {
 			    "    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
 			    "    venda_id INTEGER NOT NULL REFERENCES vendas(id), " +
 			    "    produto_id INTEGER NOT NULL, " +
-			    "	qtde DOUBLE(12, 3), " +
+			    "	 qtde DOUBLE(12, 3), " +
 			    "    valortotal DOUBLE(15, 2), " +
 			    "    desconto DOUBLE(15, 4), " +
 			    "    acrescimo DOUBLE(15, 4)); ",
@@ -87,6 +90,6 @@ public class Metadata {
 			   //O comando abaixo é para atualizar a versão do banco;				
 			    "PRAGMA user_version = " + ULTIMA_VERSAO_METADATA + ";"};		
 		return vcmd;
-	}
+	}	
 
 }
