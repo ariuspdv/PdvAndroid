@@ -1,6 +1,7 @@
 package arius.pdv.base;
 
 import java.sql.SQLException;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 import arius.pdv.core.AppContext;
@@ -28,6 +29,7 @@ public class PdvValorDao extends GenericDao<PdvValor> {
 	@Override
 	protected void resultSetToEntity(AriusResultSet resultSet, PdvValor entity) throws SQLException {
 		// campo direto
+		entity.setId(resultSet.getInt("id"));
 		entity.setDataHora(resultSet.getTimestamp("data_hora"));
 		entity.setTipo(PdvValorTipo.values()[resultSet.getInt("tipo")]);
 		entity.setPdv(pdvDao.find(resultSet.getInt("pdv_id")));
@@ -39,12 +41,19 @@ public class PdvValorDao extends GenericDao<PdvValor> {
 	
 	@Override
 	public void bindFields(PdvValor entity) throws SQLException {
-		stInsertUpdate.setTimestamp(1, new Timestamp(entity.getDataHora().getTime()));
-		stInsertUpdate.setInt(2, entity.getPdv().getId());
-		stInsertUpdate.setInt(3, entity.getTipo().ordinal());
-		stInsertUpdate.setInt(4, entity.getFinalizadora().getId());
-		stInsertUpdate.setInt(5, entity.getUsuario1().getId());
-		stInsertUpdate.setInt(6, entity.getUsuario2().getId());
-		stInsertUpdate.setDouble(7, entity.getValor());
+		stInsertUpdate.setTimestamp("data_hora", new Timestamp(entity.getDataHora().getTime()));
+		stInsertUpdate.setInt("pdv_id", entity.getPdv().getId());
+		stInsertUpdate.setInt("tipo", entity.getTipo().ordinal());
+		stInsertUpdate.setInt("finalizadora_id", entity.getFinalizadora().getId());
+		stInsertUpdate.setInt("usuario1_id", entity.getUsuario1().getId());
+		if (entity.getUsuario2() == null)
+			stInsertUpdate.setObject("usuario2_id", null);
+		else
+			stInsertUpdate.setInt("usuario2_id", entity.getUsuario2().getId());
+		stInsertUpdate.setDouble("valor", entity.getValor());
+		//Deixar sempre por ultimo este campo, pois é usado no momento de montar a condição para o update
+		if (!stInsertUpdate.getInsert()){
+			stInsertUpdate.setInt("id", entity.getId());
+		}			
 	}
 }

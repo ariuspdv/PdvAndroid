@@ -28,9 +28,14 @@ public class UsuarioDao extends GenericDao<Usuario> {
 	/*Colocado apenas para Teste, depois apagar, pois esta classe n�o ir� fazer o CRUD*/
 	@Override
 	protected void bindFields(Usuario entity) throws SQLException {
-		stInsertUpdate.setString(1, entity.getNome());
-		stInsertUpdate.setString(2, entity.getLogin());
-		stInsertUpdate.setString(3, entity.getSenha());
-		stInsertUpdate.setInt(4, entity.getTipo().ordinal());		
+		stInsertUpdate.setString("nome", entity.getNome());
+		stInsertUpdate.setString("login", entity.getLogin());
+		stInsertUpdate.setString("senha", entity.getSenha());
+		stInsertUpdate.setInt("tipo", entity.getTipo().ordinal());	
+
+		//Deixar sempre por ultimo este campo, pois é usado no momento de montar a condição para o update
+		if (!stInsertUpdate.getInsert()){
+			stInsertUpdate.setInt("id", entity.getId());
+		}	
 	}
 }

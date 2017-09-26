@@ -14,7 +14,7 @@ public class PdvDao extends GenericDao<Pdv> {
 	@Override
 	protected void init() {
 		tableName = "pdvs";		
-		fields = new String[]{"saldodinheiro","operador_id","vendaativa_id","aberto"};
+		fields = new String[]{"saldodinheiro","operador_id","vendaativa_id","aberto","codigo_pdv","dataabertura"};
 		cacheable = true;
 		
 		usuarioDao = AppContext.get().getDao(UsuarioDao.class);
@@ -30,29 +30,37 @@ public class PdvDao extends GenericDao<Pdv> {
 		entity.setOperador(usuarioDao.find(resultSet.getInt("operador_id")));
 		entity.setVendaAtiva(vendaDao.find(resultSet.getInt("vendaativa_id")));
 		entity.setAberto(resultSet.getBoolean("aberto"));
+		entity.setCodigo_pdv(resultSet.getInt("codigo_pdv"));
+		entity.setDataAbertura(resultSet.getTimestamp("dataabertura"));
 	}	
 	
 	@Override
 	protected void bindFields(Pdv entity) throws SQLException {		
-		stInsertUpdate.setDouble(1, entity.getSaldoDinheiro());
+		stInsertUpdate.setDouble("saldodinheiro", entity.getSaldoDinheiro());
 		
 		if (entity.getOperador() == null) {
 			//Neste caso o operador n�o poderia ser nulo, como iremos tratar?
-			stInsertUpdate.setObject(2, null);
+			stInsertUpdate.setObject("operador_id", null);
 		} else {
-			stInsertUpdate.setInt(2, entity.getOperador().getId());			
+			stInsertUpdate.setInt("operador_id", entity.getOperador().getId());			
 		}
 		
 		if (entity.getVendaAtiva() != null) {
-			stInsertUpdate.setInt(3, entity.getVendaAtiva().getId());
+			stInsertUpdate.setInt("vendaativa_id", entity.getVendaAtiva().getId());
 		} else {
-			stInsertUpdate.setObject(3, null);
+			stInsertUpdate.setObject("vendaativa_id", null);
 		}
 		
-		stInsertUpdate.setBoolean(4, entity.isAberto());
-		
+		stInsertUpdate.setBoolean("aberto", entity.isAberto());
+		stInsertUpdate.setInt("codigo_pdv", entity.getCodigo_pdv());
+		if (entity.getDataAbertura() != null)
+			stInsertUpdate.setTimestamp("dataabertura", entity.getDataAbertura());
+		else
+			stInsertUpdate.setObject("dataabertura", null);
+				
+		//Deixar sempre por ultimo este campo, pois é usado no momento de montar a condição para o update
 		if (!stInsertUpdate.getInsert()){
-			stInsertUpdate.setInt(5, entity.getId());
+			stInsertUpdate.setInt("id", entity.getId());
 		}
 	}	
 }

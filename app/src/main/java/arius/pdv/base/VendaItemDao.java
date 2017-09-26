@@ -33,13 +33,18 @@ public class VendaItemDao extends GenericDao<VendaItem> {
 	}
 	
 	@Override
-	protected void bindFields(VendaItem entity) throws SQLException {		
-		stInsertUpdate.setInt(1, entity.getVenda().getId());			
-		stInsertUpdate.setInt(2, entity.getProduto().getId());
-		stInsertUpdate.setDouble(3, entity.getQtde());
-		stInsertUpdate.setDouble(4, entity.getValorTotal());		
-		stInsertUpdate.setDouble(5, entity.getDesconto());
-		stInsertUpdate.setDouble(6, entity.getAcrescimo());		
+	protected void bindFields(VendaItem entity) throws SQLException {
+		stInsertUpdate.setInt("venda_id", entity.getVenda().getId());
+		stInsertUpdate.setInt("produto_id", entity.getProduto().getId());
+		stInsertUpdate.setDouble("qtde", entity.getQtde());
+		stInsertUpdate.setDouble("valortotal", entity.getValorTotal());		
+		stInsertUpdate.setDouble("desconto", entity.getDesconto());
+		stInsertUpdate.setDouble("acrescimo", entity.getAcrescimo());	
+		
+		//Deixar sempre por ultimo este campo, pois é usado no momento de montar a condição para o update
+		if (!stInsertUpdate.getInsert()){
+			stInsertUpdate.setInt("id", entity.getId());
+		}			
 	}
 	
 	@Override

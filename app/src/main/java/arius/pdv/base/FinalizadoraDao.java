@@ -29,10 +29,15 @@ public class FinalizadoraDao extends GenericDao<Finalizadora> {
 	/*Colocado apenas para Teste, depois apagar, pois esta classe n�o ir� fazer o CRUD*/
 	@Override
 	protected void bindFields(Finalizadora entity) throws SQLException {
-		stInsertUpdate.setString(1, entity.getDescricao());
-		stInsertUpdate.setInt(2, entity.getTipo().ordinal());
-		stInsertUpdate.setBoolean(3, entity.isPermiteTroco());
-		stInsertUpdate.setBoolean(4, entity.isAceitaSangria());		
+		stInsertUpdate.setString("descricao", entity.getDescricao());
+		stInsertUpdate.setInt("tipo", entity.getTipo().ordinal());
+		stInsertUpdate.setBoolean("permitetroco", entity.isPermiteTroco());
+		stInsertUpdate.setBoolean("aceitasangria", entity.isAceitaSangria());	
+		
+		//Deixar sempre por ultimo este campo, pois é usado no momento de montar a condição para o update
+		if (!stInsertUpdate.getInsert()){
+			stInsertUpdate.setInt("id", entity.getId());
+		}		
 	}
 	
 }

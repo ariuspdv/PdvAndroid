@@ -25,29 +25,27 @@ public class ProdutoDao extends GenericDao<Produto> {
 	protected void resultSetToEntity(AriusResultSet resultSet, Produto entity) throws SQLException {
 		//campos diretos
 		entity.setId(resultSet.getInt("id"));
+		entity.setCodigo(resultSet.getLong("codigo"));
 		entity.setDescricao(resultSet.getString("descricao"));
 		entity.setDescricaoReduzida(resultSet.getString("descricaoreduzida"));
-		entity.setUnidadeMedida(unidadeMedidaDao.find(resultSet.getInt("unidademedida_id")));	
-		entity.setCodigo(resultSet.getLong("codigo"));
+		entity.setUnidadeMedida(unidadeMedidaDao.find(resultSet.getInt("unidademedida_id")));
+		
 	}
 	
 	/*Colocado apenas para Teste, depois apagar, pois esta classe n�o ir� fazer o CRUD*/
 	@Override
 	protected void bindFields(Produto entity) throws SQLException {
-		stInsertUpdate.setLong(1, entity.getCodigo());
-		stInsertUpdate.setString(2, entity.getDescricao());
-		if (entity.getDescricaoReduzida() != null)
-			stInsertUpdate.setString(3, entity.getDescricaoReduzida());
-		else
-			stInsertUpdate.setObject(3, null);
+		stInsertUpdate.setLong("codigo", entity.getCodigo());
+		stInsertUpdate.setString("descricao", entity.getDescricao());
+		stInsertUpdate.setString("descricaoreduzida", entity.getDescricaoReduzida());
 		if (entity.getUnidadeMedida() != null){
-			stInsertUpdate.setInt(4, entity.getUnidadeMedida().getId());
+			stInsertUpdate.setInt("unidademedida_id", entity.getUnidadeMedida().getId());
 		} else {
 			stInsertUpdate.setObject(4, null);
 		}
-
+		//Deixar sempre por ultimo este campo, pois é usado no momento de montar a condição para o update
 		if (!stInsertUpdate.getInsert()){
-			stInsertUpdate.setInt(5, entity.getId());
-		}
+			stInsertUpdate.setInt("id", entity.getId());
+		}			
 	}
 }

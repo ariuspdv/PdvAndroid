@@ -61,7 +61,12 @@ public class VendaDao extends GenericDao<Venda> {
 		} else {
 			stInsertUpdate.setObject("cpf_cnpj", null);
 		}
-		stInsertUpdate.setDouble("valor_troco", entity.getValorTroco());		
+		stInsertUpdate.setDouble("valor_troco", entity.getValorTroco());
+		
+		//Deixar sempre por ultimo este campo, pois é usado no momento de montar a condição para o update
+		if (!stInsertUpdate.getInsert()){
+			stInsertUpdate.setInt("id", entity.getId());
+		}			
 	}
 
 	public void atualizaItens(Venda entity){

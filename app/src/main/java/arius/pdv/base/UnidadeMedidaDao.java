@@ -23,16 +23,21 @@ public class UnidadeMedidaDao extends GenericDao<UnidadeMedida> {
 		entity.setId(resultSet.getInt("id"));
 		entity.setDescricao(resultSet.getString("descricao"));
 		entity.setSigla(resultSet.getString("sigla"));
-		entity.setFracionada(resultSet.getBoolean("fracionada"));				
+		entity.setFracionada(resultSet.getBoolean("fracionada"));	
 	}
 
 	
 	/*Colocado apenas para Teste, depois apagar, pois esta classe n�o ir� fazer o CRUD*/
 	@Override
 	protected void bindFields(UnidadeMedida entity) throws SQLException {
-		stInsertUpdate.setString(1, entity.getDescricao());
-		stInsertUpdate.setString(2, entity.getSigla());
-		stInsertUpdate.setBoolean(3, entity.isFracionada());		
+		stInsertUpdate.setString("descricao", entity.getDescricao());
+		stInsertUpdate.setString("sigla", entity.getSigla());
+		stInsertUpdate.setBoolean("fracionada", entity.isFracionada());
+		
+		//Deixar sempre por ultimo este campo, pois é usado no momento de montar a condição para o update
+		if (!stInsertUpdate.getInsert()){
+			stInsertUpdate.setInt("id", entity.getId());
+		}			
 	}
 		
 }

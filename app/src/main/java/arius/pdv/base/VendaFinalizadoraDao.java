@@ -31,8 +31,13 @@ public class VendaFinalizadoraDao extends GenericDao<VendaFinalizadora> {
 	
 	@Override
 	public void bindFields(VendaFinalizadora entity) throws SQLException {
-		stInsertUpdate.setInt(1, entity.getVenda().getId());
-		stInsertUpdate.setInt(2, entity.getFinalizadora().getId());
-		stInsertUpdate.setDouble(3, entity.getValor());
+		stInsertUpdate.setInt("venda_id", entity.getVenda().getId());
+		stInsertUpdate.setInt("finalizadora_id", entity.getFinalizadora().getId());
+		stInsertUpdate.setDouble("valor", entity.getValor());
+		
+		//Deixar sempre por ultimo este campo, pois é usado no momento de montar a condição para o update
+		if (!stInsertUpdate.getInsert()){
+			stInsertUpdate.setInt("id", entity.getId());
+		}			
 	}
 }
