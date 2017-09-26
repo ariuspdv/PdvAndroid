@@ -18,4 +18,28 @@
         android:title="@string/action_Reforco"
         android:visible="true"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/itemDivide"
+        android:orderInCategory="100"
+        android:title="----------------------"
+        android:visible="true"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/itemFechaVendaAtiva"
+        android:orderInCategory="100"
+        android:title="Fecha Venda Ativa"
+        android:visible="true"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/itemCancelaVenda"
+        android:orderInCategory="100"
+        android:title="Cancela Venda"
+        android:visible="true"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/itemVendas"
+        android:orderInCategory="100"
+        android:title="Vendas"
+        android:visible="true"
+        app:showAsAction="never" />
 </menu>

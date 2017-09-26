@@ -2,19 +2,31 @@
 <resources>
 
     <array name="combo_produto_codigo">
-        <item><string>sigla</string></item>
+        <item><string>produto.codigo</string></item>
         <!-- <item>produto</item>  nome do sub campo ou entity -->
         <item>@id/combobox_codigo</item>
     </array>
     <array name="combo_produto_descricao">
-            <item><string>descricao</string></item>
+            <item><string>produto.descricao</string></item>
             <!-- <item>produto</item>  nome do sub campo ou entity -->
             <item>@id/combobox_descricao</item>
+    </array>
+
+    <array name="ItemVendaVrTotal">
+        <item><string>VendaItem.ValorTotal</string></item>
+        <item>@id/edtItemVendaVrTotal</item>
+    </array>
+
+    <array name="ItemVendaQtde">
+        <item><string>VendaItem.Qtde</string></item>
+        <item>@id/edtItemVendaQtde</item>
     </array>
 
     <array name="combo_produto">
         <item>@array/combo_produto_codigo</item>
         <item>@array/combo_produto_descricao</item>
+        <item>@array/ItemVendaVrTotal</item>
+        <item>@array/ItemVendaQtde</item>
     </array>
 
     <string-array name="combo_produto_selecionado">
@@ -22,8 +34,17 @@
     </string-array>
 
     <string-array name="combo_produto_filtro">
-        <item>descricao</item>
-        <item>codigo</item>
+        <item>produto.descricao</item>
+        <item>produto.codigo</item>
     </string-array>
 
+
+    <!-- Campos / Array da tela para listagem das vendas -->
+    <array name="ItemVendaListagemID">
+        <item><string>Venda.ID</string></item>
+        <item>@id/edtVendaListagemID</item>
+    </array>
+    <array name="LayoutVendaListagem">
+        <item>@array/ItemVendaListagemID</item>
+    </array>
 </resources>

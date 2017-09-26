@@ -29,7 +29,8 @@
         </activity>
         <activity android:name=".CursoresActivity" />
         <activity android:name=".VendaClassificacaoActivity" />
-        <activity android:name=".VendaFinalizacaoActivity"></activity>
+        <activity android:name=".VendaFinalizacaoActivity" />
+        <activity android:name=".VendaListagemActivity" />
     </application>
 
 </manifest>
