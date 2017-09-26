@@ -25,7 +25,8 @@
         android:layout_height="wrap_content"
         android:paddingLeft="14dp"
         android:paddingRight="14dp"
-        android:paddingTop="10dp" />
+        android:paddingTop="10dp"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/text2"
@@ -34,7 +35,8 @@
         android:paddingBottom="10dp"
         android:paddingLeft="14dp"
         android:paddingRight="14dp"
-        android:text="erro" />
+        android:text="erro"
+        android:textSize="24sp" />
 
     <LinearLayout
         style="@android:style/ButtonBar"

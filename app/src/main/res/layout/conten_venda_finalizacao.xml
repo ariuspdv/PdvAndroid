@@ -79,7 +79,7 @@
         android:layout_alignParentStart="true">
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/lbVendaFinalizadoraTotal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Valor Total:"
@@ -88,7 +88,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/edtVendaFinalizadoraTotal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="R$ 100,00"

@@ -8,19 +8,115 @@
         android:id="@+id/combobox_codigo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:text="TextView"
         android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/lbCodigoEan" />
 
     <TextView
         android:id="@+id/combobox_descricao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/combobox_codigo"
         android:text="TextView"
         android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/lbDescricaoProduto"
+        android:layout_alignBottom="@+id/lbDescricaoProduto"
+        android:layout_toEndOf="@+id/lbDescricaoProduto" />
+
+    <TextView
+        android:id="@+id/lbCodigoEan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Código/EAM: "
+        android:textSize="12sp"
+        android:layout_alignBottom="@+id/combobox_codigo"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/lbDescricaoProduto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Produto: "
+        android:textSize="12sp"
+        android:layout_alignBottom="@+id/edtItemVendaQtde"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/lbVrTotal"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:text="Valor Total"
+        android:textAlignment="center"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/edtItemVendaVrTotal"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textAlignment="textEnd"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_below="@+id/lbItenVendaQtde"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/lbItenVendaQtde"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="Qtde"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        android:layout_alignBottom="@+id/combobox_codigo"
+        android:layout_toStartOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/edtItemVendaQtde"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lbItenVendaQtde"
+        android:layout_toStartOf="@+id/textView9"
+        android:text="TextView"
+        android:textAlignment="textEnd"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_toStartOf="@+id/lbItemVendaVrUnitario"
+        android:text="X"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lbItemVendaVrUnitario"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/lbVrTotal"
+        android:text="Valor Unitário"
+        android:textAlignment="center"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/edtItemVendaVrUnitario"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/edtItemVendaVrTotal"
+        android:layout_alignBottom="@+id/edtItemVendaVrTotal"
+        android:layout_toStartOf="@+id/edtItemVendaVrTotal"
+        android:text="TextView"
+        android:textSize="18sp"
         android:textStyle="bold" />
 </RelativeLayout>
