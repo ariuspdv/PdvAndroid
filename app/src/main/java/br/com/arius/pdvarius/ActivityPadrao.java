@@ -9,29 +9,67 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.List;
+
+import arius.pdv.base.Pdv;
+import arius.pdv.base.PdvDao;
 import arius.pdv.base.PdvService;
 import arius.pdv.base.VendaSituacao;
 import arius.pdv.core.AppContext;
+import arius.pdv.core.FuncionaisFilters;
+import arius.pdv.core.UserException;
 
 
 public class ActivityPadrao extends AppCompatActivity {
 
     private Toolbar toolbar;
     private boolean habilita_menu;
+    private boolean iconeVendaStatus;
+    private ImageView imgVensaStatus;
+    private static ActivityPadrao activityPadrao;
+
+
+    @Override
+    protected void onPause() {
+        progressBar(true);
+
+        super.onPause();
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
+
+        activityPadrao = this;
+
+        progressBar(false);
+
+        List<Pdv> lpdvs = AppContext.get().getDao(PdvDao.class).listCache(new FuncionaisFilters<Pdv>() {
+            @Override
+            public boolean test(Pdv p) {
+                return p.getCodigo_pdv() == 1;
+            }
+        });
+        if (lpdvs.size() > 0)
+            PdvService.get().setPdv(lpdvs.get(0));  //pode haver apenas um pdv com um código
+
+        if (PdvService.get().getPdv() == null){
+            throw new UserException("Operação não permitida! \n" +
+                                    "PDV não configurado ou não existente!");
+        }
+
         TextView title = (TextView) findViewById(R.id.lbTitle_ActionBar);
-        title.setText(PdvService.get().getPdv(1).isAberto()? "PdvArius - Caixa Aberto" : "PdvArius - Caixa Fechado");
-        ImageView imgStatusVenda = (ImageView) findViewById(R.id.imgVendaStatus);
-        if (PdvService.get().getVendaAtiva() == null)
-            imgStatusVenda.setImageDrawable(null);
-        else
-            imgStatusVenda.setImageResource(PdvService.get().getVendaAtiva().getSituacao() == VendaSituacao.FECHADA ?
+        if (title != null && PdvService.get().getPdv() != null) {
+            title.setText(PdvService.get().getPdv().isAberto() ? "PdvArius - Caixa Aberto" : "PdvArius - Caixa Fechado");
+            ImageView imgPDVVenda = (ImageView) findViewById(R.id.imgPDVStatus);
+            imgPDVVenda.setImageResource(!PdvService.get().getPdv().isAberto() ?
                     R.drawable.if_circle_red : R.drawable.if_circle_green);
+            this.imgVensaStatus = (ImageView) findViewById(R.id.imgVendaStatus);
+            setImagemVendaStatus();
+        }
     }
 
     @Override
@@ -67,12 +105,14 @@ public class ActivityPadrao extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void setButtons(Boolean p_btnVoltar, Boolean p_habilitaMenu){
+    public void setButtons(boolean p_btnVoltar, boolean p_habilitaMenu, boolean iconeVendaStatus){
         this.habilita_menu = p_habilitaMenu;
+        this.iconeVendaStatus = iconeVendaStatus;
         LayoutInflater mInflater = LayoutInflater.from(this);
         View mCustomView = mInflater.inflate(R.layout.layouactionbar, null);
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.lbTitle_ActionBar);
-        mTitleTextView.setText(PdvService.get().getPdv(1).isAberto()? "PdvArius - Caixa Aberto" : "PdvArius - Caixa Fechado");
+        if (PdvService.get().getPdv() != null)
+            mTitleTextView.setText(PdvService.get().getPdv().isAberto()? "PdvArius - Caixa Aberto" : "PdvArius - Caixa Fechado");
 
         if (getSupportActionBar() == null) {
             toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -132,4 +172,32 @@ public class ActivityPadrao extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         return (this.habilita_menu && super.onPrepareOptionsMenu(menu));
     }
+
+    public void setImagemVendaStatus(){
+        if (!this.iconeVendaStatus)
+            this.imgVensaStatus.setVisibility(View.GONE);
+        else {
+            this.imgVensaStatus.setVisibility(View.VISIBLE);
+            if (PdvService.get().getVendaAtiva() != null) {
+                this.imgVensaStatus.setImageResource(
+                        PdvService.get().getVendaAtiva().getSituacao() == VendaSituacao.ABERTA ? R.mipmap.vendaaberta :
+                                PdvService.get().getVendaAtiva().getSituacao() == VendaSituacao.FECHADA ? R.mipmap.vendafechada :
+                                        PdvService.get().getVendaAtiva().getSituacao() == VendaSituacao.CANCELADA ? R.mipmap.vendacancelada :
+                0);
+            } else
+                this.imgVensaStatus.setImageResource(0);
+        }
+    }
+
+    public static void progressBar(boolean exibir){
+        ProgressBar progressBar = (ProgressBar) activityPadrao.findViewById(R.id.progressBar);
+
+        if (progressBar != null){
+            if (progressBar.getVisibility() == View.GONE && exibir)
+                progressBar.setVisibility(View.VISIBLE);
+            else
+                progressBar.setVisibility(View.GONE);
+        }
+    }
+
 }

@@ -15,13 +15,13 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import arius.pdv.core.ApplicationException;
 import arius.pdv.core.UserException;
 
 public class ActivityExcecoes extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -39,6 +39,7 @@ public class ActivityExcecoes extends Activity {
 //    String exStackTrace = crashInfo.stackTrace;
 
         TextView text = (TextView) findViewById(R.id.text);
+        TextView text2 = (TextView) findViewById(R.id.text2);
         Button btnReport = (Button) findViewById(R.id.btnReport);
         Button btnFechar = (Button) findViewById(R.id.btnClose);
         Button btnIgnore = (Button) findViewById(R.id.btnIgnore);
@@ -64,12 +65,17 @@ public class ActivityExcecoes extends Activity {
             btnFechar.setVisibility(View.INVISIBLE);
             btnIgnore.setVisibility(View.VISIBLE);
             text.setText(detalheErro);
+            text2.setText("");
         } else {
             btnFechar.setVisibility(View.VISIBLE);
             btnIgnore.setVisibility(View.GONE);
             btnFechar.setGravity(Gravity.CENTER);
-            text.setText(crashMessage);
+            if (ApplicationException.class == exception.getClass())
+                text.setText(detalheErro);
+            else
+                text.setText(crashMessage + "\n" + detalheErro);
         }
+        ActivityPadrao.progressBar(false);
     }
 
     private Throwable findCause(Throwable exception) {
