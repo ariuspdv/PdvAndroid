@@ -1,16 +1,16 @@
 package arius.pdv.db;
 
-import android.content.res.Resources;
-
-import com.google.common.collect.HashBiMap;
-import com.google.common.reflect.Reflection;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.Locale;
 
+import arius.pdv.base.Produto;
 import arius.pdv.core.Entity;
 
 /**
@@ -19,147 +19,156 @@ import arius.pdv.core.Entity;
 
 public class AndroidUtils {
 
-    public static Object getValor(Field field,ArrayList<Class<?>> array,Entity entity, String campo){
+    private static String vaux_entity;
+    private static ArrayList<Class<?>> ventity_verificar = new ArrayList<>();
+    private static ArrayList<Object> varray_objeto = new ArrayList<>();
 
-        for(int w = 0; array.size() > w; w++){
-            Field[] campos2 = array.get(w).getDeclaredFields();
-            for(int y = 0; campos2.length > y; y++){
-                if (campos2[y].getType().getGenericSuperclass() != null && campos2[y].getName().equals(campo)) {
-                    if (campos2[y].getType().getGenericSuperclass().equals(Entity.class)) {
-                        campos2[y].setAccessible(true);
+    private static Method m1;
 
-                        try{
-                            return field.get(entity);
-                        }catch (IllegalAccessException e){
-                            e.printStackTrace();
+    private static String encontra_valor_campo(Entity entity, Field[] campos, String nome_campo,String entity_campo){
+        Class entity_fields = campos[0].getDeclaringClass();
+        ventity_verificar.add(entity_fields);
+        for (int i = 0; campos.length > i; i++){
+            if (campos[i].getType().getGenericSuperclass() != null &&
+                    campos[i].getType().getGenericSuperclass().equals(Entity.class)) {
+                vaux_entity = campos[i].getType().getSimpleName();
+                Object v1 = null;
+                if (!ventity_verificar.contains(campos[i].getType())) {
+                    try {
+                    if (varray_objeto.size() > 0 && entity.getClass() != entity_fields) {
+                        campos[i].setAccessible(true);
+                        if (campos[i].get(varray_objeto.get(varray_objeto.size() - 1)) != null) {
+                            varray_objeto.add(campos[i].get(varray_objeto.get(varray_objeto.size() - 1)));
+                            v1 = varray_objeto.get(varray_objeto.size() - 1);
                         }
-
+                    } else {
+                        campos[i].setAccessible(true);
+                        if (campos[i].get(entity) != null) {
+                            v1 = campos[i].get(entity);
+                            varray_objeto.add(v1);
+                        }
                     }
-                };
-                if (campos2[y].getName().equals(campo)) {
-                    campos2[y].setAccessible(true);
 
-                    try{
-                        Field teste;
-                        if (campo == "sigla") {
-                            ;
+                    if (v1 != null){
+                        String vreturn = encontra_valor_campo(entity, ((Class) campos[i].getType()).getDeclaredFields(), nome_campo, entity_campo);
+
+                        if (!vreturn.isEmpty()) {
+                            return vreturn;
+                        } else {
+                            if (entity.getClass() == entity_fields)
+                                varray_objeto.remove(campos[i].get(entity));
+                            else
+                                varray_objeto.remove(varray_objeto.get(varray_objeto.size()-1));
                         }
-                        return campos2[y].get(entity);
+                    }
                     }catch (IllegalAccessException e){
                         e.printStackTrace();
                     }
                 }
+            } else {
+                try {
+                    String fieldName = campos[i].getName();
+                    if (campos[i].getName().toLowerCase().equals(nome_campo.toLowerCase()) &&
+                            (vaux_entity.toLowerCase().equals(entity_campo.toLowerCase())
+                                || entity_campo.isEmpty()
+                            )) {
+                        Field campo_int = campos[i];
 
+                        campo_int.setAccessible(true);
+
+                        String vreturn = null;
+                        if (varray_objeto.size() > 0)
+                            vreturn = campo_int.get(varray_objeto.get(varray_objeto.size()-1)).toString();
+                        else
+                            vreturn = campo_int.get(entity).toString();
+                        return vreturn;
+                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
+            vaux_entity = entity_fields.getSimpleName();
         }
+        if (entity_fields.getGenericSuperclass().equals(Entity.class)) {
+            String vreturn = encontra_valor_campo(entity, ((Class) entity_fields.getGenericSuperclass()).getDeclaredFields(), nome_campo, entity_campo);
+            if (!vreturn.isEmpty())
+                return vreturn;
+        }
+        return "";
+    }
 
-        try {
-            field.setAccessible(true);
-            return field.get(field);
-        }catch (IllegalAccessException e){
-            e.printStackTrace();
+    public static Method encontra_valor_campo(Entity entity, Method[] campos, String nome_campo, String entity_campo) {
+        String teste = null;
+        Class entity_fields = campos[0].getDeclaringClass();
+        for(Method litem : campos){
+            try {
+                Object tteste1 = litem.getReturnType().getGenericSuperclass();
+                boolean t1 = litem.isAccessible();
+
+                if (tteste1 != null && litem.getReturnType().getGenericSuperclass().equals(Entity.class)) {
+                    m1 = litem;
+                    return encontra_valor_campo(entity, litem.getReturnType().getDeclaredMethods(), nome_campo, entity_campo);
+                    //m1 = null;
+                }
+                if (!litem.getReturnType().equals(Void.TYPE) && m1 == null) {
+                    Object validacao = litem.invoke(entity, new Object[]{});
+                    if (validacao != null) {
+                        if(nome_campo.toLowerCase().equals(litem.getName().toLowerCase().substring(3))) {
+                            teste = validacao.toString();
+                            return litem;
+                        }
+                    }
+                } else {
+                    if (!litem.getReturnType().equals(Void.TYPE)){
+                        Object validacao = litem.invoke(m1.invoke(entity, new Object[]{}), new Object[]{});
+                        if (validacao != null) {
+                            if(nome_campo.toLowerCase().equals(litem.getName().toLowerCase().substring(3))) {
+                                teste = validacao.toString();
+                                //m1.get
+                                //return (Method)  m1.
+                            }
+                        }
+                    }
+                }
+            }catch (InvocationTargetException e){
+                e.printStackTrace();
+            } catch (IllegalAccessException er){
+                er.printStackTrace();
+            }
         }
         return null;
     }
 
     public static String valor_Campo(Entity entity, String campo){
-        Map<Class<?>, String> array_test = new HashMap<>();
-        ArrayList<Class<?>> entity_aux = new ArrayList<Class<?>>();
-        array_test.put(entity.getClass(),entity.toString());
-        entity_aux.add(entity.getClass());
-        try {
-            for (int j = 0; entity_aux.size() > j; j++) {
-                //entity_aux.get(i) = entity.getClass();
-                //while (entity_aux2.getGenericSuperclass() != null) {
-                //get(j).getGenericSuperclass() != null) {
-                    Field[] campos = entity_aux.get(j).getDeclaredFields();
-                    //Field[] campos = entity_aux2.getDeclaredFields();
 
-                    for (int i = 0; campos.length > i; i++) {
-                        Object teste = campos[i].getType().getGenericSuperclass();
-                        Object teste2 = campos[i].getType();
-                        boolean supentity = campos[i].getType().getGenericSuperclass() != null;
-
-                        if (supentity && campos[i].getType().getGenericSuperclass().equals(Entity.class)) {
-                            if (!entity_aux.contains((Class<?>) campos[i].getType())) {
-                                entity_aux.add(campos[i].getType());
-                                array_test.put(campos[i].getType().getClass(),campos[i].getType().getName());
-                            }
-                            //objarius = campos[i].getType();
-//                            try {
-//                                ClassLoader classLoader = campos[i].getClass().getClassLoader();
-//                                String classname = campos[i].getType().getName();
-//                                Entity classteste = (Entity) Class.forName(classname).newInstance();
-//                                Field campo_int = campos[i];
-//                                campo_int.setAccessible(true);
-//                                Object classeteste2 = campo_int.get(entity);
-//                                objarius = campos[i].getType().newInstance();
-//                                //entity_aux.add((Class<?>) campos[i].getType().newInstance());
-//                                Field[] campos2 =objarius.getClass().getDeclaredFields();
-
-//                                for (int w = 0; campos2.length > 0; w++) {
-//
-//                                    if (campos2[w].getName().equals("descricao")) {
-//                                        Field campo_int = campos2[w];
-//
-//                                        campo_int.setAccessible(true);
-//
-//                                        String arius = campo_int.get(objarius).toString();
-//                                        System.out.print(arius);
-//                                    }
-//                                }
-//                            } catch (InstantiationException e){
-//                                e.printStackTrace();
-////                            } catch (NoSuchFieldException ex){
-////                                ex.printStackTrace();
-//                            } catch (ClassNotFoundException ew){
-//                                ew.printStackTrace();
-//                            }
-
-//                            entity_aux.add(objarius);
-
-                        } else {
-
-                            if (campos[i].getName().equals(campo)) {
-
-                                Field campo_int = campos[i];
-
-                                campo_int.setAccessible(true);
-
-                                String testevalor = getValor(campo_int,entity_aux,entity,campo).toString();
-
-                                Field[] campos2 = entity.getClass().getDeclaredFields();
-                                for(int t = 0; campos2.length > t; t++){
-                                    if (campos2[t].getType().getGenericSuperclass() != null) {
-                                        if (campos2[t].getType().getGenericSuperclass().equals(Entity.class)) {
-                                            campos2[t].setAccessible(true);
-
-                                            try{
-                                                return campo_int.get(campos2[t].get(entity)).toString();
-                                            }catch (RuntimeException e){
-                                                e.printStackTrace();
-                                            }
-
-                                        }
-                                    }
-                                }
-                                return campo_int.get(entity).toString();
-                            }
-
-                        }
-                        //}
-
-                    }
-//                if (entity_aux.indexOf(entity_aux.get(j).getGenericSuperclass()) == 0)
-//                    entity_aux.add((Class<?>) entity_aux.get(j).getGenericSuperclass());
-                //if (supentity && campos[i].getType().getGenericSuperclass().equals(Entity.class))
-                //    entity_aux2 = ((Class<?>) entity_aux2.getGenericSuperclass());
-                //}
-                //}
-            }
-        } catch(IllegalAccessException e) {
-            e.printStackTrace();
+        String entity_campo = "";
+        String nome_campo = campo;
+        Field[] campos = entity.getClass().getDeclaredFields();
+        //Method[] metodos = entity.getClass().getDeclaredMethods();
+        //encontra_valor_campo(entity,metodos,nome_campo,entity_campo);
+        if (campo.contains(".")) {
+            entity_campo = campo.contains(".") ? campo.substring(0, campo.indexOf(".")) : campo;
+            nome_campo = campo.contains(".") ? campo.substring(campo.indexOf(".") + 1, campo.length()) : campo;
         }
-        return null;
+        vaux_entity = entity_campo;
+        varray_objeto.clear();
+        ventity_verificar.clear();
+
+        return encontra_valor_campo(entity,campos,nome_campo,entity_campo);
+    }
+
+    public static String FormatarValor_Monetario(Double pvalor){
+        BigDecimal valor = new BigDecimal(pvalor);
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
+        return nf.format(valor).substring(0,2)+ " " + nf.format(valor).substring(2);
+    }
+
+    public static String FormataQuantidade(Produto produto, Double quantidade){
+        NumberFormat fn;
+        if (produto.getUnidadeMedida() != null && produto.getUnidadeMedida().isFracionada())
+            fn = new DecimalFormat("#0.0##");
+        else
+            fn = NumberFormat.getIntegerInstance();
+        return fn.format(quantidade);
     }
 }

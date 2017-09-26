@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteStatement;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import arius.pdv.core.ApplicationException;
@@ -64,7 +66,7 @@ public class AndroidPreparedStatement implements AriusPreparedStatement {
 		if (value != null) {
 			ts = new Timestamp(value.getTime());
 		}
-		preparedStatement.bindLong(parameterIndex, ts.getTime());
+		preparedStatement.bindDouble(parameterIndex, ts.getTime());
 	}
 
 	@Override

@@ -40,13 +40,14 @@ public class AriusListView extends ListView implements SwipeMenuView.OnSwipeItem
     private String entity_listview;
     private boolean montaAdapter = false;
     private List<?> dataSource = null;
+    private boolean swipe_delete;
 
     private static final int TOUCH_STATE_NONE = 0;
     private static final int TOUCH_STATE_X = 1;
     private static final int TOUCH_STATE_Y = 2;
 
     public static final int DIRECTION_LEFT = 1;
-    public static final int DIRECTION_RIGHT = -1;
+    //public static final int DIRECTION_RIGHT = -1;
     private int mDirection = 1;//swipe from right to left by default
 
     private int MAX_Y = 5;
@@ -143,6 +144,11 @@ public class AriusListView extends ListView implements SwipeMenuView.OnSwipeItem
             if (mMenu == null)
                 mMenu = new SwipeMenu(getContext());
 
+            for(SwipeMenuItem litem : mMenu.getMenuItems()){
+                if (litem.getId() == SwipeMenuItem.getBtn_delete())
+                    return;
+            }
+
             // create "delete" item
             SwipeMenuItem deleteItem = new SwipeMenuItem(getContext());
             // set item background
@@ -157,7 +163,14 @@ public class AriusListView extends ListView implements SwipeMenuView.OnSwipeItem
 
             // add to menu
             mMenu.addMenuItem(deleteItem);
+        } else {
+            if (mMenu != null)
+                mMenu = null;
         }
+    }
+
+    public boolean isSwipe_delete() {
+        return swipe_delete;
     }
 
     public void setCampos_Exibir(Map<Integer, String> campos_exibir) {
@@ -175,6 +188,14 @@ public class AriusListView extends ListView implements SwipeMenuView.OnSwipeItem
         montaAdapter();
     }
 
+    public void setGenericDao(GenericDao<?> genericDao){
+        this.genericDao = genericDao;
+    }
+
+    public void setEntity(Entity entity){
+        this.entity = entity;
+    }
+
     private void init() {
         MAX_X = dp2px(MAX_X);
         MAX_Y = dp2px(MAX_Y);
@@ -183,8 +204,8 @@ public class AriusListView extends ListView implements SwipeMenuView.OnSwipeItem
 
     private void montaAdapter(){
         AriusCursorAdapter adapter = null;
-        if (genericDao != null && entity != null && this.layout_arius != 0 &&
-                campos.size() > 0) {
+        if ((genericDao != null && entity != null && this.layout_arius != 0 &&
+                campos.size() > 0) || (genericDao == null && entity == null && this.layout_arius != 0 && campos.size() > 0)) {
             if (dataSource == null && montaAdapter) {
                 //Criado o try abaixo para quando a tabela não pesquisar por cache buscar no banco.
                 // a rotina abaixo é para listar todos os dados da tabela sem filtro
@@ -227,8 +248,9 @@ public class AriusListView extends ListView implements SwipeMenuView.OnSwipeItem
         if (index == SwipeMenuItem.getBtn_delete()){
             Entity entity = (Entity) (getAdapter().getItem(view.getPosition()));
             ((AriusCursorAdapter) getAdapter()).remove(getAdapter().getItem(view.getPosition()));
-            ((AriusCursorAdapter) getAdapter()).notifyDataSetChanged();
-            AppContext.get().getDao(genericDao.getClass()).delete(entity);
+            ((AriusCursorAdapter) getAdapter()).afterDelete(entity);
+            if (genericDao != null)
+                AppContext.get().getDao(genericDao.getClass()).delete(entity);
 
             if (isStackFromBottom() && getCount() < 4){
                 setTranscriptMode(AbsListView.TRANSCRIPT_MODE_DISABLED);
