@@ -30,7 +30,7 @@
     </array>
 
     <string-array name="combo_produto_selecionado">
-        <item>descricao</item>
+        <item>produto.descricao</item>
     </string-array>
 
     <string-array name="combo_produto_filtro">
