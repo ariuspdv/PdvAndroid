@@ -1,11 +1,19 @@
 package br.com.arius.pdvarius;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.widget.AlertDialogLayout;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -48,7 +56,8 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
         dtInicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dialog datePickerDialog = new DatePickerDialog(AriusActivityListagemVenda.this,
+                DatePickerDialog datePickerDialog = new DatePickerDialog(AriusActivityListagemVenda.this,
+                        AlertDialog.THEME_HOLO_LIGHT,
                         new DatePickerDialog.OnDateSetListener() {
 
                             @Override
@@ -62,6 +71,26 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
                             }
                         },mYear, mMonth, mDay);
 
+
+                // Create a TextView programmatically.
+                TextView tv = new TextView(datePickerDialog.getContext());
+
+                // Create a TextView programmatically
+                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.WRAP_CONTENT, // Width of TextView
+                        RelativeLayout.LayoutParams.WRAP_CONTENT); // Height of TextView
+                tv.setLayoutParams(lp);
+                tv.setPadding(10, 10, 10, 10);
+                tv.setGravity(Gravity.CENTER);
+                tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20);
+                tv.setText("Data Inicio");
+                tv.setTextColor(Color.parseColor("#ff0000"));
+                tv.setBackgroundColor(Color.parseColor("#FFD2DAA7"));
+                tv.setTextSize(30);
+                datePickerDialog.setCustomTitle(tv);
+                datePickerDialog.getDatePicker().setSpinnersShown(false);
+
+                datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE,"Confirmar",datePickerDialog);
                 datePickerDialog.show();
             }
         });

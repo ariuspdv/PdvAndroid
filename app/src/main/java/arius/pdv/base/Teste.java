@@ -1,27 +1,19 @@
 package arius.pdv.base;
 
-import arius.pdv.core.AppContext;
+import java.sql.SQLException;
+
 import arius.pdv.core.UserException;
 
 public class Teste {
 	
-//	public static void main(String[] args) throws SQLException {
-	public void iniciaTeste() {
+	public static void main(String[] args) throws SQLException {
 
-		Produto produto = new Produto();
-		produto.setDescricao("Produto 1");
-
-		AppContext.get().getDao(ProdutoDao.class).insert(produto);
-
-		produto.setDescricao("Produto 2");
-
-		AppContext.get().getDao(ProdutoDao.class).insert(produto);
-
-		if (PdvService.get().getPdv(1) == null)
+		if (PdvService.get().getPdv() == null)
 			throw new UserException("PDV não cadastrado ou não está aberto");
 		
-		PdvService.get().setOperadorAtual(PdvService.get().getUsuarioDao().find(2));
+		Usuario usuario = PdvService.get().getUsuarioDao().find(2);
 		
-		PdvService.get().fechaCaixa(PdvService.get().getOperadorAtual());
+		PdvService.get().fechaCaixa(usuario); 
+		
 	}	
 }
