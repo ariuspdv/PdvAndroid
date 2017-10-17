@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="br.com.arius.pdvarius.AriusActivityFinalizadoraVenda">
+
+    <TextView
+        android:id="@+id/lbTituloFinalizadoraVenda"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/splitter_bg_h"
+        android:text="Finalizadoras da Venda"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <arius.pdv.db.AriusListView
+        android:id="@+id/grdFinalizadoraVenda"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginStart="5dp"
+        android:dividerHeight="5dp" />
+
+
+</LinearLayout>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/lblayoutDialogFinalizadoraVendaFinalizadora"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="36sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lblayoutDialogFinalizadoraVendaDesconto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Desconto"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtlayoutDialogFinalizadoraVendaDesconto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:focusedByDefault="false"
+                android:inputType="number"
+                android:textAlignment="textEnd"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/lblayoutDialogFinalizadoraVendaJuros"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Juros"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtlayoutDialogFinalizadoraVendaJuros"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:focusedByDefault="false"
+                android:inputType="number"
+                android:textAlignment="textEnd"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/btnlayoutDialogFinalizadoraVendaCancelar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cancelar"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lblayoutDialogFinalizadoraVendaValor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:text="Valor"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtlayoutDialogFinalizadoraVendaValor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="35dp"
+                android:ems="10"
+                android:focusedByDefault="false"
+                android:inputType="number"
+                android:textAlignment="textEnd"
+                android:textSize="24sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnlayoutDialogFinalizadoraVendaConfirmar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Confirmar"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

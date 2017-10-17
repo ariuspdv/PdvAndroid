@@ -21,6 +21,7 @@
         android:layout_marginTop="20dp"
         android:ellipsize="end"
         android:ems="10"
+        android:hint="Informar o valor para o Reforço"
         android:imeOptions="actionNext"
         android:inputType="numberDecimal"
         android:textAlignment="textEnd"

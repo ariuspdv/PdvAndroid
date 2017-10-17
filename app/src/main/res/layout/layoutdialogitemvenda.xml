@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/lblayoutDialogItemVendaVrUnitario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Valor Unitário"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edtlayoutDialogItemVendaVrUnitario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:focusedByDefault="false"
+            android:inputType="number"
+            android:textAlignment="textEnd"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/lblayoutDialogItemVendaDesconto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Desconto"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edtlayoutDialogItemVendaDesconto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:focusedByDefault="false"
+            android:inputType="number"
+            android:textAlignment="textEnd"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/btnlayoutDialogItemVendaCancelar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cancelar"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/lblayoutDialogItemVendaAcrescimo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Acréscimo"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edtlayoutDialogItemVendaAcrescimo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:focusedByDefault="false"
+            android:inputType="number"
+            android:textAlignment="textEnd"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/lblayoutDialogItemVendaQtde"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Quantidade"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <ImageButton
+                android:id="@+id/btnlayoutDialogItemVendaDiminuiQtde"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/presence_busy" />
+
+            <EditText
+                android:id="@+id/edtlayoutDialogItemVendaQtde"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.00"
+                android:ems="10"
+                android:focusedByDefault="true"
+                android:inputType="number"
+                android:textAlignment="center"
+                android:textSize="24sp" />
+
+            <ImageButton
+                android:id="@+id/btnlayoutDialogItemVendaAumentaQtde"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@android:drawable/ic_input_add" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnlayoutDialogItemVendaConfirmar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirmar"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

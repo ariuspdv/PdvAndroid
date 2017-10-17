@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="br.com.arius.pdvarius.AriusActivityFinalizadora">
+
+    <TextView
+        android:id="@+id/lbTituloFinalizadora"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/splitter_bg_h"
+        android:text="Finalizadoras"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <GridView
+        android:id="@+id/grdFinalizadoras"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:numColumns="4" />
+
+</LinearLayout>
