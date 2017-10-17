@@ -1,14 +1,9 @@
 package br.com.arius.pdvarius;
 
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -31,14 +26,13 @@ import arius.pdv.base.FinalizadoraTipo;
 import arius.pdv.base.PdvService;
 import arius.pdv.base.VendaFinalizadora;
 import arius.pdv.base.VendaFinalizadoraDao;
-import arius.pdv.base.VendaItem;
 import arius.pdv.base.VendaSituacao;
 import arius.pdv.core.AppContext;
 import arius.pdv.core.Entity;
 import arius.pdv.core.FuncionaisFilters;
-import arius.pdv.core.FuncionaisTela;
 import arius.pdv.core.UserException;
 import arius.pdv.db.AndroidUtils;
+import arius.pdv.db.AriusAlertDialog;
 import arius.pdv.db.AriusCursorAdapter;
 import arius.pdv.db.AriusListView;
 
@@ -76,33 +70,20 @@ public class VendaFinalizacaoActivity extends ActivityPadrao {
 
         this.grdVenda_Finalizadoras.setCampos_Exibir(
                     ImmutableMap.<Integer, String>of(R.id.edtVendaFinalizadora,"finalizadora.descricao",
-                                                     R.id.edtVendaFinalizadoraValor, "vendafinalizadora.valor"));
+                                       R.id.edtVendaFinalizadoraValor, "vendafinalizadora.valor"));
         this.grdVenda_Finalizadoras.setLayout_arius(R.layout.layoutvendafinalizadora);
 
         this.grdVenda_Finalizadoras.setGenericDao(new VendaFinalizadoraDao());
         this.grdVenda_Finalizadoras.setEntity(new VendaFinalizadora());
 
-        if (PdvService.get().getVendaAtiva() != null)
+        if (PdvService.get().getVendaAtiva() != null) {
             this.grdVenda_Finalizadoras.setDataSource(PdvService.get().getVendaAtiva().getFinalizadoras());
+        }
 
         if (grdVenda_Finalizadoras.getAdapter() != null)
             this.grdVenda_Finalizadoras.setSelection(grdVenda_Finalizadoras.getAdapter().getCount()-1);
 
         this.grdVenda_Finalizadoras.setSwipe_Delete(true);
-
-//        ((AriusCursorAdapter) this.grdVenda_Finalizadoras.getAdapter()).setAfterDelete(new FuncionaisFilters() {
-//            @Override
-//            public boolean test(Object p) {
-//                totalFinalizadora();
-//                return false;
-//            }
-//        });
-
-//        setAfterDeleteVendaFinalizadoras();
-
-        setAfterScrollVendaFinalizadora();
-
-        setMontaTela();
 
         AriusCursorAdapter adapter = new AriusCursorAdapter(
                 this,
@@ -114,22 +95,24 @@ public class VendaFinalizacaoActivity extends ActivityPadrao {
 
         grdFinalizadoras.setAdapter(adapter);
 
-        ((AriusCursorAdapter) grdFinalizadoras.getAdapter()).setMontatela(new FuncionaisTela() {
-            @Override
-            public void test(Entity p, View v) {
-                TextView edtaux = (TextView) v.findViewById(R.id.edtFinalizacaoFinalizadora);
-                if (edtaux != null)
-                    edtaux.setText(((Finalizadora) p).getDescricao());
+        ((AriusCursorAdapter) grdFinalizadoras.getAdapter()).setMontarCamposTela(
+                new AriusCursorAdapter.MontarCamposTela() {
+                    @Override
+                    public void montarCamposTela(Object p, View v) {
+                        TextView edtaux = v.findViewById(R.id.edtFinalizacaoFinalizadora);
+                        if (edtaux != null)
+                            edtaux.setText(((Finalizadora) p).getDescricao());
 
-                ImageView imgFinalizadora = (ImageView) v.findViewById(R.id.imgFinalizacaoFinalizadora);
-                imgFinalizadora.setImageResource(
-                        ((Finalizadora) p).getTipo() == FinalizadoraTipo.DINHEIRO ? R.mipmap.dinheiro :
-                                ((Finalizadora) p).getTipo() == FinalizadoraTipo.CARTAO_CREDITO ? R.mipmap.creditcard :
-                                    ((Finalizadora) p).getTipo() == FinalizadoraTipo.CARTAO_DEBITO ? R.mipmap.debitcard : 0
+                        ImageView imgFinalizadora = v.findViewById(R.id.imgFinalizacaoFinalizadora);
+                        imgFinalizadora.setImageResource(
+                                ((Finalizadora) p).getTipo() == FinalizadoraTipo.DINHEIRO ? R.mipmap.dinheiro :
+                                        ((Finalizadora) p).getTipo() == FinalizadoraTipo.CARTAO_CREDITO ? R.mipmap.creditcard :
+                                                ((Finalizadora) p).getTipo() == FinalizadoraTipo.CARTAO_DEBITO ? R.mipmap.debitcard : 0
 
-                );
-            }
-        });
+                        );
+
+                    }
+                });
 
         grdFinalizadoras.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -143,24 +126,20 @@ public class VendaFinalizacaoActivity extends ActivityPadrao {
                 final VendaFinalizadora vndFinalizadora = new VendaFinalizadora();
                 vndFinalizadora.setFinalizadora((Finalizadora) entity);
 
-                final AlertDialog alertBuilder = new AlertDialog.Builder(VendaFinalizacaoActivity.this).create();
-                LayoutInflater layoutInflater = LayoutInflater.from(VendaFinalizacaoActivity.this);
+                AriusAlertDialog.exibirDialog(VendaFinalizacaoActivity.this, R.layout.content_dialog_finalizacao);
 
-                final View layout = layoutInflater.inflate(R.layout.content_dialog_finalizacao, null);
+                final EditText edtValor = AriusAlertDialog.getGetView().findViewById(R.id.edtFinalizadoraDialog);
 
-                alertBuilder.setView(layout);
-
-                final EditText edtValor = (EditText) layout.findViewById(R.id.edtFinalizadoraDialog);
-
-                final TextView lbalert = (TextView) layout.findViewById(R.id.lbFinalizadoraDialog);
+                final TextView lbalert = AriusAlertDialog.getGetView().findViewById(R.id.lbFinalizadoraDialog);
 
                 lbalert.setText(lbalert.getText() + " " + vndFinalizadora.getFinalizadora().getDescricao());
 
-                layout.findViewById(R.id.btnFinalizadoraDialogCancelar).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        alertBuilder.dismiss();
-                    }
+                AriusAlertDialog.getGetView().findViewById(R.id.btnFinalizadoraDialogCancelar).setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                AriusAlertDialog.getAlertDialog().dismiss();
+                            }
                 });
 
                 edtValor.addTextChangedListener(new TextWatcher() {
@@ -200,48 +179,76 @@ public class VendaFinalizacaoActivity extends ActivityPadrao {
                     }
                 });
 
-                layout.findViewById(R.id.btnFinalizadoraDialogOK).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
-                        Double v_valor = 0.0;
-                        try{
-                            v_valor = nf.parse(edtValor.getText().toString().replace(" ","")).doubleValue();
-                        }catch (ParseException e){
-                            e.printStackTrace();
-                        }
-                        if (edtValor.getText().toString().equals("") || v_valor <= 0)
-                            throw new UserException("Informar um valor para a finalizadora!");
+                AriusAlertDialog.getAlertDialog().findViewById(R.id.btnFinalizadoraDialogOK).setOnClickListener(
+                        new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
+                            Double v_valor = 0.0;
+                            try{
+                                v_valor = nf.parse(edtValor.getText().toString().replace(" ","")).doubleValue();
+                            }catch (ParseException e){
+                                e.printStackTrace();
+                            }
+                            if (edtValor.getText().toString().equals("") || v_valor <= 0)
+                                throw new UserException("Informar um valor para a finalizadora!");
 
-                        vndFinalizadora.setVenda(PdvService.get().getVendaAtiva());
+                            vndFinalizadora.setVenda(PdvService.get().getVendaAtiva());
 
-                        vndFinalizadora.setValor(v_valor);
+                            vndFinalizadora.setValor(v_valor);
 
-                        PdvService.get().insereVendaFinalizadora(vndFinalizadora);
+                            PdvService.get().insereVendaFinalizadora(vndFinalizadora);
 
-                        grdVenda_Finalizadoras.setSelection(grdVenda_Finalizadoras.getAdapter().getCount()-1);
+                            grdVenda_Finalizadoras.setSelection(grdVenda_Finalizadoras.getAdapter().getCount()-1);
 
-                        totalFinalizadora();
+                            totalFinalizadora();
 
-                        alertBuilder.dismiss();
+                            AriusAlertDialog.getAlertDialog().dismiss();
                     }
                 });
 
                 edtValor.setText("0");
-
-                TextView lbtitle = new TextView(VendaFinalizacaoActivity.this);
-                lbtitle.setText("PdvArius");
-                lbtitle.setGravity(Gravity.CENTER_HORIZONTAL);
-                lbtitle.setBackgroundResource(R.color.colorPrimary);
-                lbtitle.setTextSize(30);
-                lbtitle.setTextColor(Color.WHITE);
-                lbtitle.setTypeface(null, Typeface.BOLD);
-
-                alertBuilder.setCustomTitle(lbtitle);
-
-                alertBuilder.show();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (PdvService.get().getVendaAtiva() != null) {
+            grdVenda_Finalizadoras.setDataSource(PdvService.get().getVendaAtiva().getFinalizadoras());
+
+            if (PdvService.get().getVendaAtiva() != null) {
+                grdVenda_Finalizadoras.setSwipe_Delete(PdvService.get().getVendaAtiva().getSituacao() == VendaSituacao.ABERTA);
+            }
+
+            this.grdVenda_Finalizadoras.getAriusCursorAdapter().setMontarCamposTela(
+                    new AriusCursorAdapter.MontarCamposTela() {
+                        @Override
+                        public void montarCamposTela(Object p, View v) {
+                            TextView edtaux = v.findViewById(R.id.edtVendaFinalizadoraValor);
+                            if (edtaux != null)
+                                edtaux.setText(AndroidUtils.FormatarValor_Monetario(((VendaFinalizadora) p).getValor()));
+                            edtaux = v.findViewById(R.id.edtVendaFinalizadora);
+                            if (edtaux != null)
+                                edtaux.setText(((VendaFinalizadora) p).getFinalizadora().getDescricao());
+                        }
+                    }
+            );
+
+            this.grdVenda_Finalizadoras.getAriusCursorAdapter().setAfterDataControll(
+                    new AriusCursorAdapter.AfterDataControll() {
+                        @Override
+                        public void afterScroll(Object object) {
+                            totalFinalizadora();
+                        }
+
+                        @Override
+                        public void afterDelete(Object object) {}
+                    });
+
+            grdVenda_Finalizadoras.setSelection(grdVenda_Finalizadoras.getAdapter().getCount() - 1);
+        }
     }
 
     private void totalFinalizadora(){
@@ -316,67 +323,6 @@ public class VendaFinalizacaoActivity extends ActivityPadrao {
         };
 
         btnFinalizar_Finalizar.setOnClickListener(this.btnFinalizar_Finalizar);
-    }
-
-    private void setAfterDeleteVendaFinalizadoras(){
-        if (PdvService.get().getVendaAtiva() != null) {
-            grdVenda_Finalizadoras.setDataSource(PdvService.get().getVendaAtiva().getFinalizadoras());
-
-            if (grdVenda_Finalizadoras.getAdapter() == null)
-                return;
-
-            ((AriusCursorAdapter) grdVenda_Finalizadoras.getAdapter()).setAfterDelete(
-                    new FuncionaisFilters<VendaFinalizadora>() {
-                        @Override
-                        public boolean test(VendaFinalizadora p) {
-                            if (PdvService.get().getVendaAtiva() != null) {
-                                PdvService.get().geraValoresMovimentoDiario(p.getFinalizadora(),p.getValor(),3);
-                            }
-                            return true;
-                        }
-                    }
-            );
-
-            grdVenda_Finalizadoras.setSelection(grdVenda_Finalizadoras.getAdapter().getCount() - 1);
-        }
-    }
-
-    private void setAfterScrollVendaFinalizadora(){
-        if (PdvService.get().getVendaAtiva() != null) {
-            grdVenda_Finalizadoras.setDataSource(PdvService.get().getVendaAtiva().getFinalizadoras());
-
-            ((AriusCursorAdapter) grdVenda_Finalizadoras.getAdapter()).setAfterScroll(
-                    new FuncionaisFilters<VendaFinalizadora>() {
-                        @Override
-                        public boolean test(VendaFinalizadora p) {
-                            totalFinalizadora();
-                            if (PdvService.get().getVendaAtiva() != null) {
-                                grdVenda_Finalizadoras.setSwipe_Delete(p.getVenda().getSituacao() == VendaSituacao.ABERTA);
-                            }
-                            return true;
-                        }
-                    }
-            );
-
-            grdVenda_Finalizadoras.setSelection(grdVenda_Finalizadoras.getAdapter().getCount() - 1);
-        }
-    }
-
-    private void setMontaTela(){
-        if (PdvService.get().getVendaAtiva() != null){
-            ((AriusCursorAdapter) grdVenda_Finalizadoras.getAdapter()).setMontatela(new FuncionaisTela() {
-
-                @Override
-                public void test(Entity p, View v) {
-                    TextView edtaux = (TextView) v.findViewById(R.id.edtVendaFinalizadoraValor);
-                    if (edtaux != null)
-                        edtaux.setText(AndroidUtils.FormatarValor_Monetario(((VendaFinalizadora) p).getValor()));
-                    edtaux = (TextView) v.findViewById(R.id.edtVendaFinalizadora);
-                    if (edtaux != null)
-                        edtaux.setText(((VendaFinalizadora) p).getFinalizadora().getDescricao());
-                }
-            });
-        }
     }
 
 }

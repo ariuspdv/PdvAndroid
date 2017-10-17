@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.util.Locale;
 
 import arius.pdv.base.PdvService;
+import arius.pdv.base.PdvTipo;
 import arius.pdv.base.UsuarioDao;
 import arius.pdv.core.AppContext;
 import arius.pdv.core.UserException;
@@ -29,9 +30,12 @@ public class MainActivity extends ActivityPadrao {
         if (PdvService.get().getPdv() == null)
             return;
 
-        if (PdvService.get().getPdv().isAberto() && PdvService.get().getOperadorAtual() != null){
+        if (PdvService.get().getPdv().getStatus() == PdvTipo.ABERTO && PdvService.get().getOperadorAtual() != null){
 
-            Intent intent = new Intent(getBaseContext(), VendaClassificacaoActivity.class);
+            //PdvService.get().fechaCaixa(AppContext.get().getDao(UsuarioDao.class).find(1));
+
+            Intent intent = new Intent(getBaseContext(), AriusActivityPrincipal.class);
+            //Intent intent = new Intent(getBaseContext(), AriusActivityProdutoCategoria.class);
 
             startActivity(intent);
         }
@@ -49,6 +53,23 @@ public class MainActivity extends ActivityPadrao {
 //        auxiliarCadastros.cadastrarOperador();
 //        auxiliarCadastros.cadastrarFinalizadora();
 //        auxiliarCadastros.cadastraProdutos();
+//        auxiliarCadastros.cadastroUnidadeMedida();
+//        auxiliarCadastros.cadastroeHistorico();
+//        auxiliarCadastros.cadastroProdutoClassificacao();
+//        auxiliarCadastros.alteraProdutoClassificacao();
+//
+//        Produto produto = AppContext.get().getDao(ProdutoDao.class).find(1);
+//        produto.setUnidadeMedida(AppContext.get().getDao(UnidadeMedidaDao.class).find(1));
+//
+//        AppContext.get().getDao(ProdutoDao.class).update(produto);
+
+//        Produto produto = AppContext.get().getDao(ProdutoDao.class).find(3);
+//        Produto produto = new Produto();
+//        produto.setDescricao("Cerveja Skol");
+//        produto.setDescricaoReduzida("Cerveja Skol");
+//        produto.setProdutoCategoria(AppContext.get().getDao(ProdutoCategoriaDao.class).find(8));
+//        produto.setPrincipal(false);
+//        AppContext.get().getDao(ProdutoDao.class).insert(produto);
 
         Button btn = (Button) findViewById(R.id.btn_Entrar);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -59,13 +80,15 @@ public class MainActivity extends ActivityPadrao {
                     throw new UserException("Operação não permitida! \n Operador não encontrado!");
                 }
 
+//                TesteComMetodos testeComMetodos = new TesteComMetodos();
+//                testeComMetodos.capturaMetodo();
 
-                AriusAlertDialog.exibirDialog(MainActivity.this,R.layout.content_dialog_reforco);
+                AriusAlertDialog.exibirDialog(MainActivity.this,R.layout.contentariusdialogreforco);
 
-                final Button btnOK = (Button) AriusAlertDialog.getGetView().findViewById(R.id.btnReforcoDialogOK);
-                final Button btnCancel = (Button) AriusAlertDialog.getGetView().findViewById(R.id.btnReforcoDialogCancelar);
-                final TextView lbRefornco = (TextView) AriusAlertDialog.getGetView().findViewById(R.id.lbReforcoDialog);
-                final EditText edtReforco = (EditText) AriusAlertDialog.getGetView().findViewById(R.id.edtReforcoDialog);
+                final Button btnOK = AriusAlertDialog.getGetView().findViewById(R.id.btnReforcoDialogOK);
+                final Button btnCancel = AriusAlertDialog.getGetView().findViewById(R.id.btnReforcoDialogCancelar);
+                final TextView lbRefornco = AriusAlertDialog.getGetView().findViewById(R.id.lbReforcoDialog);
+                final EditText edtReforco = AriusAlertDialog.getGetView().findViewById(R.id.edtReforcoDialog);
 
                 lbRefornco.setText("Valor abertura caixa");
 
@@ -104,7 +127,7 @@ public class MainActivity extends ActivityPadrao {
 
                         edtReforco.setText(AndroidUtils.FormatarValor_Monetario(parsed));
                         edtReforco.setSelection(edtReforco.getText().toString().length());
-                        texto = edtReforco.getText().toString();
+                        this.texto = edtReforco.getText().toString();
                         edtReforco.addTextChangedListener(this);
                     }
                 });
@@ -126,7 +149,7 @@ public class MainActivity extends ActivityPadrao {
 
                         PdvService.get().abreCaixa(AppContext.get().getDao(UsuarioDao.class).find(1),v_valor);
 
-                        Intent intent = new Intent(getBaseContext(), VendaClassificacaoActivity.class);
+                        Intent intent = new Intent(getBaseContext(), AriusActivityPrincipal.class);
 
                         startActivity(intent);
 

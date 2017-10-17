@@ -17,6 +17,7 @@ import java.util.List;
 import arius.pdv.base.Pdv;
 import arius.pdv.base.PdvDao;
 import arius.pdv.base.PdvService;
+import arius.pdv.base.PdvTipo;
 import arius.pdv.base.VendaSituacao;
 import arius.pdv.core.AppContext;
 import arius.pdv.core.FuncionaisFilters;
@@ -63,10 +64,10 @@ public class ActivityPadrao extends AppCompatActivity {
 
         TextView title = (TextView) findViewById(R.id.lbTitle_ActionBar);
         if (title != null && PdvService.get().getPdv() != null) {
-            title.setText(PdvService.get().getPdv().isAberto() ? "PdvArius - Caixa Aberto" : "PdvArius - Caixa Fechado");
+            title.setText("PdvArius - Caixa " + PdvService.get().getPdv().getStatus().toString());
             ImageView imgPDVVenda = (ImageView) findViewById(R.id.imgPDVStatus);
-            imgPDVVenda.setImageResource(!PdvService.get().getPdv().isAberto() ?
-                    R.drawable.if_circle_red : R.drawable.if_circle_green);
+            imgPDVVenda.setImageResource(PdvService.get().getPdv().getStatus() != PdvTipo.ABERTO ?
+                    R.drawable.ic_circle_red : R.drawable.ic_circle_green);
             this.imgVensaStatus = (ImageView) findViewById(R.id.imgVendaStatus);
             setImagemVendaStatus();
         }
@@ -110,9 +111,9 @@ public class ActivityPadrao extends AppCompatActivity {
         this.iconeVendaStatus = iconeVendaStatus;
         LayoutInflater mInflater = LayoutInflater.from(this);
         View mCustomView = mInflater.inflate(R.layout.layouactionbar, null);
-        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.lbTitle_ActionBar);
+        TextView mTitleTextView = mCustomView.findViewById(R.id.lbTitle_ActionBar);
         if (PdvService.get().getPdv() != null)
-            mTitleTextView.setText(PdvService.get().getPdv().isAberto()? "PdvArius - Caixa Aberto" : "PdvArius - Caixa Fechado");
+            mTitleTextView.setText("PdvArius - Caixa " + PdvService.get().getPdv().getStatus().toString());
 
         if (getSupportActionBar() == null) {
             toolbar = (Toolbar) findViewById(R.id.toolbar);

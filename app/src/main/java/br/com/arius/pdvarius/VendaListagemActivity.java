@@ -20,21 +20,50 @@ import arius.pdv.base.Venda;
 import arius.pdv.base.VendaDao;
 import arius.pdv.base.VendaSituacao;
 import arius.pdv.core.AppContext;
-import arius.pdv.core.Entity;
 import arius.pdv.core.FuncionaisFilters;
-import arius.pdv.core.FuncionaisTela;
 import arius.pdv.db.AndroidUtils;
 import arius.pdv.db.AriusCursorAdapter;
 import arius.pdv.db.AriusListView;
 
 public class VendaListagemActivity extends ActivityPadrao {
 
+    private  AriusListView grdVendaListagem;
+    private Spinner cmbVendaSituacao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_venda_listagem);
 
+        this.grdVendaListagem = (AriusListView) findViewById(R.id.grdVendaListagem);
+        this.cmbVendaSituacao = (Spinner) findViewById(R.id.cmbVendaListagemSituacao);
+
+        List vendaSituacaos = new ArrayList<>(EnumSet.allOf(VendaSituacao.class));
+
+        vendaSituacaos.add("TODAS");
+
+        grdVendaListagem.getAriusCursorAdapter().getFilter().filter(EnumSet.of(VendaSituacao.ABERTA).toString());
+
+        final AriusCursorAdapter adapter = new AriusCursorAdapter(VendaListagemActivity.this,
+                R.layout.layoutcmbbasico,
+                R.layout.layoutcmbbasico,
+                ImmutableMap.<Integer, String>of(R.id.lbcmbbasico,"Situacao"),
+                vendaSituacaos);
+
+        cmbVendaSituacao.setAdapter(adapter);
+        ((AriusCursorAdapter) cmbVendaSituacao.getAdapter()).setMontarCamposTela(
+                new AriusCursorAdapter.MontarCamposTela() {
+                    @Override
+                    public void montarCamposTela(Object p, View v) {
+                        TextView edtaux = v.findViewById(R.id.lbcmbbasico);
+                        if (edtaux != null)
+                            edtaux.setText(p.toString());
+                    }
+                }
+        );
+
         setButtons(true,false, false);
+
     }
 
     @Override
@@ -43,31 +72,39 @@ public class VendaListagemActivity extends ActivityPadrao {
 
         progressBar(true);
 
-        final AriusListView grdVendaListagem = (AriusListView) findViewById(R.id.grdVendaListagem);
+        grdVendaListagem.getAriusCursorAdapter().setCampos_filtro(new String[]{"situacao"});
+        grdVendaListagem.getAriusCursorAdapter().setExibirfiltrado_zerado(true);
+        grdVendaListagem.getAriusCursorAdapter().setMontarCamposTela(
+                new AriusCursorAdapter.MontarCamposTela() {
+                    @Override
+                    public void montarCamposTela(Object p, View v) {
+                        Venda vnd = (Venda) p;
+                        TextView edtaux = v.findViewById(R.id.edtVendaListagemID);
+                        if (edtaux != null)
+                            edtaux.setText(String.valueOf(vnd.getId()));
+                        edtaux = v.findViewById(R.id.edtVendaListagemValor);
+                        if (edtaux != null)
+                            edtaux.setText(AndroidUtils.FormatarValor_Monetario(vnd.getValorLiquido()));
+                        edtaux = v.findViewById(R.id.edtVendaListagemData);
+                        if (edtaux != null)
+                            edtaux.setText(PdvUtil.converteData_texto(vnd.getDataHora()));
 
-        List vendaSituacaos = new ArrayList<>(EnumSet.allOf(VendaSituacao.class));
+                        ImageView imgStatusVenda = v.findViewById(R.id.imgVendaListagemSituacao);
+                        imgStatusVenda.setImageResource(((Venda) p).getSituacao() == VendaSituacao.ABERTA ? R.mipmap.vendaaberta :
+                                ((Venda) p).getSituacao() == VendaSituacao.FECHADA ? R.mipmap.vendafechada :
+                                        ((Venda) p).getSituacao() == VendaSituacao.CANCELADA ? R.mipmap.vendacancelada : 0);
 
-        vendaSituacaos.add("TODAS");
+                    }
+                }
+        );
 
-        final AriusCursorAdapter adapter = new AriusCursorAdapter(VendaListagemActivity.this,
-                R.layout.layoutcmbbasico,
-                R.layout.layoutcmbbasico,
-                ImmutableMap.<Integer, String>of(R.id.lbcmbbasico,"Situacao"),
-                vendaSituacaos);
-
-        ((AriusCursorAdapter) grdVendaListagem.getAdapter()).setCampos_filtro(new String[]{"situacao"});
-        ((AriusCursorAdapter) grdVendaListagem.getAdapter()).setExibirfiltrado_zerado(true);
-
-        Spinner cmbVendaSituacao = (Spinner) findViewById(R.id.cmbVendaListagemSituacao);
-
-        cmbVendaSituacao.setAdapter(adapter);
 
         cmbVendaSituacao.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 progressBar(true);
                 final String situacao = adapterView.getItemAtPosition(i).toString();
-                ((AriusCursorAdapter) grdVendaListagem.getAdapter()).getFilter().filter(situacao.equals("TODAS") ? "" : situacao.toString());
+                grdVendaListagem.getAriusCursorAdapter().getFilter().filter(situacao.equals("TODAS") ? "" : situacao.toString());
                 FuncionaisFilters<Venda> filterVenda = new FuncionaisFilters<Venda>() {
                     @Override
                     public boolean test(Venda p) {
@@ -91,25 +128,6 @@ public class VendaListagemActivity extends ActivityPadrao {
                 AppContext.get().getDao(PdvDao.class).update(PdvService.get().getPdv());
 
                 onBackPressed();
-            }
-        });
-
-        ((AriusCursorAdapter) grdVendaListagem.getAdapter()).setMontatela(new FuncionaisTela() {
-            @Override
-            public void test(Entity p, View v) {
-                TextView edtAux = (TextView) v.findViewById(R.id.edtVendaListagemID);
-                edtAux.setText(String.valueOf(((Venda) p).getId()));
-
-                edtAux = (TextView) v.findViewById(R.id.edtVendaListagemValor);
-                edtAux.setText(AndroidUtils.FormatarValor_Monetario(((Venda) p).getValorLiquido()));
-
-                edtAux = (TextView) v.findViewById(R.id.edtVendaListagemData);
-                edtAux.setText(PdvUtil.converteData_texto(((Venda) p).getDataHora()));
-
-                ImageView imgStatusVenda = (ImageView) v.findViewById(R.id.imgVendaListagemSituacao);
-                imgStatusVenda.setImageResource(((Venda) p).getSituacao() == VendaSituacao.ABERTA ? R.mipmap.vendaaberta :
-                        ((Venda) p).getSituacao() == VendaSituacao.FECHADA ? R.mipmap.vendafechada :
-                                ((Venda) p).getSituacao() == VendaSituacao.CANCELADA ? R.mipmap.vendacancelada : 0);
             }
         });
     }

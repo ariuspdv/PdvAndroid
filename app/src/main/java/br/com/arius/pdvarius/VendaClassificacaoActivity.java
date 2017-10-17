@@ -1,21 +1,15 @@
 package br.com.arius.pdvarius;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -45,9 +39,7 @@ import arius.pdv.base.VendaDao;
 import arius.pdv.base.VendaItem;
 import arius.pdv.base.VendaSituacao;
 import arius.pdv.core.AppContext;
-import arius.pdv.core.Entity;
 import arius.pdv.core.FuncionaisFilters;
-import arius.pdv.core.FuncionaisTela;
 import arius.pdv.core.UserException;
 import arius.pdv.db.AndroidUtils;
 import arius.pdv.db.AriusAlertDialog;
@@ -55,7 +47,8 @@ import arius.pdv.db.AriusAutoCompleteTextView;
 import arius.pdv.db.AriusCursorAdapter;
 import arius.pdv.db.AriusListView;
 
-public class VendaClassificacaoActivity extends ActivityPadrao {
+public class VendaClassificacaoActivity extends ActivityPadrao
+            implements AriusCursorAdapter.MontarCamposTela, AriusCursorAdapter.AfterDataControll {
 
     private View.OnClickListener btnFinalizar;
     private AriusListView grdVenda_Item;
@@ -82,31 +75,31 @@ public class VendaClassificacaoActivity extends ActivityPadrao {
         final ConstraintLayout pnlVendaItens = (ConstraintLayout) findViewById(R.id.pnlVendaItens);
 
         final Button btnSplitter = (Button) findViewById(R.id.btnSplitter_ProdClass);
-        grdVenda_Item = (AriusListView) findViewById(R.id.grdVenda_Item);
+        this.grdVenda_Item = (AriusListView) findViewById(R.id.grdVenda_Item);
         final GridView grdProd_Class = (GridView) findViewById(R.id.grdProduto_Classificacao);
         this.cmbPesqProduto = (AriusAutoCompleteTextView) findViewById(R.id.cmbPesqProduto);
 
         preparaTela();
 
-//        pnlCmbPesqProduto.setVisibility(View.VISIBLE);
+        pnlCmbPesqProduto.setVisibility(View.VISIBLE);
+
+        btnSplitter.setVisibility(View.GONE);
+        grdProd_Class.setVisibility(View.GONE);
+
+//        pnlCmbPesqProduto.setVisibility(View.GONE);
 //
-//        btnSplitter.setVisibility(View.GONE);
-//        grdProd_Class.setVisibility(View.GONE);
-
-        pnlCmbPesqProduto.setVisibility(View.GONE);
-
-        btnSplitter.setVisibility(View.VISIBLE);
-        grdProd_Class.setVisibility(View.VISIBLE);
+//        btnSplitter.setVisibility(View.VISIBLE);
+//        grdProd_Class.setVisibility(View.VISIBLE);
 
         RelativeLayout.LayoutParams layoutParams =
                 (RelativeLayout.LayoutParams) pnlVendaItens.getLayoutParams();
         layoutParams.removeRule(RelativeLayout.BELOW);
         layoutParams.removeRule(RelativeLayout.ABOVE);
         layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_TOP);
-        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP); //para funcionar por classificacao habilitar esse
+        //layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP); //para funcionar por classificacao habilitar esse
         layoutParams.addRule(RelativeLayout.ABOVE);//, R.id.btnSplitter_ProdClass);
-        //layoutParams.addRule(RelativeLayout.BELOW, R.id.pnlCmbPesqProduto); //para funcionar por classificacao dehabilitar esse
-        //layoutParams.addRule(RelativeLayout.ABOVE, R.id.pnlTotal_Items); //para funcionar por classificacao dehabilitar esse
+        layoutParams.addRule(RelativeLayout.BELOW, R.id.pnlCmbPesqProduto); //para funcionar por classificacao dehabilitar esse
+        layoutParams.addRule(RelativeLayout.ABOVE, R.id.pnlTotal_Items); //para funcionar por classificacao dehabilitar esse
         pnlVendaItens.setLayoutParams(layoutParams);
 
         btnSplitter.setOnClickListener(new View.OnClickListener() {
@@ -151,8 +144,8 @@ public class VendaClassificacaoActivity extends ActivityPadrao {
 
 
                     // seta para o ultimo item da venda
-                    if (grdVenda_Item.getAdapter() != null) {
-                        if (grdVenda_Item.getAdapter().getCount() > 3) {
+                    if (grdVenda_Item.getAriusCursorAdapter() != null) {
+                        if (grdVenda_Item.getAriusCursorAdapter().getCount() > 3) {
                             grdVenda_Item.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
                             grdVenda_Item.setStackFromBottom(true);
                         }
@@ -243,14 +236,6 @@ public class VendaClassificacaoActivity extends ActivityPadrao {
 
         cmbPesqProduto.setAdapter(adapter);
 
-        cmbPesqProduto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                produto = (Produto) adapterView.getItemAtPosition(i);
-                cmbPesqProduto.setText(produto.getDescricao());
-            }
-        });
-
         grdProd_Class.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -267,16 +252,10 @@ public class VendaClassificacaoActivity extends ActivityPadrao {
                 if (vendaItem.getVenda().getSituacao() != VendaSituacao.ABERTA)
                     return;
 
-                final AlertDialog alertBuilder = new AlertDialog.Builder(VendaClassificacaoActivity.this).create();
-                LayoutInflater layoutInflater = LayoutInflater.from(VendaClassificacaoActivity.this);
+                AriusAlertDialog.exibirDialog(VendaClassificacaoActivity.this, R.layout.content_dialog_vendaitem);
 
-                final View layout = layoutInflater.inflate(R.layout.content_dialog_vendaitem, null);
-
-                alertBuilder.setView(layout);
-
-                final EditText edtQtde = (EditText) layout.findViewById(R.id.edtVendaItemDialogQtde);
-
-                final EditText edtDesc = (EditText) layout.findViewById(R.id.edtVendaItemDialogDesc);
+                final EditText edtQtde = AriusAlertDialog.getGetView().findViewById(R.id.edtVendaItemDialogQtde);
+                final EditText edtDesc = AriusAlertDialog.getGetView().findViewById(R.id.edtVendaItemDialogDesc);
 
                 edtDesc.addTextChangedListener(new TextWatcher() {
                     private String texto = "";
@@ -320,10 +299,10 @@ public class VendaClassificacaoActivity extends ActivityPadrao {
                     }
                 });
 
-                final EditText edtAcres = (EditText) layout.findViewById(R.id.edtVendaItemDialogAcres);
+                final EditText edtAcres = AriusAlertDialog.getGetView().findViewById(R.id.edtVendaItemDialogAcres);
 
                 edtAcres.addTextChangedListener(new TextWatcher() {
-                    private String texto;
+                    private String texto = null;
                     @Override
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -362,15 +341,15 @@ public class VendaClassificacaoActivity extends ActivityPadrao {
                     }
                 });
 
-                final Button btnCancel = (Button) layout.findViewById(R.id.btnItemDialogCancelar);
+                final Button btnCancel = AriusAlertDialog.getGetView().findViewById(R.id.btnItemDialogCancelar);
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        alertBuilder.dismiss();
+                        AriusAlertDialog.getAlertDialog().dismiss();
                     }
                 });
 
-                final Button btnOK = (Button) layout.findViewById(R.id.btnItemDialogOK);
+                final Button btnOK = AriusAlertDialog.getGetView().findViewById(R.id.btnItemDialogOK);
                 btnOK.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -402,7 +381,7 @@ public class VendaClassificacaoActivity extends ActivityPadrao {
 
                         totalItens();
 
-                        alertBuilder.dismiss();
+                        AriusAlertDialog.getAlertDialog().dismiss();
                     }
                 });
 
@@ -412,36 +391,42 @@ public class VendaClassificacaoActivity extends ActivityPadrao {
 
                 edtDesc.setText(String.valueOf(vendaItem.getDesconto()));
                 edtAcres.setText(String.valueOf(vendaItem.getAcrescimo()));
-
-                TextView lbtitle = new TextView(VendaClassificacaoActivity.this);
-                lbtitle.setText("PdvArius");
-                lbtitle.setGravity(Gravity.CENTER_HORIZONTAL);
-                lbtitle.setBackgroundResource(R.color.colorPrimary);
-                lbtitle.setTextSize(30);
-                lbtitle.setTextColor(Color.WHITE);
-                lbtitle.setTypeface(null, Typeface.BOLD);
-
-                alertBuilder.setCustomTitle(lbtitle);
-
-                alertBuilder.show();
             }
         });
 
     }
 
-    private void inserirProduto(AdapterView<?> adapterView, int posicao){
-        cmbPesqProduto.setText("");
-        if (PdvService.get().getVendaAtiva() == null){
-            Venda vnd = new Venda();
-            vnd.setDataHora(new Date());
-            vnd.setSituacao(VendaSituacao.ABERTA);
-            vnd.setValorTroco(0);
+    private void gerenciaVenda(boolean inserir){
+        if (inserir){
+            if (PdvService.get().getVendaAtiva() == null){
+                Venda vnd = new Venda();
+                vnd.setDataHora(new Date());
+                vnd.setSituacao(VendaSituacao.ABERTA);
+                vnd.setValorTroco(0);
 
-            PdvService.get().insereVenda(vnd);
+                PdvService.get().insereVenda(vnd);
+
+                grdVenda_Item.setDataSource(PdvService.get().getVendaAtiva().getItens());
+            }
         }
 
-        if (((AriusCursorAdapter) cmbPesqProduto.getAdapter()).getEntity_selecionada() != null)
-            this.produto = (Produto) ((AriusCursorAdapter) cmbPesqProduto.getAdapter()).getEntity_selecionada();
+        if (PdvService.get().getVendaAtiva() != null) {
+            grdVenda_Item.setDataSource(PdvService.get().getVendaAtiva().getItens());
+            grdVenda_Item.setSwipe_Delete(PdvService.get().getVendaAtiva().getSituacao() == VendaSituacao.ABERTA);
+            grdVenda_Item.getAriusCursorAdapter().setMontarCamposTela(this);
+            grdVenda_Item.getAriusCursorAdapter().setAfterDataControll(this);
+            grdVenda_Item.getAriusCursorAdapter().notifyDataSetChanged();
+        } else
+            grdVenda_Item.setAdapter(null);
+    }
+
+    private void inserirProduto(AdapterView<?> adapterView, int posicao){
+        cmbPesqProduto.setText("");
+
+        gerenciaVenda(true);
+
+        if (cmbPesqProduto.getAriusCursorAdapter().getEntity_selecionada() != null)
+            this.produto = (Produto) cmbPesqProduto.getAriusCursorAdapter().getEntity_selecionada();
         else
             if (this.produto == null)
                 this.produto = (Produto) adapterView.getItemAtPosition(posicao);
@@ -452,12 +437,11 @@ public class VendaClassificacaoActivity extends ActivityPadrao {
         vndItem.setValorTotal(10);
 
         this.produto = null;
+        cmbPesqProduto.getAriusCursorAdapter().setEntity_selecionada(null);
 
         PdvService.get().insereVendaItem(vndItem);
 
-        setAfterDeleteVendaItens();
-
-        ((BaseAdapter) grdVenda_Item.getAdapter()).notifyDataSetChanged();
+        grdVenda_Item.getAriusCursorAdapter().notifyDataSetChanged();
 
         grdVenda_Item.setSelection(grdVenda_Item.getAdapter().getCount()-1);
 
@@ -482,14 +466,9 @@ public class VendaClassificacaoActivity extends ActivityPadrao {
         super.onStart();
         preparaTela();
 
-        if (PdvService.get().getVendaAtiva() != null) {
-            grdVenda_Item.setDataSource(PdvService.get().getVendaAtiva().getItens());
-            grdVenda_Item.setSwipe_Delete(PdvService.get().getVendaAtiva().getSituacao() == VendaSituacao.ABERTA);
-            setAfterDeleteVendaItens();
-            setMontaTela();
-            ((AriusCursorAdapter) grdVenda_Item.getAdapter()).notifyDataSetChanged();
-        } else
-            grdVenda_Item.setAdapter(null);
+        this.cmbPesqProduto.getAriusCursorAdapter().setMontarCamposTela(this);
+
+        gerenciaVenda(false);
     }
 
     private void totalItens(){
@@ -505,8 +484,8 @@ public class VendaClassificacaoActivity extends ActivityPadrao {
         btnIncProduto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (((AriusCursorAdapter) cmbPesqProduto.getAdapter()).getEntity_selecionada() != null)
-                    produto = (Produto) ((AriusCursorAdapter) cmbPesqProduto.getAdapter()).getEntity_selecionada();
+                if (cmbPesqProduto.getAriusCursorAdapter().getEntity_selecionada() != null)
+                    produto = (Produto) cmbPesqProduto.getAriusCursorAdapter().getEntity_selecionada();
                 if (produto == null) {
                     throw new UserException("Operação não permitida! \n Selecionar um produto para incluir na venda!");
                 }
@@ -532,62 +511,6 @@ public class VendaClassificacaoActivity extends ActivityPadrao {
 
         Button btnFinalizar = (Button) findViewById(R.id.btnVenda_Finalizar);
         btnFinalizar.setOnClickListener(this.btnFinalizar);
-    }
-
-    private void setAfterDeleteVendaItens(){
-        if (PdvService.get().getVendaAtiva() != null) {
-            grdVenda_Item.setDataSource(PdvService.get().getVendaAtiva().getItens());
-
-            setMontaTela();
-
-            ((AriusCursorAdapter) grdVenda_Item.getAdapter()).setAfterDelete(
-                    new FuncionaisFilters<VendaItem>() {
-                        @Override
-                        public boolean test(VendaItem p) {
-                            totalItens();
-                            if (PdvService.get().getVendaAtiva() != null) {
-                                if (PdvService.get().getVendaAtiva().getItens().size() == 0) {
-                                    AppContext.get().getDao(VendaDao.class).delete(PdvService.get().getVendaAtiva());
-                                    PdvService.get().getPdv().setVendaAtiva(null);
-                                    AppContext.get().getDao(PdvDao.class).update(PdvService.get().getPdv());
-                                    setImagemVendaStatus();
-                                }
-                            }
-                            return true;
-                        }
-                    }
-            );
-
-            grdVenda_Item.setSelection(grdVenda_Item.getAdapter().getCount() - 1);
-        }
-    }
-
-    private void setMontaTela(){
-        if (PdvService.get().getVendaAtiva() != null){
-            ((AriusCursorAdapter) grdVenda_Item.getAdapter()).setMontatela(new FuncionaisTela() {
-
-                @Override
-                public void test(Entity p, View v) {
-                    TextView edtaux = (TextView) v.findViewById(R.id.combobox_codigo);
-                    if (edtaux != null)
-                        edtaux.setText(String.valueOf(((VendaItem) p).getProduto().getCodigo()));
-                    edtaux = (TextView) v.findViewById(R.id.combobox_descricao);
-                    if (edtaux != null)
-                        edtaux.setText(String.valueOf(((VendaItem) p).getProduto().getDescricaoReduzida().equals("") ?
-                                ((VendaItem) p).getProduto().getDescricao() : ((VendaItem) p).getProduto().getDescricaoReduzida()));
-                    edtaux = (TextView) v.findViewById(R.id.edtItemVendaQtde);
-                    if (edtaux != null)
-                        edtaux.setText(AndroidUtils.FormataQuantidade(((VendaItem) p).getProduto(),((VendaItem) p).getQtde()));
-                    edtaux = (TextView) v.findViewById(R.id.edtItemVendaVrUnitario);
-                    if (edtaux != null)
-                        edtaux.setText(AndroidUtils.FormatarValor_Monetario(((VendaItem) p).getValorUnitario()));
-                    edtaux = (TextView) v.findViewById(R.id.edtItemVendaVrTotal);
-                    if (edtaux != null)
-                        edtaux.setText(AndroidUtils.FormatarValor_Monetario(((VendaItem) p).getValorLiquido()));
-                }
-
-            });
-        }
     }
 
     @Override
@@ -641,15 +564,15 @@ public class VendaClassificacaoActivity extends ActivityPadrao {
                         AppContext.get().getDao(FinalizadoraDao.class).listCache(filtro)
                 );
 
-                cmbFinalizadora = (Spinner) AriusAlertDialog.getGetView().findViewById(R.id.cmbSangriaDialogFinalizadora);
+                cmbFinalizadora = AriusAlertDialog.getGetView().findViewById(R.id.cmbSangriaDialogFinalizadora);
 
                 cmbFinalizadora.setPrompt("Selecione uma finalizadora!");
                 adapter.insert(cmbFinalizadora.getPrompt(),0);
                 cmbFinalizadora.setAdapter(adapter);
 
-                final EditText edtSangriaValor = (EditText) AriusAlertDialog.getGetView().findViewById(R.id.edtSangriaDialogValor);
+                final EditText edtSangriaValor = AriusAlertDialog.getGetView().findViewById(R.id.edtSangriaDialogValor);
 
-                btnCancel = (Button) AriusAlertDialog.getGetView().findViewById(R.id.btnSangriaDialogCancelar);
+                btnCancel = AriusAlertDialog.getGetView().findViewById(R.id.btnSangriaDialogCancelar);
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -657,7 +580,7 @@ public class VendaClassificacaoActivity extends ActivityPadrao {
                     }
                 });
 
-                btnOK = (Button) AriusAlertDialog.getGetView().findViewById(R.id.btnSangriaDialogOK);
+                btnOK = AriusAlertDialog.getGetView().findViewById(R.id.btnSangriaDialogOK);
                 btnOK.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -742,11 +665,11 @@ public class VendaClassificacaoActivity extends ActivityPadrao {
                 return true;
 
             case R.id.itemReforco :
-                AriusAlertDialog.exibirDialog(this,R.layout.content_dialog_reforco);
+                AriusAlertDialog.exibirDialog(this,R.layout.contentariusdialogreforco);
 
-                final EditText edtReforco = (EditText) AriusAlertDialog.getGetView().findViewById(R.id.edtReforcoDialog);
+                final EditText edtReforco = AriusAlertDialog.getGetView().findViewById(R.id.edtReforcoDialog);
 
-                btnCancel = (Button) AriusAlertDialog.getGetView().findViewById(R.id.btnReforcoDialogCancelar);
+                btnCancel = AriusAlertDialog.getGetView().findViewById(R.id.btnReforcoDialogCancelar);
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -754,7 +677,7 @@ public class VendaClassificacaoActivity extends ActivityPadrao {
                     }
                 });
 
-                btnOK = (Button) AriusAlertDialog.getGetView().findViewById(R.id.btnReforcoDialogOK);
+                btnOK = AriusAlertDialog.getGetView().findViewById(R.id.btnReforcoDialogOK);
                 btnOK.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -826,4 +749,54 @@ public class VendaClassificacaoActivity extends ActivityPadrao {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void montarCamposTela(Object p, View v) {
+        if (p.getClass().equals(VendaItem.class)){
+            VendaItem vndItem = (VendaItem) p;
+            TextView edtaux = v.findViewById(R.id.combobox_codigo);
+            if (edtaux != null)
+                edtaux.setText(String.valueOf(vndItem.getProduto().getCodigo()));
+            edtaux = v.findViewById(R.id.combobox_descricao);
+            if (edtaux != null)
+                edtaux.setText(String.valueOf(vndItem.getProduto().getDescricaoReduzida().equals("") ?
+                        vndItem.getProduto().getDescricao() : vndItem.getProduto().getDescricaoReduzida()));
+            edtaux = v.findViewById(R.id.edtItemVendaQtde);
+            if (edtaux != null)
+                edtaux.setText(AndroidUtils.FormataQuantidade(vndItem.getProduto(),vndItem.getQtde()));
+            edtaux = v.findViewById(R.id.edtItemVendaVrUnitario);
+            if (edtaux != null)
+                edtaux.setText(AndroidUtils.FormatarValor_Monetario(vndItem.getValorUnitario()));
+            edtaux = v.findViewById(R.id.edtItemVendaVrTotal);
+            if (edtaux != null)
+                edtaux.setText(AndroidUtils.FormatarValor_Monetario(vndItem.getValorLiquido()));
+            System.out.print(vndItem.getProduto().getDescricao());
+        }
+
+        if (p.getClass().equals(Produto.class)){
+            TextView edtaux = v.findViewById(R.id.edtCodProdClassGrid);
+            if (edtaux != null)
+                edtaux.setText(String.valueOf(((Produto) p).getCodigo()));
+            edtaux = v.findViewById(R.id.edtDesProdClassGrid);
+            if (edtaux != null)
+                edtaux.setText(String.valueOf(((Produto) p).getDescricaoReduzida().equals("") ?
+                        ((Produto) p).getDescricao() : ((Produto) p).getDescricaoReduzida()));
+        }
+    }
+
+    @Override
+    public void afterScroll(Object object) {}
+
+    @Override
+    public void afterDelete(Object object) {
+        if (PdvService.get().getVendaAtiva() != null) {
+            if (PdvService.get().getVendaAtiva().getItens().size() == 0) {
+                AppContext.get().getDao(VendaDao.class).delete(PdvService.get().getVendaAtiva());
+                PdvService.get().getPdv().setVendaAtiva(null);
+                AppContext.get().getDao(PdvDao.class).update(PdvService.get().getPdv());
+                setImagemVendaStatus();
+            }
+        }
+        totalItens();
+        grdVenda_Item.setSelection(grdVenda_Item.getAdapter().getCount() - 1);
+    }
 }
