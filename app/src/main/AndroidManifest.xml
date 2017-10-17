@@ -31,6 +31,13 @@
         <activity android:name=".VendaClassificacaoActivity" />
         <activity android:name=".VendaFinalizacaoActivity" />
         <activity android:name=".VendaListagemActivity" />
+        <activity android:name=".AriusActivityResumoCaixa" />
+        <activity android:name=".AriusActivityListagemVenda" />
+        <activity
+            android:name=".AriusActivityPrincipal"
+            android:label="@string/title_activity_arius_principal">
+        </activity>
+
     </application>
 
 </manifest>
