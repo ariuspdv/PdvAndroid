@@ -180,8 +180,8 @@ public abstract class GenericDao<T extends Entity> {
 		} catch (SQLException e) {
 			throw new UserException(e);
 		}
-	}	
-	
+	}
+
 	private T findDatabase(int id) {
 		try {
 			if (id != lastId) {

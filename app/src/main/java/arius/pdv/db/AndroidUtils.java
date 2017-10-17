@@ -1,6 +1,14 @@
 package arius.pdv.db;
 
 
+import android.content.Context;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -170,5 +178,14 @@ public class AndroidUtils {
         else
             fn = NumberFormat.getIntegerInstance();
         return fn.format(quantidade);
+    }
+
+    public static void toast(Context context, String mensagem){
+        Toast toast = Toast.makeText(context, mensagem, Toast.LENGTH_SHORT);
+        //the default toast view group is a relativelayout
+        LinearLayout toastLayout = (LinearLayout) toast.getView();
+        TextView toastTV = (TextView) toastLayout.getChildAt(0);
+        toastTV.setTextSize(30);
+        toast.show();
     }
 }

@@ -7,11 +7,12 @@ import arius.pdv.core.Entity;
 public class Pdv extends Entity {
 
 	private int codigo_pdv;
-	private boolean aberto;
+	private PdvTipo status;
 	private Usuario operador; // operador ativo no momento
 	private double saldoDinheiro;
 	private Venda vendaAtiva;
 	private Date dataAbertura;
+	private Empresa empresa;
 
 	public int getCodigo_pdv() {
 		return codigo_pdv;
@@ -20,13 +21,13 @@ public class Pdv extends Entity {
 	public void setCodigo_pdv(int codigo_pdv) {
 		this.codigo_pdv = codigo_pdv;
 	}
-	
-	public boolean isAberto() {
-		return aberto;
+
+	public PdvTipo getStatus() {
+		return status;
 	}
 
-	public void setAberto(boolean aberto) {
-		this.aberto = aberto;
+	public void setStatus(PdvTipo status) {
+		this.status = status;
 	}
 
 	public Usuario getOperador() {
@@ -61,4 +62,11 @@ public class Pdv extends Entity {
 		this.dataAbertura = dataAbertura;
 	}
 
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
+	}
 }

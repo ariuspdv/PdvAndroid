@@ -2,6 +2,6 @@ package arius.pdv.base;
 
 public enum PdvValorTipo {
 	
-	REFORCO, SANGRIA, MOVDIARIO
+	REFORCO, SANGRIA, MOVDIARIO, RETIRADA
 
 }

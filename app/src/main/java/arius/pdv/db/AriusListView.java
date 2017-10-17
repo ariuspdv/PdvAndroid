@@ -40,7 +40,7 @@ public class AriusListView extends ListView implements SwipeMenuView.OnSwipeItem
     private String entity_listview;
     private boolean montaAdapter = false;
     private List<?> dataSource = null;
-    private boolean swipe_delete;
+    private boolean swipe_delete = false;
 
     private static final int TOUCH_STATE_NONE = 0;
     private static final int TOUCH_STATE_X = 1;
@@ -178,6 +178,10 @@ public class AriusListView extends ListView implements SwipeMenuView.OnSwipeItem
         montaAdapter();
     }
 
+    public AriusCursorAdapter getAriusCursorAdapter() {
+        return (AriusCursorAdapter) getAdapter();
+    }
+
     public void setMontaAdapter(boolean montaAdapter) {
         this.montaAdapter = montaAdapter;
         montaAdapter();
@@ -247,8 +251,9 @@ public class AriusListView extends ListView implements SwipeMenuView.OnSwipeItem
     private void itemClickDelete(SwipeMenuView view, SwipeMenu menu, int index){
         if (index == SwipeMenuItem.getBtn_delete()){
             Entity entity = (Entity) (getAdapter().getItem(view.getPosition()));
-            ((AriusCursorAdapter) getAdapter()).remove(getAdapter().getItem(view.getPosition()));
-            ((AriusCursorAdapter) getAdapter()).afterDelete(entity);
+            getAriusCursorAdapter().remove(getAdapter().getItem(view.getPosition()));
+            if (getAriusCursorAdapter().getAfterDataControll() != null)
+                getAriusCursorAdapter().getAfterDataControll().afterDelete(entity);
             if (genericDao != null)
                 AppContext.get().getDao(genericDao.getClass()).delete(entity);
 

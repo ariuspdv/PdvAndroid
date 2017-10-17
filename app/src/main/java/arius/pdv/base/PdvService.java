@@ -32,13 +32,16 @@ public class PdvService {
 		AppContext app = AppContext.get();
 		
 		//Carga dos Daos com cache
+		app.getDao(EmpresaDao.class);
  		this.pdvDao = app.getDao(PdvDao.class);
 		this.usuarioDao = app.getDao(UsuarioDao.class);
 		app.getDao(UnidadeMedidaDao.class);
 		this.vendaDao = app.getDao(VendaDao.class);
 		app.getDao(ProdutoDao.class);
 		app.getDao(FinalizadoraDao.class);
-		
+		app.getDao(HistoricoDao.class);
+		app.getDao(ProdutoCategoriaDao.class);
+
 		//Carga dos Daos sem cache
 		this.vendaItemDao = app.getDao(VendaItemDao.class);
 		this.vendaFinalizadoraDao = app.getDao(VendaFinalizadoraDao.class);
@@ -80,9 +83,9 @@ public class PdvService {
 	}
 
 	private void verificaPdvAberto(Pdv pdv){
-		if (!pdv.isAberto())
-			throw new UserException(msg_padrao + "O caixa não está aberto!");
-		
+		if (pdv.getStatus() != PdvTipo.ABERTO)
+			throw new UserException(msg_padrao + "O caixa está " + this.pdv.getStatus().toString());
+
 		if (!fechandoCaixa && PdvUtil.comparar_Datas(pdv.getDataAbertura(), new Date())) {
 			throw new UserException(msg_padrao + "O caixa do dia " + PdvUtil.converteData_texto(pdv.getDataAbertura()) +
 					" está aberto, fechar o caixa e abrir novamente com a data atual!");
@@ -441,7 +444,7 @@ public class PdvService {
 			throw new UserException(msg_padrao + "Pdv não encontrado ou não configurado!");
 		}
 		//REGRA 2
-		if (pdv.isAberto()){
+		if (pdv.getStatus() == PdvTipo.ABERTO){
 			throw new UserException(msg_padrao + "O caixa já está aberto!");
 		}
 		//REGRA 3
@@ -453,7 +456,7 @@ public class PdvService {
 			throw new UserException(msg_padrao + "Informar um operador para abrir o caixa");
 		}
 		//REGRA 5
-		pdv.setAberto(true);
+		pdv.setStatus(PdvTipo.ABERTO);
 		pdv.setOperador(operador);
 		pdv.setSaldoDinheiro(saldoInicial);
 		pdv.setDataAbertura(new Date());
@@ -491,21 +494,26 @@ public class PdvService {
 	
 	public void sangraCaixa(Finalizadora finalizadora, double valor, Usuario sangrador) {
 		//REGRA 1: validar se finalizadora foi informada
-		//REGRA 2: verificar se usuario da que esta efetuando a sangria foi informado
-		//REGRA 3: valor da sangria não pode ser maior que o saldo da finalizadora
-		//REGRA 4: gerar pdv valores com a sangria e persistir os dados
+		//REGRA 2: verificar permissão se pode fazer sangria
+		//REGRA 3: verificar se usuario da que esta efetuando a sangria foi informado
+		//REGRA 4: valor da sangria não pode ser maior que o saldo da finalizadora
+		//REGRA 5: gerar pdv valores com a sangria e persistir os dados
 		
 		//REGRA 1
 		if (finalizadora == null)
 			throw new UserException(msg_padrao + "Finalizadora não informada!");
+
 		//REGRA 2
+		//colocar validação da sangria
+
+		//REGRA 3
 		if (sangrador == null)
 			throw new UserException(msg_padrao + "Operado não informado!");
-		//REGRA 3
+		//REGRA 4
 		if (calculaSaldoFinalizadora(finalizadora) < valor)
 			throw new UserException(msg_padrao + "Finalizador sem saldo para efetuar a sangria!");
 		
-		//REGRA 4
+		//REGRA 5
 		PdvValor pdvValor = new PdvValor();
 		pdvValor.setPdv(pdv);
 		pdvValor.setTipo(PdvValorTipo.SANGRIA);
@@ -519,12 +527,16 @@ public class PdvService {
 	
 	private void sangriaTotal(Usuario sangrador) {
 		//REGRA 1: verificar pdv aberto
-		//REGRA 2: executa a sangria total para o fechamento do caixa
+		//REGRA 2: verificar permissão se pode fazer sangria
+		//REGRA 3: executa a sangria total para o fechamento do caixa
 		
 		//REGRA 1
 		verificaPdvAberto(pdv);
-		
+
 		//REGRA 2
+		//colocar validação da sangria
+
+		//REGRA 3
 		for (PdvValor lpdvValor : pdvValorDao.listDatabase("strftime('%d/%m/%Y',datetime(substr(data_hora,0, length(data_hora)-2),  'unixepoch', 'localtime')) = '"
 															+ PdvUtil.converteData_texto(pdv.getDataAbertura()) +
 														   "' and pdv_id = " + pdv.getId() +
@@ -554,7 +566,7 @@ public class PdvService {
 		
 		//REGRA 4
 		this.pdv.setSaldoDinheiro(0);
-		this.pdv.setAberto(false);
+		this.pdv.setStatus(PdvTipo.FECHADO);
 		this.pdv.setOperador(null);
 		this.pdv.setVendaAtiva(null);
 		this.pdv.setDataAbertura(null);
@@ -565,15 +577,20 @@ public class PdvService {
 	
 	public void reforcoCaixa(double valor) {
 		//REGRA 1: pdv deve estar aberto
-		//REGRA 2: o valor deve ser maior que zero
-		//REGRA 3: alimentar a variavel com as informações dos valores e persistir no banco
+		//REGRA 2: verificar permissão para reforço
+		//REGRA 3: o valor deve ser maior que zero
+		//REGRA 4: alimentar a variavel com as informações dos valores e persistir no banco
 		
 		//REGRA 1
 		verificaPdvAberto(pdv);
+
 		//REGRA 2
+		//colocar validação da permissão do reforço
+
+		//REGRA 3
 		if (valor <= 0)
 			throw new UserException(msg_padrao + "O valor do reforçao precisa ser maior que zero!");
-		
+		//REGRA 4
 		PdvValor pdvValor = new PdvValor();
 		pdvValor.setPdv(pdv);
 		pdvValor.setTipo(PdvValorTipo.REFORCO);
@@ -586,15 +603,60 @@ public class PdvService {
 		pdvValor.setValor(valor);
 		pdvValorDao.insert(pdvValor);
 	}
-	
+
+	public void retiradaCaixa(Finalizadora finalizadora, Historico historico, Usuario usuario, double valor){
+		//REGRA 1: pdv deve estar aberto
+		//REGRA 2: verificar finalizadora se preenchida
+		//REGRA 3: verificar hitórico preenchido e se é de retirada
+		//REGRA 4: verificar usuário preenchido
+		//REGRA 5: o valor deve ser maior que zero
+		//REGRA 6: alimentar a variavel com as informações dos valores e persistir no banco
+
+		//REGRA 1
+		verificaPdvAberto(pdv);
+
+		//REGRA 2
+		if (finalizadora == null){
+			throw new UserException(msg_padrao + "Informar uma finalizadora para a retirada!");
+		}
+
+		//REGRA 3
+		if (historico == null || historico.getTipo() != HistoricoTipo.RETIRADA){
+			throw new UserException(msg_padrao + "Informar um histórico para a retirada!");
+		}
+
+		//REGRA 4
+		if (usuario == null){
+			throw new UserException(msg_padrao + "Informar um usuário para a retirada");
+		}
+
+		//REGRA 5
+		if (valor <= 0){
+			throw new UserException(msg_padrao + "O valor do reforçao precisa ser maior que zero!");
+		}
+
+		//REGRA 6
+		PdvValor pdvValor = new PdvValor();
+		pdvValor.setDataHora(this.pdv.getDataAbertura());
+		pdvValor.setTipo(PdvValorTipo.RETIRADA);
+		pdvValor.setFinalizadora(finalizadora);
+		pdvValor.setPdv(this.pdv);
+		pdvValor.setUsuario1(operadorAtual);
+		pdvValor.setUsuario2(usuario);
+		pdvValor.setValor(valor);
+
+		this.pdvValorDao.insert(pdvValor);
+	}
+
 	public void trocaOperador(Usuario novoOperador) {
 		//REGRA 1: pdv deve estar aberto
-		//REGRA 2: alterar operador pdv e persistir
+		//REGRA 2: verificar configuração se irá fazer a sangia ou manter o valor das finalizadoras
+		//REGRA 3: alterar operador pdv e persistir
 		
 		//REGRA 1
 		verificaPdvAberto(pdv);
 		
-		//REGRA 2
+		//REGRA 3
 		pdv.setOperador(novoOperador);
 		pdvDao.update(pdv);
 	}
@@ -658,5 +720,39 @@ public class PdvService {
 		}
 
 	}
-	
+
+	public List<ProdutoCategoria> consultaClassiticacaoProduto(final ProdutoCategoria produtoCategoria){
+		//REGRA 1: se parametro vier nulo então traz todas as classificações padrão, se o parametro vier preenchido então
+		//lista todas as classificações que tem a classificação passada por parametro associada a elas.
+		FuncionaisFilters<ProdutoCategoria> filtro = new FuncionaisFilters<ProdutoCategoria>() {
+			@Override
+			public boolean test(ProdutoCategoria p) {
+				return produtoCategoria == null ? p.getProdutoCategoria() == null :
+						p.getProdutoCategoria().getId() == produtoCategoria.getId();
+			}
+		};
+		return AppContext.get().getDao(ProdutoCategoriaDao.class).listCache(filtro);
+	}
+
+	public List<Produto> consultaProduto(final ProdutoCategoria produtoCategoria, final String codigoDescricao){
+		FuncionaisFilters<Produto> filtro = new FuncionaisFilters<Produto>() {
+			@Override
+			public boolean test(Produto p) {
+				if (produtoCategoria == null &&
+						(String.valueOf(p.getCodigo()).toLowerCase().contains(codigoDescricao) ||
+						 p.getDescricao().toLowerCase().contains(codigoDescricao)))
+					return true;
+
+				if (produtoCategoria != null && p.getProdutoCategoria().getId() == produtoCategoria.getId() &&
+						(String.valueOf(p.getCodigo()).toLowerCase().contains(codigoDescricao) ||
+								p.getDescricao().toLowerCase().contains(codigoDescricao)))
+					return true;
+
+				return false;
+			}
+		};
+
+		return AppContext.get().getDao(ProdutoDao.class).listCache(filtro);
+	}
+
 }

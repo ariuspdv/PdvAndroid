@@ -24,7 +24,12 @@ public class Metadata {
 			    "    login VARCHAR2(15) NOT NULL UNIQUE, " +
 			    "    senha VARCHAR2(15) NOT NULL, " +
 			    "    tipo INTEGER NOT NULL);",
-				
+
+				"CREATE TABLE empresas(" +
+				"    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+				"    razao_social VARCHAR2(100), " +
+				"    nome_fantasia VARCHAR2(100)); ",
+
 			    "CREATE TABLE unidades_medidas(" +
 			    "    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
 			    "    descricao VARCHAR2(50), " +
@@ -38,21 +43,40 @@ public class Metadata {
 			    "    permitetroco BOOLEAN DEFAULT 0, " +
 			    "    aceitasangria BOOLEAN DEFAULT 0); ",
 
+				"CREATE TABLE produtos_categorias(" +
+				"    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+				"    descricao VARCHAR2(50), " +
+				"    produtocategoria_id INTEGER REFERENCES produtos_categorias(id)); ",
+
 			    "CREATE TABLE produtos(" +
 			    "    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
 			    "    codigo INT64 NOT NULL, " +
 			    "    descricao VARCHAR2(100), " +
 			    "    descricaoreduzida VARCHAR2(50), " +
-			    "    unidademedida_id INTEGER REFERENCES unidades_medidas(id)); ",
+			    "    unidademedida_id INTEGER REFERENCES unidades_medidas(id)," +
+				"	 produtocategoria_id INTEGER REFERENCES produtos_categorias(id)," +
+				"	 principal BOOLEAN DEFAULT 0); ",
+
+                "CREATE TABLE produtos_precos(" +
+                        "    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "    empresa_id INTEGER REFERENCES empresas(id)," +
+                        "	 produto_id INTEGER REFERENCES produtos(id)," +
+                        "    valor_venda DOUBLE(15, 2)); ",
+
+				"CREATE TABLE historicos(" +
+						"    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+						"    descricao VARCHAR2(50), " +
+						"    tipo INT); ",
 
 			    "CREATE TABLE pdvs(" +
 			    "    id INTEGER PRIMARY KEY AUTOINCREMENT, " +
 			    "    saldodinheiro DOUBLE(15, 2) DEFAULT 0, " +
 			    "    operador_id INTEGER REFERENCES usuarios(id), " +
 			    "    vendaativa_id INTEGER REFERENCES vendas(id), " +
-			    "    aberto BOOLEAN NOT NULL DEFAULT False," +
+			    "    status INT NOT NULL," +
 			    "	 codigo_pdv INTEGER," + 
-			    "	 dataabertura DATETIME); ",
+			    "	 dataabertura DATETIME, " +
+				"	 empresa_id INTEGER REFERENCES empresas(id)); ",
 
 			    "CREATE TABLE pdvs_valores(" +
 			    "    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +

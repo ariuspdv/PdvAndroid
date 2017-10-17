@@ -101,11 +101,15 @@ public class AriusAutoCompleteTextView extends AppCompatAutoCompleteTextView {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 entity = (Entity) adapterView.getItemAtPosition(i);
-                ((AriusCursorAdapter) getAdapter()).setEntity_selecionada(entity);
+                getAriusCursorAdapter().setEntity_selecionada(entity);
                 String vreturn = "";
-                if (campos_exibir != null)
-                    for(int vi = 0; campos_exibir.length > vi; vi++)
-                        vreturn = AndroidUtils.valor_Campo(entity,campos_exibir[vi]);
+                if (getAriusCursorAdapter().getFiltros() != null){
+                    vreturn = getAriusCursorAdapter().getFiltros().exibircampoSelecionado(entity);
+                } else {
+                    if (campos_exibir != null)
+                        for (int vi = 0; campos_exibir.length > vi; vi++)
+                            vreturn = AndroidUtils.valor_Campo(entity, campos_exibir[vi]);
+                }
                 setText(vreturn);
             }
         });
@@ -145,6 +149,10 @@ public class AriusAutoCompleteTextView extends AppCompatAutoCompleteTextView {
             return adapter;
         }
         return null;
+    }
+
+    public AriusCursorAdapter getAriusCursorAdapter(){
+        return (AriusCursorAdapter) getAdapter();
     }
 
     @Override
