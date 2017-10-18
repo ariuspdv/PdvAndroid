@@ -136,7 +136,13 @@ public class AriusActivityProdutoPrincipal extends ActivityPadrao {
 
         PdvService.get().insereVendaItem(vndItem);
 
-        AndroidUtils.toast(context,vndItem.getProduto().getDescricao() + " \n Incluido na venda!");
+        Object t = getAppContext();
+
+        if (this.context == null)
+            this.context = getAppContext();
+
+        AndroidUtils.toast(this.context,
+                                vndItem.getProduto().getDescricao() + " \n Incluido na venda!");
 
         progressBar(false);
     }

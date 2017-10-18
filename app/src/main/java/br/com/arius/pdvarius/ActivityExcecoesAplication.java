@@ -1,12 +1,14 @@
 package br.com.arius.pdvarius;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Process;
 import android.util.Log;
 
+import arius.pdv.core.ApplicationException;
 import arius.pdv.core.UserException;
 
 public class ActivityExcecoesAplication extends Application {

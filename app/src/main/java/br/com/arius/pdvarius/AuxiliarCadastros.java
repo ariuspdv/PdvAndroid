@@ -32,6 +32,7 @@ public class AuxiliarCadastros {
 
         produto.setCodigo(789123456);
         produto.setDescricao("Produto Teste 1");
+        produto.setPrincipal(true);
         produto.setDescricaoReduzida("Produto Teste 1");
 
         AppContext.get().getDao(ProdutoDao.class).insert(produto);
@@ -44,6 +45,7 @@ public class AuxiliarCadastros {
 
         produto.setCodigo(789123458);
         produto.setDescricao("Produto Teste 3");
+        produto.setPrincipal(true);
         produto.setDescricaoReduzida("Produto Teste 3");
 
         AppContext.get().getDao(ProdutoDao.class).insert(produto);

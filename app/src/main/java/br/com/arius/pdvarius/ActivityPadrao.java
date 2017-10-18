@@ -1,5 +1,6 @@
 package br.com.arius.pdvarius;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,7 +32,16 @@ public class ActivityPadrao extends AppCompatActivity {
     private boolean iconeVendaStatus;
     private ImageView imgVensaStatus;
     private static ActivityPadrao activityPadrao;
+    private Context appContext;
 
+
+    public Context getAppContext(){
+        try {
+            return activityPadrao.getApplicationContext();
+        } catch (Exception e){
+            return null;
+        }
+    }
 
     @Override
     protected void onPause() {
@@ -78,7 +88,7 @@ public class ActivityPadrao extends AppCompatActivity {
 
         //Esse create faz o trabalho de inicialization da aplicação
         AppContext.get();
-
+        appContext = getApplicationContext();
         super.onCreate(savedInstanceState);
     }
 

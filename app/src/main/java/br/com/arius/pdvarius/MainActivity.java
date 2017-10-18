@@ -57,7 +57,7 @@ public class MainActivity extends ActivityPadrao {
 //        auxiliarCadastros.cadastroeHistorico();
 //        auxiliarCadastros.cadastroProdutoClassificacao();
 //        auxiliarCadastros.alteraProdutoClassificacao();
-//
+
 //        Produto produto = AppContext.get().getDao(ProdutoDao.class).find(1);
 //        produto.setUnidadeMedida(AppContext.get().getDao(UnidadeMedidaDao.class).find(1));
 //
