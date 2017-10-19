@@ -247,8 +247,12 @@ public class AriusActivityFuncoes extends ActivityPadrao {
                 if (PdvService.get().getVendaAtiva() == null){
                     AndroidUtils.toast(context,"Nenhuma venda ativa para cancelar!");
                 } else {
-                    PdvService.get().getVendaAtiva().setSituacao(VendaSituacao.CANCELADA);
-                    AppContext.get().getDao(VendaDao.class).update(PdvService.get().getVendaAtiva());
+                    if (PdvService.get().getVendaAtiva().getSituacao() == VendaSituacao.CANCELADA)
+                        throw new UserException("Venda já cancelada!");
+                    else {
+                        PdvService.get().getVendaAtiva().setSituacao(VendaSituacao.CANCELADA);
+                        AppContext.get().getDao(VendaDao.class).update(PdvService.get().getVendaAtiva());
+                    }
                 }
             }
         });

@@ -7,8 +7,12 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TabHost;
@@ -18,18 +22,26 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import arius.pdv.base.PdvDao;
+import arius.pdv.base.PdvService;
+import arius.pdv.base.PdvUtil;
 import arius.pdv.base.Produto;
 import arius.pdv.base.ProdutoCategoria;
 import arius.pdv.base.ProdutoCategoriaDao;
 import arius.pdv.base.ProdutoDao;
+import arius.pdv.base.Venda;
+import arius.pdv.base.VendaDao;
+import arius.pdv.base.VendaItem;
 import arius.pdv.base.VendaSituacao;
 import arius.pdv.core.AppContext;
 import arius.pdv.core.FuncionaisFilters;
+import arius.pdv.db.AndroidUtils;
 import arius.pdv.db.AriusCursorAdapter;
 
 /**
@@ -45,9 +57,15 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
     private EditText dtInicio;
     private EditText dtFim;
     private Calendar newDate;
+    private ListView grdListagemVenda;
+    private ImageButton btnPesquisar;
+    private TabHost host;
+    private Date dataInicio;
+    private Date dataFim;
 
     private ProdutoCategoria produtoCategoria;
     private Produto produto;
+    private String situacao = null;
 
     private Spinner cmbCategoria;
     private Spinner cmbProduto;
@@ -60,7 +78,17 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
 
         setButtons(true, false, false);
 
-        TabHost host = (TabHost)findViewById(R.id.tabhost);
+        grdListagemVenda = (ListView) findViewById(R.id.grdListagemVenda);
+        btnPesquisar = (ImageButton) findViewById(R.id.btnListagemVendaPesquisar);
+
+        btnPesquisar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pesquisaVendas();
+            }
+        });
+
+        host = (TabHost)findViewById(R.id.tabhost);
         host.setup();
 
         //Tab 1
@@ -87,7 +115,27 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
         carregaProdutos();
         carregaSituacoes();
 
-        host.setCurrentTab(3);
+        host.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String s) {
+                grdListagemVenda.setAdapter(null);
+            }
+        });
+
+        host.setCurrentTab(2);
+
+        grdListagemVenda.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Venda entity = (Venda) adapterView.getItemAtPosition(i);
+                PdvService.get().getPdv().setVendaAtiva(entity);
+                AppContext.get().getDao(PdvDao.class).update(PdvService.get().getPdv());
+
+                onBackPressed();
+
+                AriusActivityPrincipal.setNavigation();
+            }
+        });
     }
 
     private void carregaCamposData(){
@@ -104,6 +152,8 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
         /*O comando abaixo coloca o campo em readonly*/
         dtInicio.setKeyListener(null);
         dtFim.setKeyListener(null);
+        dataInicio = newDate.getTime();
+        dataFim = newDate.getTime();
 
         dtInicio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +173,7 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
     }
 
     private void criarDialogDataPicker(){
+        cancelDatePichker = false;
         try {
             newDate.setTime(dateFormatter.parse(dtInicio.getText().toString()));
             mYear = newDate.get(Calendar.YEAR);
@@ -139,19 +190,23 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
                         if (!cancelDatePichker) {
-                            if (focusDataInicio)
+                            if (focusDataInicio) {
                                 dtInicio.setText(String.valueOf(dayOfMonth) + "/" +
                                         String.valueOf(monthOfYear + 1) + "/" +
                                         String.valueOf(year));
-                            else
+                                newDate.set(year,monthOfYear,dayOfMonth);
+                                dataInicio = newDate.getTime();
+                            } else {
                                 dtFim.setText(String.valueOf(dayOfMonth) + "/" +
                                         String.valueOf(monthOfYear + 1) + "/" +
                                         String.valueOf(year));
+                                newDate.set(year,monthOfYear,dayOfMonth);
+                                dataFim = newDate.getTime();
+                            }
+                            grdListagemVenda.setAdapter(null);
                         }
                     }
                 },mYear, mMonth, mDay);
-
-
 
         // Create a TextView programmatically.
         TextView tv = new TextView(datePickerDialog.getContext());
@@ -174,12 +229,8 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
         datePickerDialog.setCustomTitle(tv);
         datePickerDialog.getDatePicker().setSpinnersShown(false);
 
-        datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Confirmar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                cancelDatePichker = false;
-            }
-        });
+        datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Confirmar", datePickerDialog);
+
         datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -216,6 +267,17 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
         cmbCategoria = (Spinner) findViewById(R.id.cbmListageVendaCategoria);
         cmbCategoria.setAdapter(adapter_categoria);
 
+        cmbCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                produtoCategoria = (ProdutoCategoria) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private void carregaProdutos(){
@@ -242,6 +304,18 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
 
         cmbProduto = (Spinner) findViewById(R.id.cbmListageVendaProduto);
         cmbProduto.setAdapter(adapter_produto);
+
+        cmbProduto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                produto = (Produto) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
     }
 
@@ -270,5 +344,78 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
         cmbSituacao = (Spinner) findViewById(R.id.cbmListageVendaSituacao);
         cmbSituacao.setAdapter(adapter_situacao);
 
+        cmbSituacao.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                progressBar(true);
+                situacao = adapterView.getItemAtPosition(i).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private void pesquisaVendas(){
+        List vendas = AppContext.get().getDao(VendaDao.class).listCache(new FuncionaisFilters<Venda>() {
+            @Override
+            public boolean test(Venda p) {
+                if (PdvUtil.entre_Datas(p.getDataHora(),dataInicio,dataFim)) {
+                    if (host.getCurrentTab() == 2 && situacao != null) {
+                        if (situacao.toUpperCase().equals("TODAS"))
+                            return true;
+                        if (p.getSituacao().toString().toLowerCase().equals(situacao.toLowerCase()))
+                            return true;
+                    }
+
+                    if (host.getCurrentTab() == 1 && produto != null) {
+                        for (VendaItem litem : p.getItens()) {
+                            if (litem.getProduto().getId() == produto.getId())
+                                return true;
+                        }
+                    }
+
+                    if (host.getCurrentTab() == 1 && produtoCategoria != null) {
+                        for (VendaItem litem : p.getItens()) {
+                            if (litem.getProduto().getProdutoCategoria().getId() == produtoCategoria.getId())
+                                return true;
+                        }
+                    }
+                }
+                return false;
+            }
+        });
+
+        AriusCursorAdapter adapter_vendas = new AriusCursorAdapter(getAppContext(),
+                R.layout.layoutvendalistagem,
+                R.layout.layoutvendalistagem,
+                null,
+                vendas);
+
+        adapter_vendas.setMontarCamposTela(new AriusCursorAdapter.MontarCamposTela() {
+            @Override
+            public void montarCamposTela(Object p, View v) {
+                Venda venda = (Venda) p;
+                TextView campoaux = v.findViewById(R.id.edtVendaListagemID);
+                if (campoaux != null)
+                    campoaux.setText(String.valueOf(venda.getId()));
+                campoaux = v.findViewById(R.id.edtVendaListagemValor);
+                if (campoaux != null)
+                    campoaux.setText(AndroidUtils.FormatarValor_Monetario(venda.getValorLiquido()));
+                campoaux = v.findViewById(R.id.edtVendaListagemData);
+                if (campoaux != null)
+                    campoaux.setText(PdvUtil.converteData_texto(venda.getDataHora()));
+
+                ImageView imgStatusVenda = v.findViewById(R.id.imgVendaListagemSituacao);
+                imgStatusVenda.setImageResource(((Venda) p).getSituacao() == VendaSituacao.ABERTA ? R.mipmap.vendaaberta :
+                        ((Venda) p).getSituacao() == VendaSituacao.FECHADA ? R.mipmap.vendafechada :
+                                ((Venda) p).getSituacao() == VendaSituacao.CANCELADA ? R.mipmap.vendacancelada : 0);
+
+            }
+        });
+
+        grdListagemVenda.setAdapter(adapter_vendas);
     }
 }

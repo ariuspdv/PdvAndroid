@@ -60,10 +60,12 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
 
         pesquisaCategoria(0);
 
-        LinearLayout lteste = view.findViewById(R.id.frmProdCategoria);
-        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) lteste.getLayoutParams();
-        lp.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,65 + (90 * 2), this.context.getResources().getDisplayMetrics());
-        lteste.setLayoutParams(lp);
+        /*Comando abaixo fixa a quantidade de categorias que será exibida em tela*/
+        // comentado para ver o que irá fazer quando muda a orientação.
+//        LinearLayout lteste = view.findViewById(R.id.frmProdCategoria);
+//        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) lteste.getLayoutParams();
+//        lp.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,65 + (90 * 0), this.context.getResources().getDisplayMetrics());
+//        lteste.setLayoutParams(lp);
 
         produtoCategoriaSelecionado = null;
 

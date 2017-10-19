@@ -25,4 +25,20 @@ public class PdvUtil {
 		return false;
     }
 
+	public static boolean entre_Datas(Date data,Date data1, Date data2) {
+		SimpleDateFormat vsdf = new SimpleDateFormat("dd/MM/yyyy");
+		try{
+			if ((vsdf.parse(vsdf.format(data)).after(vsdf.parse(vsdf.format(data1))) &&
+					vsdf.parse(vsdf.format(data)).before(vsdf.parse(vsdf.format(data2)))) ||
+				(vsdf.parse(vsdf.format(data)).equals(vsdf.parse(vsdf.format(data1))) ||
+					vsdf.parse(vsdf.format(data)).equals(vsdf.parse(vsdf.format(data2)))))
+					return true;
+
+
+		}catch (Exception ex){
+			new ApplicationException();
+		}
+		return false;
+	}
+
 }

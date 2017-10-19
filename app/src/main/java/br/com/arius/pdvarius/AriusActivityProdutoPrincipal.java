@@ -111,8 +111,13 @@ public class AriusActivityProdutoPrincipal extends ActivityPadrao {
             });
 
             grdProdPrincipal.setAdapter(adapter_item);
-        } else
-            AndroidUtils.toast(this.context,"Nenhum produto encontrado para a categoria!");
+        } else{
+            if (categoria_id == 0)
+                AndroidUtils.toast(this.context,"Nenhum produto encontrado como principal!");
+            else
+                AndroidUtils.toast(this.context,"Nenhum produto encontrado para a categoria!");
+        }
+
     }
 
     public void inserirItemVenda(Produto produto){
@@ -141,8 +146,7 @@ public class AriusActivityProdutoPrincipal extends ActivityPadrao {
         if (this.context == null)
             this.context = getAppContext();
 
-        AndroidUtils.toast(this.context,
-                                vndItem.getProduto().getDescricao() + " \n Incluido na venda!");
+        AndroidUtils.toast(this.context,vndItem.getProduto().getDescricao() + " \n Incluido na venda!");
 
         progressBar(false);
     }

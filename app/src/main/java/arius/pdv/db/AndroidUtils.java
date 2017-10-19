@@ -4,6 +4,7 @@ package arius.pdv.db;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -186,6 +187,7 @@ public class AndroidUtils {
         LinearLayout toastLayout = (LinearLayout) toast.getView();
         TextView toastTV = (TextView) toastLayout.getChildAt(0);
         toastTV.setTextSize(30);
+        toastTV.setGravity(Gravity.CENTER);
         toast.show();
     }
 }

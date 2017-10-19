@@ -6,7 +6,13 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
+import arius.pdv.base.PdvService;
+import arius.pdv.db.AndroidUtils;
+
 public class AriusActivityPrincipal extends ActivityPadrao {
+
+    private static BottomNavigationView navigation;
+    private static boolean criandoTela;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -21,25 +27,53 @@ public class AriusActivityPrincipal extends ActivityPadrao {
                     montaFragmento(FragmentActivityItemVenda.class);
                     return true;
                 case R.id.navigation_finalizadorasvenda:
-                    montaFragmento(FragmentActivityFinalizadoraVenda.class);
-                    return true;
+                    if (PdvService.get().getVendaAtiva() == null) {
+                        AndroidUtils.toast(getAppContext(),"Não existe venda ativa para finalizar!");
+                        return false;
+                    } else {
+                        montaFragmento(FragmentActivityFinalizadoraVenda.class);
+                        return true;
+                    }
                 case R.id.navigation_funcoes:
                     montaFragmento(FragmentActivityFuncoes.class);
                     return true;
             }
             return false;
         }
-
     };
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_arius_principal);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        criandoTela = true;
+        setAbaNavigator();
+
+    }
+
+    public static void setNavigation(){
+        setAbaNavigator();
+    }
+
+    private static void setAbaNavigator(){
+        if (criandoTela) {
+            navigation.setSelectedItemId(R.id.navigation_prodcategoria);
+            criandoTela = false;
+        } else {
+            if (PdvService.get().getVendaAtiva() == null)
+                navigation.setSelectedItemId(R.id.navigation_prodcategoria);
+            else
+                navigation.setSelectedItemId(R.id.navigation_itensvenda);
+        }
     }
 
     private void montaFragmento(Class nomeClasseFragment){

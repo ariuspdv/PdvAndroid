@@ -26,9 +26,8 @@
     <GridView
         android:id="@+id/grdProduto_Categoria"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:elevation="0dp"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
         android:numColumns="4" />
 
 </LinearLayout>
