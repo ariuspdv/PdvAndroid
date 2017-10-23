@@ -1,12 +1,19 @@
 package br.com.arius.pdvarius;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.internal.BottomNavigationItemView;
+import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
+import java.lang.reflect.Field;
+
 import arius.pdv.base.PdvService;
+import arius.pdv.base.PdvTipo;
 import arius.pdv.db.AndroidUtils;
 
 public class AriusActivityPrincipal extends ActivityPadrao {
@@ -45,6 +52,10 @@ public class AriusActivityPrincipal extends ActivityPadrao {
     @Override
     protected void onStart(){
         super.onStart();
+        if (getPesquisaVenda()) {
+            setNavigation();
+            setPesquisaVenda(false);
+        }
     }
 
     @Override
@@ -54,6 +65,7 @@ public class AriusActivityPrincipal extends ActivityPadrao {
 
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        BottomNavigationViewHelper.disableShiftMode(navigation);
 
         criandoTela = true;
         setAbaNavigator();
@@ -73,6 +85,15 @@ public class AriusActivityPrincipal extends ActivityPadrao {
                 navigation.setSelectedItemId(R.id.navigation_prodcategoria);
             else
                 navigation.setSelectedItemId(R.id.navigation_itensvenda);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (PdvService.get().getPdv().getStatus() != PdvTipo.FECHADO) {
+            setNavigation();
+            super.onStart();
         }
     }
 
@@ -110,4 +131,30 @@ public class AriusActivityPrincipal extends ActivityPadrao {
         ft.commit();
     }
 
+
+    public static class BottomNavigationViewHelper {
+        public static void disableShiftMode(BottomNavigationView view) {
+            BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
+            try {
+                Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
+                shiftingMode.setAccessible(true);
+                shiftingMode.setBoolean(menuView, false);
+                shiftingMode.setAccessible(false);
+                for (int i = 0; i < menuView.getChildCount(); i++) {
+                    BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
+                    //noinspection RestrictedApi
+                    item.setShiftingMode(false);
+                    // set once again checked value, so view will be updated
+                    //noinspection RestrictedApi
+                    item.setChecked(item.getItemData().isChecked());
+                }
+            } catch (NoSuchFieldException e) {
+                // Log.e("BNVHelper", "Unable to get shift mode field", e);
+            } catch (IllegalAccessException e) {
+                // Log.e("BNVHelper", "Unable to change value of shift mode", e);
+            }
+        }
+    }
+
 }
+

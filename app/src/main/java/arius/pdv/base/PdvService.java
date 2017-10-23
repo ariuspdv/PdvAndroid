@@ -20,9 +20,6 @@ public class PdvService {
 	//Daos
 	private UsuarioDao usuarioDao;
 	private PdvDao pdvDao;
-	//private UnidadeMedidaDao unidadeMedidaDao;
-	//private ProdutoDao produtoDao;
-	//private FinalizadoraDao finalizadoraDao;
 	private VendaDao vendaDao;
 	private VendaItemDao vendaItemDao;
 	private VendaFinalizadoraDao vendaFinalizadoraDao;
@@ -86,7 +83,7 @@ public class PdvService {
 		if (pdv.getStatus() != PdvTipo.ABERTO)
 			throw new UserException(msg_padrao + "O caixa está " + this.pdv.getStatus().toString());
 
-		if (!fechandoCaixa && PdvUtil.comparar_Datas(pdv.getDataAbertura(), new Date())) {
+		if (!fechandoCaixa && !PdvUtil.comparar_Datas(pdv.getDataAbertura(), new Date())) {
 			throw new UserException(msg_padrao + "O caixa do dia " + PdvUtil.converteData_texto(pdv.getDataAbertura()) +
 					" está aberto, fechar o caixa e abrir novamente com a data atual!");
 		}
@@ -235,6 +232,7 @@ public class PdvService {
 		
 		//REGRA 10
 		this.pdv.setVendaAtiva(null);
+		this.vendaAtiva = null;
 		this.pdvDao.update(this.pdv);
 
 	}

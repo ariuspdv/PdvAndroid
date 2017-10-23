@@ -31,6 +31,7 @@ public class AriusActivityFuncoes extends ActivityPadrao {
     private ImageButton btnFechaVenda;
     private ImageButton btnCancelarVenda;
     private ImageButton btnListabgeVenda;
+    private ImageButton btnRetirada;
     private Context context;
 
     @Override
@@ -61,6 +62,7 @@ public class AriusActivityFuncoes extends ActivityPadrao {
             btnFechaVenda = (ImageButton) findViewById(R.id.btnFuncoesFechaVenda);
             btnCancelarVenda = (ImageButton) findViewById(R.id.btnFuncoesCancelaVenda);
             btnListabgeVenda = (ImageButton) findViewById(R.id.btnFuncoesVendas);
+            btnRetirada = (ImageButton) findViewById(R.id.btnFuncoesRetirada);
         } else {
             btnReforco = view.findViewById(R.id.btnFuncoesReforco);
             btnFecharCaixa = view.findViewById(R.id.btnFuncoesFecharCaixa);
@@ -68,6 +70,7 @@ public class AriusActivityFuncoes extends ActivityPadrao {
             btnFechaVenda = view.findViewById(R.id.btnFuncoesFechaVenda);
             btnCancelarVenda = view.findViewById(R.id.btnFuncoesCancelaVenda);
             btnListabgeVenda = view.findViewById(R.id.btnFuncoesVendas);
+            btnRetirada = view.findViewById(R.id.btnFuncoesRetirada);
         }
 
         if (btnReforco != null){
@@ -92,6 +95,10 @@ public class AriusActivityFuncoes extends ActivityPadrao {
 
         if (btnListabgeVenda != null) {
             btnListabgeVenda();
+        }
+
+        if (btnRetirada != null) {
+            btnRetirada();
         }
 
     }
@@ -196,7 +203,7 @@ public class AriusActivityFuncoes extends ActivityPadrao {
                     return;
 
                 Intent intent = new Intent(context, AriusActivityResumoCaixa.class);
-                intent.putExtra("sangria",false);
+                intent.putExtra("funcaoExecutar","FecharCaixa");
 
                 context.startActivity(intent);
             }
@@ -212,7 +219,7 @@ public class AriusActivityFuncoes extends ActivityPadrao {
                     return;
 
                 Intent intent = new Intent(context, AriusActivityResumoCaixa.class);
-                intent.putExtra("sangria",true);
+                intent.putExtra("funcaoExecutar","Sangria");
 
                 context.startActivity(intent);
             }
@@ -266,6 +273,21 @@ public class AriusActivityFuncoes extends ActivityPadrao {
                     return;
 
                 Intent intent = new Intent(context, AriusActivityListagemVenda.class);
+
+                context.startActivity(intent);
+            }
+        });
+    }
+
+    private void btnRetirada(){
+        btnRetirada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!validaStatusPDV())
+                    return;
+
+                Intent intent = new Intent(context, AriusActivityResumoCaixa.class);
+                intent.putExtra("funcaoExecutar","Retirada");
 
                 context.startActivity(intent);
             }

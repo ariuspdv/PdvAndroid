@@ -137,6 +137,11 @@ public class AuxiliarCadastros {
 
         AppContext.get().getDao(HistoricoDao.class).insert(historico);
 
+        historico.setDescricao("Vale");
+        historico.setTipo(HistoricoTipo.RETIRADA);
+
+        AppContext.get().getDao(HistoricoDao.class).insert(historico);
+
     }
 
     public void cadastroProdutoClassificacao(){

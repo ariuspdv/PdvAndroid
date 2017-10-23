@@ -95,7 +95,9 @@ public class Metadata {
 			    "    situacao INT, " +
 			    "    data_hora DATETIME, " +
 			    "    cpf_cnpj VARCHAR2(14), " +
-			    "    valor_troco DOUBLE(15, 2)); ",
+			    "    valor_troco DOUBLE(15, 2), " +
+				"	 desconto DOUBLE(15, 2), " +
+				" 	 acrescimo DOUBLE(15, 2)); ",
 
 			    "CREATE TABLE vendas_Itens(" +
 			    "    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
@@ -110,7 +112,9 @@ public class Metadata {
 			    "    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
 			    "    venda_id INTEGER NOT NULL REFERENCES vendas(id), " +
 			    "    finalizadora_id INTEGER NOT NULL, " +
-			    "    valor DOUBLE(15, 2)); ",			    
+			    "    valor DOUBLE(15, 2), " +
+				"    desconto DOUBLE(15, 2), " +
+				"    juro DOUBLE(15, 2)); ",
 			   //O comando abaixo é para atualizar a versão do banco;				
 			    "PRAGMA user_version = " + ULTIMA_VERSAO_METADATA + ";"};		
 		return vcmd;

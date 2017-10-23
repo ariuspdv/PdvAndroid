@@ -16,7 +16,8 @@ public class VendaDao extends GenericDao<Venda> {
 	@Override
 	public void init(){
 		tableName =  "vendas";
-		fields = new String[]{"pdv_id","operador_id","situacao","data_hora","cpf_cnpj","valor_troco"};
+		fields = new String[]{"pdv_id","operador_id","situacao","data_hora","cpf_cnpj","valor_troco",
+								"desconto","acrescimo"};
 		cacheable = true;
 
 		pdvDao = AppContext.get().getDao(PdvDao.class);
@@ -36,6 +37,8 @@ public class VendaDao extends GenericDao<Venda> {
 		entity.setDataHora(resultSet.getTimestamp("data_hora"));
 		entity.setCpfCnpj(resultSet.getString("cpf_cnpj"));
 		entity.setValorTroco(resultSet.getDouble("valor_troco"));
+		entity.setDesconto(resultSet.getDouble("desconto"));
+		entity.setAcrescimo(resultSet.getDouble("acrescimo"));
 		
 		//coleções
 		atualizaItens(entity);
@@ -62,6 +65,10 @@ public class VendaDao extends GenericDao<Venda> {
 			stInsertUpdate.setObject("cpf_cnpj", null);
 		}
 		stInsertUpdate.setDouble("valor_troco", entity.getValorTroco());
+
+		stInsertUpdate.setDouble("desconto", entity.getDesconto());
+
+		stInsertUpdate.setDouble("acrescimo", entity.getAcrescimo());
 		
 		//Deixar sempre por ultimo este campo, pois é usado no momento de montar a condição para o update
 		if (!stInsertUpdate.getInsert()){

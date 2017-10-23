@@ -14,11 +14,7 @@ public class PdvUtil {
     public static boolean comparar_Datas(Date data1, Date data2) {
         SimpleDateFormat vsdf = new SimpleDateFormat("dd/MM/yyyy");
         try{
-        	if (vsdf.parse(vsdf.format(data1)).before(vsdf.parse(vsdf.format(data2))) ||
-        		vsdf.parse(vsdf.format(data1)).after(vsdf.parse(vsdf.format(data2))))
-        		return true;
-        	else
-        		return false;
+        	return (vsdf.parse(vsdf.format(data1)).equals(vsdf.parse(vsdf.format(data2))));
         }catch (Exception ex){
         	new ApplicationException();
         }

@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/lbResumoCaixaRodapeCapo1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -23,10 +23,11 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/edtlayoutItemVendaRodapeTotItem"
+            android:id="@+id/edtResumoCaixaRodapeCapo1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
             android:text="R$ 0,00"
             android:textAlignment="textEnd"
             android:textSize="50sp"
@@ -41,7 +42,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/lbResumoCaixaRodapeCapo2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -51,7 +52,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/edtlayoutItemVendaRodapeValorVenda"
+            android:id="@+id/edtResumoCaixaRodapeCapo2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
