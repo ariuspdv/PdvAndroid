@@ -8,7 +8,7 @@
     <string name="title_activity_entrada"></string>
 
     <!-- Textos para tela de entrada -->
-    <string name="lbTitulo_Entrada">Abertura do Caixa</string>
+    <string name="lbTitulo_Entrada">ABERTURA DO CAIXA</string>
     <string name="btn_Abrir_Caixa">Abrir Caixa</string>
 
     <string name="msgCrash">Exception <b>\"%1$s\"</b> has been successfully caught!\n</string>
