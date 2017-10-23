@@ -32,8 +32,7 @@ public class ActivityPadrao extends AppCompatActivity {
     private boolean iconeVendaStatus;
     private ImageView imgVensaStatus;
     private static ActivityPadrao activityPadrao;
-    private Context appContext;
-
+    private static boolean pesquisaVenda;
 
     public Context getAppContext(){
         try {
@@ -41,6 +40,14 @@ public class ActivityPadrao extends AppCompatActivity {
         } catch (Exception e){
             return null;
         }
+    }
+
+    public static void setPesquisaVenda(boolean pesquisaVendal){
+        pesquisaVenda = pesquisaVendal;
+    }
+
+    public static boolean getPesquisaVenda(){
+        return pesquisaVenda;
     }
 
     @Override
@@ -88,7 +95,6 @@ public class ActivityPadrao extends AppCompatActivity {
 
         //Esse create faz o trabalho de inicialization da aplicação
         AppContext.get();
-        appContext = getApplicationContext();
         super.onCreate(savedInstanceState);
     }
 

@@ -133,7 +133,7 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
 
                 onBackPressed();
 
-                AriusActivityPrincipal.setNavigation();
+                setPesquisaVenda(true);
             }
         });
     }

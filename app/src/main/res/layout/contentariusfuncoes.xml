@@ -27,6 +27,23 @@
                 android:orientation="horizontal">
 
                 <ImageButton
+                    android:id="@+id/btnFuncoesVendas"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/funcoes_vendas" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageButton
                     android:id="@+id/btnFuncoesSangria"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -102,14 +119,22 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/btnFuncoesVendas"
+                    android:id="@+id/btnFuncoesConfig"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/funcoes_configuracoes" />
+
+                <ImageButton
+                    android:id="@+id/btnFuncoesSincronizacao"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/funcoes_vendas" />
-
+                    app:srcCompat="@drawable/funcoes_sincronizar" />
             </LinearLayout>
 
         </LinearLayout>

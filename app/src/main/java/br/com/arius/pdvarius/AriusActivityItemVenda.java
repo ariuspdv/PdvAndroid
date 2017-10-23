@@ -148,13 +148,17 @@ public class AriusActivityItemVenda extends ActivityPadrao {
                         campoAux.setText(AndroidUtils.FormatarValor_Monetario(vendaItem.getValorLiquido()));
 
                     ImageView imgaux = v.findViewById(R.id.imgItemVendaDelete);
-                    imgaux.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            grdItemVenda.getAriusCursorAdapter().remove(p);
-                            deleteVendaItem(p);
-                        }
-                    });
+                    if (vendaItem.getVenda().getSituacao() == VendaSituacao.ABERTA) {
+                        imgaux.setVisibility(View.VISIBLE);
+                        imgaux.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                grdItemVenda.getAriusCursorAdapter().remove(p);
+                                deleteVendaItem(p);
+                            }
+                        });
+                    } else
+                        imgaux.setVisibility(View.GONE);
                 }
             });
 
@@ -171,6 +175,8 @@ public class AriusActivityItemVenda extends ActivityPadrao {
             });
 
             grdItemVenda.setAdapter(venda_itens);
+
+            grdItemVenda.setSwipe_Delete(PdvService.get().getVendaAtiva().getSituacao() == VendaSituacao.ABERTA);
         }
         montaRodape();
     }

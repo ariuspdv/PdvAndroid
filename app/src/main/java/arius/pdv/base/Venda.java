@@ -14,6 +14,8 @@ public class Venda extends Entity {
 	private Date dataHora;
 	private String cpfCnpj;
 	private double valorTroco;
+	private double desconto;
+	private double acrescimo;
 	private List<VendaItem> itens = new ArrayList<>();
 	private List<VendaFinalizadora> finalizadoras = new ArrayList<>();
 	
@@ -65,6 +67,22 @@ public class Venda extends Entity {
 		this.valorTroco = valorTroco;
 	}
 
+	public double getDesconto() {
+		return desconto;
+	}
+
+	public void setDesconto(double desconto) {
+		this.desconto = desconto;
+	}
+
+	public double getAcrescimo() {
+		return acrescimo;
+	}
+
+	public void setAcrescimo(double acrescimo) {
+		this.acrescimo = acrescimo;
+	}
+
 	public List<VendaItem> getItens() {
 		return itens;
 	}
@@ -78,7 +96,7 @@ public class Venda extends Entity {
 		for(VendaItem vi: itens) {
 			ret += vi.getValorLiquido();
 		}
-		return ret;
+		return ret - this.desconto + this.acrescimo;
 	}
 	
 	public double getValorPago() {
