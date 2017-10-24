@@ -37,14 +37,14 @@ public class AriusAlertDialog {
         }
 
         TextView lbtitle = new TextView(context);
-        lbtitle.setText("PdvArius");
-        lbtitle.setGravity(Gravity.CENTER_HORIZONTAL);
+        lbtitle.setText("PDV ARIUS");
+        lbtitle.setPadding(10, 0,0,0);
         lbtitle.setBackgroundResource(R.color.colorPrimary);
         lbtitle.setTextSize(30);
         lbtitle.setTextColor(Color.WHITE);
         lbtitle.setTypeface(null, Typeface.BOLD);
 
-        alertDialog.setCustomTitle(lbtitle);
+        //alertDialog.setCustomTitle(lbtitle);
 
         alertDialog.show();
 

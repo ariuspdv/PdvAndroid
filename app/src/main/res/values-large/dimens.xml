@@ -1,3 +1,8 @@
 <resources>
     <dimen name="textsize_actionbar">35sp</dimen>
+    <dimen name="textsize_action">20sp</dimen>
+    <dimen name="textsize_title_main">34sp</dimen>
+    <dimen name="textsize_text_button">24sp</dimen>
+    <dimen name="textsize_text_field">24sp</dimen>
+    <dimen name="textsize_description_alert_dialog">26sp</dimen>
 </resources>

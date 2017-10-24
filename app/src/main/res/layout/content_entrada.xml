@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#f4f4f4"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
-        android:layout_height="wrap_content"
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
-        android:id="@+id/appBarLayout">
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteY="0dp">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -20,40 +26,105 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/activity_padrao" />
-
-    <TextView
-        android:id="@+id/lbTitulo_entrada"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/lbTitulo_Entrada"
-        android:textAlignment="center"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        android:layout_above="@+id/edt_AberturaCaixa"
-        android:layout_marginBottom="28dp"
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.30">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/arius" />
+
+            <TextView
+                android:id="@+id/lbTitulo_entrada"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/lbTitulo_Entrada"
+                android:textAlignment="center"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="@dimen/textsize_title_main"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".5"
+                        android:orientation="horizontal"></LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/edt_AberturaCaixa"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ems="15"
+                            android:hint="Senha"
+                            android:inputType="textPersonName"
+                            android:textSize="@dimen/textsize_text_field" />
+
+                        <Button
+                            android:id="@+id/btn_Entrar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/button_orange"
+                            android:padding="10dp"
+                            android:text="@string/btn_Abrir_Caixa"
+                            android:textColor="#fff"
+                            android:textSize="@dimen/textsize_text_button"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".5"
+                        android:orientation="horizontal"></LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <!--<include layout="@layout/activity_padrao" />-->
 
 
-    <EditText
-        android:id="@+id/edt_AberturaCaixa"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:ems="15"
-        android:inputType="textPersonName" />
-
-    <Button
-        android:id="@+id/btn_Entrar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edt_AberturaCaixa"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="55dp"
-        android:text="@string/btn_Abrir_Caixa"
-        android:textSize="36sp"
-        android:textStyle="bold" />
 
 </RelativeLayout>

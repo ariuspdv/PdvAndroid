@@ -49,6 +49,7 @@ public class AriusActivityItemVenda extends ActivityPadrao {
     private VendaItem vendaItem;
     private TextView edttotalvenda;
     private TextView edttotalitem;
+    private int linhaSelecionada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +89,7 @@ public class AriusActivityItemVenda extends ActivityPadrao {
                 if (vendaItem.getVenda().getSituacao() != VendaSituacao.ABERTA)
                     return;
 
+                linhaSelecionada = i;
                 montaDialogItemVenda();
             }
         });
@@ -246,6 +248,8 @@ public class AriusActivityItemVenda extends ActivityPadrao {
             @Override
             public void onClick(View view) {
                 AriusAlertDialog.getAlertDialog().dismiss();
+                grdItemVenda.requestFocus();
+                grdItemVenda.setSelection(linhaSelecionada);
             }
         });
 
@@ -497,6 +501,9 @@ public class AriusActivityItemVenda extends ActivityPadrao {
 
                 vendaItem = null;
                 AriusAlertDialog.getAlertDialog().dismiss();
+
+                grdItemVenda.requestFocus();
+                grdItemVenda.setSelection(linhaSelecionada);
 
                 montaRodape();
             }

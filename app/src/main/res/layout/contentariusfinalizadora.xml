@@ -10,10 +10,11 @@
         android:id="@+id/lbTituloFinalizadora"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/splitter_bg_h"
+        android:background="@drawable/button_orange"
         android:text="Finalizadoras"
+        android:textColor="#fff"
+        android:padding="5dp"
         android:textAlignment="center"
-        android:textColor="@android:color/black"
         android:textSize="30sp"
         android:textStyle="bold" />
 

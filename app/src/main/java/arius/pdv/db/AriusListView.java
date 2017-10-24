@@ -152,12 +152,11 @@ public class AriusListView extends ListView implements SwipeMenuView.OnSwipeItem
             // create "delete" item
             SwipeMenuItem deleteItem = new SwipeMenuItem(getContext());
             // set item background
-            deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
-                    0x3F, 0x25)));
+            deleteItem.setBackground(new ColorDrawable(Color.rgb(166, 0, 0)));
             // set item width
             deleteItem.setWidth(dp2px(90));
             // set a icon
-            deleteItem.setIcon(R.mipmap.ic_action_discard);
+            deleteItem.setIcon(R.mipmap.lixeira_white);
 
             deleteItem.setId(SwipeMenuItem.getBtn_delete());
 

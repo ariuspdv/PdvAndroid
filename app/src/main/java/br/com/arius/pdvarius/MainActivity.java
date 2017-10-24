@@ -2,6 +2,7 @@ package br.com.arius.pdvarius;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -13,6 +14,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
+import arius.pdv.base.PdvDao;
 import arius.pdv.base.PdvService;
 import arius.pdv.base.PdvTipo;
 import arius.pdv.base.UsuarioDao;
@@ -23,10 +25,12 @@ import arius.pdv.db.AriusAlertDialog;
 
 public class MainActivity extends ActivityPadrao {
 
+    private AppBarLayout appBar;
+
     @Override
     protected void onStart() {
         super.onStart();
-
+        appBar.setVisibility(View.GONE);
         if (PdvService.get().getPdv() == null)
             return;
 
@@ -45,18 +49,22 @@ public class MainActivity extends ActivityPadrao {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
+        appBar = (AppBarLayout) findViewById(R.id.appBarLayout);
 
         AuxiliarCadastros auxiliarCadastros = new AuxiliarCadastros();
-//        auxiliarCadastros.cadastrarPDV();
-//        auxiliarCadastros.cadastrarOperador();
-//        auxiliarCadastros.cadastrarFinalizadora();
-//        auxiliarCadastros.cadastraProdutos();
-//        auxiliarCadastros.cadastroUnidadeMedida();
-//        auxiliarCadastros.cadastroeHistorico();
-//        auxiliarCadastros.cadastroProdutoClassificacao();
-//        auxiliarCadastros.alteraProdutoClassificacao();
+
+        if(AppContext.get().getDao(PdvDao.class).find(1) == null) {
+            auxiliarCadastros.cadastrarPDV();
+            auxiliarCadastros.cadastrarOperador();
+            auxiliarCadastros.cadastrarFinalizadora();
+            auxiliarCadastros.cadastraProdutos();
+            auxiliarCadastros.cadastroUnidadeMedida();
+            auxiliarCadastros.cadastroeHistorico();
+            auxiliarCadastros.cadastroProdutoClassificacao();
+            auxiliarCadastros.alteraProdutoClassificacao();
+        }
+
 
 //        Produto produto = AppContext.get().getDao(ProdutoDao.class).find(1);
 //        produto.setUnidadeMedida(AppContext.get().getDao(UnidadeMedidaDao.class).find(1));
@@ -154,6 +162,8 @@ public class MainActivity extends ActivityPadrao {
                         startActivity(intent);
 
                         AriusAlertDialog.getAlertDialog().dismiss();
+
+                        appBar.setVisibility(View.VISIBLE);
                     }
                 });
 

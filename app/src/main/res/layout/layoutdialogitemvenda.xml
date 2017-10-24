@@ -8,119 +8,104 @@
 
     <LinearLayout
         android:layout_width="0dp"
+        android:paddingTop="10dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/lblayoutDialogItemVendaVrUnitario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="Valor Unitário"
-            android:textAlignment="center"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            style="@style/AriusTextView"/>
 
         <EditText
             android:id="@+id/edtlayoutDialogItemVendaVrUnitario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:ems="10"
             android:focusedByDefault="false"
             android:inputType="number"
             android:textAlignment="textEnd"
-            android:textSize="24sp" />
+            style="@style/AriusTextEdit"/>
 
         <TextView
             android:id="@+id/lblayoutDialogItemVendaDesconto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="Desconto"
-            android:textAlignment="center"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            style="@style/AriusTextView"/>
 
         <EditText
             android:id="@+id/edtlayoutDialogItemVendaDesconto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:ems="10"
-            android:focusedByDefault="false"
-            android:inputType="number"
             android:textAlignment="textEnd"
-            android:textSize="24sp" />
+            android:focusedByDefault="false"
+            android:layout_marginBottom="9dp"
+            android:inputType="number"
+            style="@style/AriusTextEdit"/>
 
         <Button
             android:id="@+id/btnlayoutDialogItemVendaCancelar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cancelar"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="33dp"
+            android:background="@drawable/button_action_left"
+            android:textSize="@dimen/textsize_action"
+            android:textColor="?attr/colorPrimary"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:paddingTop="10dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/lblayoutDialogItemVendaAcrescimo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="Acréscimo"
-            android:textAlignment="center"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            style="@style/AriusTextView"/>
 
         <EditText
             android:id="@+id/edtlayoutDialogItemVendaAcrescimo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:ems="10"
             android:focusedByDefault="false"
             android:inputType="number"
             android:textAlignment="textEnd"
-            android:textSize="24sp" />
+            style="@style/AriusTextEdit" />
 
         <TextView
             android:id="@+id/lblayoutDialogItemVendaQtde"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Quantidade"
-            android:textAlignment="center"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            style="@style/AriusTextView"
+            android:text="Quantidade"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="9dp"
+            android:gravity="center_horizontal"
             android:orientation="horizontal"
             android:weightSum="1">
 
             <ImageButton
                 android:id="@+id/btnlayoutDialogItemVendaDiminuiQtde"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/presence_busy" />
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:background="@mipmap/minus" />
 
             <EditText
                 android:id="@+id/edtlayoutDialogItemVendaQtde"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.00"
+                android:layout_weight="2.5"
                 android:ems="10"
                 android:focusedByDefault="true"
                 android:inputType="number"
-                android:textAlignment="center"
-                android:textSize="24sp" />
+                style="@style/AriusTextEdit"
+                android:textAlignment="center"/>
 
             <ImageButton
                 android:id="@+id/btnlayoutDialogItemVendaAumentaQtde"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                app:srcCompat="@android:drawable/ic_input_add" />
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:background="@mipmap/plus" />
 
         </LinearLayout>
 
@@ -128,9 +113,11 @@
             android:id="@+id/btnlayoutDialogItemVendaConfirmar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_action_right"
             android:text="Confirmar"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="33dp"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/textsize_action" />
     </LinearLayout>
 
 </LinearLayout>
