@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">#000000</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -20,7 +20,7 @@
     <style name="AriusTextEdit">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/field</item>
+        <!--<item name="android:background">@drawable/field</item>-->
         <item name="android:padding">10dp</item>
         <item name="android:textColorHint">#c1c1c1</item>
         <item name="android:textColor">#a8a8a8</item>
@@ -38,5 +38,20 @@
         <item name="android:fontFamily">sans-serif"</item>
     </style>
 
+    <style name="Widget.Design.TextInputLayout" parent="AppTheme">
+        <item name="hintTextAppearance">@style/AppTheme.TextFloatLabelAppearance</item>
+        <item name="counterTextAppearance">@style/AppTheme.TextFloatLabelAppearance</item>
+        <item name="counterOverflowTextAppearance">@style/AppTheme.TextFloatLabelAppearance</item>
+    </style>
+
+    <style name="AppTheme.TextFloatLabelAppearance" parent="TextAppearance.Design.Hint">
+        <!-- Floating label appearance here -->
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">20dp</item>
+    </style>
+
+    <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
 
 </resources>
