@@ -112,49 +112,64 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/btnconfiguracoes"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="10dp"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="5dp"
                     android:layout_weight=".5"
-                    android:background="#4763c6"
-                    android:orientation="vertical"
-                    android:layout_marginEnd="10dp"
+                    android:id="@+id/btnFuncoesConfig"
+                    android:background="@drawable/button_orange"
                     android:gravity="center"
-                    android:layout_height="match_parent">
-                        <ImageButton
-                            android:id="@+id/btnFuncoesConfig"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="5dp"
-                            android:background="@mipmap/config"/>
+                    android:orientation="vertical"
+                    android:padding="25dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:background="@mipmap/config" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Configuração"
-                        android:textStyle="bold"
+                        android:text="Configurações"
+                        android:textAlignment="center"
                         android:textColor="#fff"
-                        android:textSize="15dp"
-                        android:textAlignment="center"/>
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight=".5"
-                    android:background="#4763c6"
-                    android:layout_height="match_parent">
-                        <ImageButton
-                            android:id="@+id/btnFuncoesSincronizacao"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_weight=".5"/>
+                    android:background="@drawable/button_orange"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="25dp">
+
+                    <ImageView
+                        android:id="@+id/btnFuncoesSincronizacao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:background="@mipmap/sincronizar" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Sincronização"
+                        android:textAlignment="center"
+                        android:textColor="#fff"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>

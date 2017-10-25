@@ -8,6 +8,8 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -33,6 +35,7 @@ public class AriusActivityFuncoes extends ActivityPadrao {
     private ImageButton btnListabgeVenda;
     private ImageButton btnRetirada;
     private Context context;
+    private LinearLayout btnteste;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +56,7 @@ public class AriusActivityFuncoes extends ActivityPadrao {
         return true;
     }
 
-    public void montaFuncoes(View view, Context context){
+    public void montaFuncoes(View view, final Context context){
         this.context = context;
         if (view == null){
             btnReforco = (ImageButton) findViewById(R.id.btnFuncoesReforco);
@@ -71,6 +74,7 @@ public class AriusActivityFuncoes extends ActivityPadrao {
             btnCancelarVenda = view.findViewById(R.id.btnFuncoesCancelaVenda);
             btnListabgeVenda = view.findViewById(R.id.btnFuncoesVendas);
             btnRetirada = view.findViewById(R.id.btnFuncoesRetirada);
+            btnteste = view.findViewById(R.id.btnconfiguracoes);
         }
 
         if (btnReforco != null){
