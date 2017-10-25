@@ -1,17 +1,16 @@
 package br.com.arius.pdvarius;
 
+import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -42,9 +41,18 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
     private Button btnFinalizaVenda;
     private Button btnDescontoTotal;
     private Button btnAcrescimoTotal;
-    private boolean vdescontototal = false;
-    private boolean valtpercnovalor = false;
-    private View.OnClickListener clickDesconto_Acrescimo_Total;
+    private TextView edtDescontoTotalVenda;
+    private TextView edtAcrescimoTotalVenda;
+    private AlertDialog dialogFinalizadora;
+    private AlertDialog dialogDesc_Juros;
+    private AriusActivityPercValor ariusActivityPercValor;
+
+    /*Campos rodapé dialog finalizadora*/
+    private TextView edtVrBruto;
+    private TextView edtDesconto;
+    private TextView edtJuros;
+    private TextView edtVrLiquido;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +65,8 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
     public void montaFinalizadoraVenda(View view, final Context context){
         this.context = context;
 
+        ariusActivityPercValor = new AriusActivityPercValor();
+
         if (view == null){
             grdFinalidora_Venda = (AriusListView) findViewById(R.id.grdFinalizadoraVenda);
             edtValorRestante = (TextView) findViewById(R.id.edtlayoutFinalizaVendaRodapeValor);
@@ -64,6 +74,8 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
             btnFinalizaVenda = (Button) findViewById(R.id.btnlayoutFinalizaVendaRodapeFinalizar);
             btnDescontoTotal = (Button) findViewById(R.id.btnlayoutFinalizaVendaRodapeDesconto);
             btnAcrescimoTotal = (Button) findViewById(R.id.btnlayoutFinalizaVendaRodapeAcrescimo);
+            edtDescontoTotalVenda = (TextView) findViewById(R.id.edtlayoutFinalizaVendaRodapeDesconto);
+            edtAcrescimoTotalVenda = (TextView) findViewById(R.id.edtlayoutFinalizaVendaRodapeAcrescimo);
         } else {
             grdFinalidora_Venda = view.findViewById(R.id.grdFinalizadoraVenda);
             edtValorRestante = view.findViewById(R.id.edtlayoutFinalizaVendaRodapeValor);
@@ -71,6 +83,8 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
             btnFinalizaVenda = view.findViewById(R.id.btnlayoutFinalizaVendaRodapeFinalizar);
             btnDescontoTotal = view.findViewById(R.id.btnlayoutFinalizaVendaRodapeDesconto);
             btnAcrescimoTotal = view.findViewById(R.id.btnlayoutFinalizaVendaRodapeAcrescimo);
+            edtDescontoTotalVenda = view.findViewById(R.id.edtlayoutFinalizaVendaRodapeDesconto);
+            edtAcrescimoTotalVenda = view.findViewById(R.id.edtlayoutFinalizaVendaRodapeAcrescimo);
         }
 
         grdFinalidora_Venda.setSwipe_Delete(true);
@@ -123,6 +137,14 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
                     campoAux = v.findViewById(R.id.lbLayoutFinalizadoraVendaValor);
                     if (campoAux != null)
                         campoAux.setText(AndroidUtils.FormatarValor_Monetario(vendaFinalizadora.getValor()));
+
+                    campoAux = v.findViewById(R.id.edtLayoutFinalizadoraVendaDesconto);
+                    if (campoAux != null)
+                        campoAux.setText(AndroidUtils.FormatarValor_Monetario(vendaFinalizadora.getDesconto()));
+
+                    campoAux = v.findViewById(R.id.edtLayoutFinalizadoraVendaJuros);
+                    if (campoAux != null)
+                        campoAux.setText(AndroidUtils.FormatarValor_Monetario(vendaFinalizadora.getJuro()));
 
                     ImageView imgaux = v.findViewById(R.id.imgFinalizadoraVendaDelete);
                     if (vendaFinalizadora.getVenda().getSituacao() == VendaSituacao.ABERTA) {
@@ -182,151 +204,95 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
     private void montaDialogFinalizadoraVenda() {
         AriusAlertDialog.exibirDialog(context, R.layout.layoutdialogfinalizadoravenda);
 
-        Button btnCancel = AriusAlertDialog.getGetView().findViewById(R.id.btnlayoutDialogFinalizadoraVendaCancelar);
-        btnCancel.setOnClickListener(new View.OnClickListener() {
+        dialogFinalizadora = AriusAlertDialog.getAlertDialog();
+
+        dialogFinalizadora.findViewById(R.id.btnlayoutDialogFinalizadoraVendaCancelar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AriusAlertDialog.getAlertDialog().dismiss();
+                dialogFinalizadora.dismiss();
+                dialogFinalizadora = null;
             }
         });
 
-        final EditText edtValor = AriusAlertDialog.getGetView().findViewById(R.id.edtlayoutDialogFinalizadoraVendaValor);
-        final EditText edtDesconto = AriusAlertDialog.getGetView().findViewById(R.id.edtlayoutDialogFinalizadoraVendaDesconto);
-        final EditText edtJuros = AriusAlertDialog.getGetView().findViewById(R.id.edtlayoutDialogFinalizadoraVendaJuros);
+        final EditText edtValor = (EditText) dialogFinalizadora.findViewById(R.id.edtlayoutDialogFinalizadoraVendaValor);
 
-
-        final TextView lbalert = AriusAlertDialog.getGetView().findViewById(R.id.lblayoutDialogFinalizadoraVendaFinalizadora);
+        final TextView lbalert = (TextView) dialogFinalizadora.findViewById(R.id.lblayoutDialogFinalizadoraVendaFinalizadora);
 
         lbalert.setText(vendaFinalizadora.getFinalizadora().getDescricao());
 
-        edtValor.addTextChangedListener(new TextWatcher() {
-            private String current = "";
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {}
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!s.toString().equals(current)) {
-                    edtValor.removeTextChangedListener(this);
-
-                    NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
-
-                    String replaceable = String.format("[%s,.\\s]", nf.getCurrency().getSymbol());
-                    String cleanString = s.toString().replaceAll(replaceable, "");
-
-                    double parsed;
-                    try {
-                        parsed = Double.parseDouble(cleanString);
-                    } catch (NumberFormatException e) {
-                        parsed = 0.00;
-                    }
-
-                    String formatted =  String.copyValueOf(nf.format(parsed/100).toCharArray(),0,2);
-                    int len = nf.format(parsed/100).length();
-                    formatted = formatted + " " + String.copyValueOf(nf.format(parsed/100).toCharArray(),2,len-2);
-                    current = formatted;
-                    edtValor.setText(formatted);
-                    edtValor.setSelection(formatted.length());
-                    edtValor.addTextChangedListener(this);
-                }
-            }
-        });
-
         edtValor.setText(AndroidUtils.FormatarValor_Monetario(vendaFinalizadora.getValor()));
 
-        edtValor.requestFocus();
+        edtValor.setEnabled(false);
+        edtValor.setFocusable(false);
 
-        edtDesconto.addTextChangedListener(new TextWatcher() {
-            private String current = "";
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        dialogFinalizadora.findViewById(R.id.btnlayoutDialogFinalizadoraVendaDesconto).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AriusAlertDialog.exibirDialog(context,R.layout.contentariusdialogpercvalor);
+                        dialogDesc_Juros = AriusAlertDialog.getAlertDialog();
+                        ariusActivityPercValor.montaDialog_Campos(dialogDesc_Juros,v);
+                        ariusActivityPercValor.setValor(vendaFinalizadora.getValor());
+                        ariusActivityPercValor.setTitulo("Desconto");
+                        ariusActivityPercValor.setAceitaporcentagem(false);
+                        ariusActivityPercValor.setEdtValor(vendaFinalizadora.getDesconto());
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {}
+                        dialogDesc_Juros.findViewById(R.id.btnContentDialogValorConfirmar).setOnClickListener(
+                                new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!s.toString().equals(current)) {
-                    edtDesconto.removeTextChangedListener(this);
+                                        vendaFinalizadora.setDesconto(ariusActivityPercValor.getRetorno_valor());
 
-                    NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
+                                        dialogDesc_Juros.dismiss();
 
-                    String replaceable = String.format("[%s,.\\s]", nf.getCurrency().getSymbol());
-                    String cleanString = s.toString().replaceAll(replaceable, "");
+                                        montaRodape();
 
-                    double parsed;
-                    try {
-                        parsed = Double.parseDouble(cleanString);
-                    } catch (NumberFormatException e) {
-                        parsed = 0.00;
+                                    }
+                                }
+                        );
                     }
-
-                    String formatted =  String.copyValueOf(nf.format(parsed/100).toCharArray(),0,2);
-                    int len = nf.format(parsed/100).length();
-                    formatted = formatted + " " + String.copyValueOf(nf.format(parsed/100).toCharArray(),2,len-2);
-                    current = formatted;
-                    edtDesconto.setText(formatted);
-                    edtDesconto.setSelection(formatted.length());
-                    edtDesconto.addTextChangedListener(this);
-                }
-            }
         });
 
-        edtDesconto.setText("0");
+        dialogFinalizadora.findViewById(R.id.btnlayoutDialogFinalizadoraVendaJuros).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AriusAlertDialog.exibirDialog(context,R.layout.contentariusdialogpercvalor);
+                        dialogDesc_Juros = AriusAlertDialog.getAlertDialog();
+                        ariusActivityPercValor.montaDialog_Campos(dialogDesc_Juros,v);
+                        ariusActivityPercValor.setValor(vendaFinalizadora.getValor());
+                        ariusActivityPercValor.setTitulo("Juro");
+                        ariusActivityPercValor.setAceitaporcentagem(true);
+                        ariusActivityPercValor.setEdtValor(vendaFinalizadora.getJuro());
 
-        edtJuros.addTextChangedListener(new TextWatcher() {
-            private String current = "";
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+                        dialogDesc_Juros.findViewById(R.id.btnContentDialogValorConfirmar).setOnClickListener(
+                                new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {}
+                                        vendaFinalizadora.setJuro(ariusActivityPercValor.getRetorno_valor());
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!s.toString().equals(current)) {
-                    edtJuros.removeTextChangedListener(this);
+                                        dialogDesc_Juros.dismiss();
 
-                    NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
+                                        montaRodape();
 
-                    String replaceable = String.format("[%s,.\\s]", nf.getCurrency().getSymbol());
-                    String cleanString = s.toString().replaceAll(replaceable, "");
+                                    }
+                                }
+                        );
 
-                    double parsed;
-                    try {
-                        parsed = Double.parseDouble(cleanString);
-                    } catch (NumberFormatException e) {
-                        parsed = 0.00;
                     }
+                });
 
-                    String formatted =  String.copyValueOf(nf.format(parsed/100).toCharArray(),0,2);
-                    int len = nf.format(parsed/100).length();
-                    formatted = formatted + " " + String.copyValueOf(nf.format(parsed/100).toCharArray(),2,len-2);
-                    current = formatted;
-                    edtJuros.setText(formatted);
-                    edtJuros.setSelection(formatted.length());
-                    edtJuros.addTextChangedListener(this);
-                }
-            }
-        });
-
-        edtJuros.setText("0");
-
-        AriusAlertDialog.getAlertDialog().findViewById(R.id.btnlayoutDialogFinalizadoraVendaConfirmar).setOnClickListener(
+        dialogFinalizadora.findViewById(R.id.btnlayoutDialogFinalizadoraVendaConfirmar).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
+                        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
                         Double v_valor = 0.0;
-                        try{
-                            v_valor = nf.parse(edtValor.getText().toString().replace(" ","")).doubleValue();
-                        }catch (ParseException e){
+                        try {
+                            v_valor = nf.parse(edtValor.getText().toString().replace(" ", "")).doubleValue();
+                        } catch (ParseException e) {
                             e.printStackTrace();
                         }
                         if (edtValor.getText().toString().equals("") || v_valor <= 0)
@@ -340,11 +306,20 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
 
                         grdFinalidora_Venda.getAriusCursorAdapter().notifyDataSetChanged();
 
-                        AriusAlertDialog.getAlertDialog().dismiss();
+                        dialogFinalizadora.dismiss();
 
                         montaRodape();
+
+                        dialogFinalizadora = null;
                     }
-                });
+        });
+
+        edtVrBruto = (TextView) dialogFinalizadora.findViewById(R.id.edtlayoutDialogFinalizadoraVendaValorBruto);
+        edtDesconto = (TextView)  dialogFinalizadora.findViewById(R.id.edtlayoutDialogFinalizadoraVendaDesconto);
+        edtJuros = (TextView) dialogFinalizadora.findViewById(R.id.edtlayoutDialogFinalizadoraVendaJuros);
+        edtVrLiquido = (TextView) dialogFinalizadora.findViewById(R.id.edtlayoutDialogFinalizadoraVendaValorLiquido);
+
+        montaRodape();
     }
 
     private void montaRodape(){
@@ -356,184 +331,82 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
                 lbValorRestante.setText("Valor Troco:");
                 edtValorRestante.setText(AndroidUtils.FormatarValor_Monetario(PdvService.get().getVendaAtiva().getValorRestante() * -1));
             }
+            edtDescontoTotalVenda.setText(AndroidUtils.FormatarValor_Monetario(PdvService.get().getVendaAtiva().getDesconto()));
+            edtAcrescimoTotalVenda.setText(AndroidUtils.FormatarValor_Monetario(PdvService.get().getVendaAtiva().getAcrescimo()));
+
+            if (edtVrBruto != null)
+                edtVrBruto.setText(AndroidUtils.FormatarValor_Monetario(vendaFinalizadora.getValor()));
+            if (edtDesconto != null)
+                edtDesconto.setText(AndroidUtils.FormatarValor_Monetario(vendaFinalizadora.getDesconto()));
+            if (edtJuros != null)
+                edtJuros.setText(AndroidUtils.FormatarValor_Monetario(vendaFinalizadora.getJuro()));
+            if (edtVrLiquido != null)
+                edtVrLiquido.setText(AndroidUtils.FormatarValor_Monetario(vendaFinalizadora.getValorLiquido()));
         }
     }
 
-
-
     private void setBtnDescontoTotal(){
-
-        clickDesconto_Acrescimo_Total = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AriusAlertDialog.exibirDialog(context, R.layout.contentariusdialogpercvalor);
-
-                Button btnCancel = AriusAlertDialog.getGetView().findViewById(R.id.btnContentDialogValorCancelar);
-                btnCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        AriusAlertDialog.getAlertDialog().dismiss();
-                    }
-                });
-
-                final EditText edtValor = AriusAlertDialog.getGetView().findViewById(R.id.edtContentDialogPercValorValor);
-                final EditText edtPerc = AriusAlertDialog.getGetView().findViewById(R.id.edtContentDialogPercValorPerc);
-
-                final TextView lbtitulo = AriusAlertDialog.getGetView().findViewById(R.id.lbContentDialogPercValorTitulo);
-                if (vdescontototal){
-                    lbtitulo.setText("Desconto Total Venda");
-                } else {
-                    lbtitulo.setText("Acréscimo Total Venda");
-                }
-
-                edtPerc.addTextChangedListener(new TextWatcher() {
-                    private String current = "";
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count,
-                                                  int after) {}
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        if (!s.toString().equals(current)) {
-                            edtPerc.removeTextChangedListener(this);
-
-                            String cleanString = s.toString().replace(".","");
-                            if (cleanString.contains("%"))
-                                cleanString = cleanString.replace("%","");
-                            else
-                                cleanString = String.copyValueOf(cleanString.toCharArray(),0,cleanString.length() - 1);
-
-                            double parsed;
-                            try {
-                                parsed = Double.parseDouble(cleanString);
-                            } catch (NumberFormatException e) {
-                                parsed = 0.00;
-                            }
-
-                            current = new DecimalFormat("####0.00").format(parsed / 100) + "%";
-                            edtPerc.setText(current);
-                            edtPerc.setSelection(current.length());
-
-                            if (!valtpercnovalor) {
-                                double v_valor = 0;
-                                double v_porc = (parsed / 100);
-                                double vnd_valor = PdvService.get().getVendaAtiva().getValorLiquido() +
-                                        PdvService.get().getVendaAtiva().getDesconto();
-
-                                v_valor = vnd_valor - ((vnd_valor * (parsed / 100)) / 100);
-
-                                PdvService.get().getVendaAtiva().setDesconto(v_valor);
-
-                                edtValor.setText(String.valueOf(v_valor));
-                            }
-
-                            edtPerc.addTextChangedListener(this);
-                        }
-                    }
-                });
-
-                edtValor.addTextChangedListener(new TextWatcher() {
-                    private String current = "";
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count,
-                                                  int after) {}
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        if (!s.toString().equals(current)) {
-                            edtValor.removeTextChangedListener(this);
-
-                            NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-
-                            String replaceable = String.format("[%s,.\\s]", nf.getCurrency().getSymbol());
-                            String cleanString = s.toString().replaceAll(replaceable, "");
-
-                            double parsed;
-                            try {
-                                parsed = Double.parseDouble(cleanString);
-                            } catch (NumberFormatException e) {
-                                parsed = 0.00;
-                            }
-
-                            String formatted = String.copyValueOf(nf.format(parsed / 100).toCharArray(), 0, 2);
-                            int len = nf.format(parsed / 100).length();
-                            formatted = formatted + " " + String.copyValueOf(nf.format(parsed / 100).toCharArray(), 2, len - 2);
-                            current = formatted;
-                            edtValor.setText(formatted);
-                            edtValor.setSelection(formatted.length());
-
-                            valtpercnovalor = true;
-
-                            double v_perc = 0;
-                            double vnd_valor = PdvService.get().getVendaAtiva().getValorLiquido() +
-                                    PdvService.get().getVendaAtiva().getDesconto();
-                            v_perc = parsed / vnd_valor;
-                            edtPerc.setText(new DecimalFormat("####0.00").format(v_perc) + "%");
-
-                            valtpercnovalor = false;
-
-                            edtValor.addTextChangedListener(this);
-                        }
-                    }
-                });
-
-                edtValor.setText(AndroidUtils.FormatarValor_Monetario(PdvService.get().getVendaAtiva().getDesconto()));
-
-                edtValor.requestFocus();
-
-                AriusAlertDialog.getAlertDialog().findViewById(R.id.btnContentDialogValorConfirmar).setOnClickListener(
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-                                Double v_valor = 0.0;
-                                try {
-                                    v_valor = nf.parse(edtValor.getText().toString().replace(" ", "")).doubleValue();
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                                if (edtValor.getText().toString().equals("") || v_valor <= 0) {
-                                    if (vdescontototal)
-                                        throw new UserException("Informar um valor para o desconto!");
-                                    else
-                                        throw new UserException("Informar um valor para o acréscimo!");
-                                }
-
-                                if (vdescontototal)
-                                    PdvService.get().getVendaAtiva().setDesconto(v_valor);
-                                else
-                                    PdvService.get().getVendaAtiva().setAcrescimo(v_valor);
-
-                                AppContext.get().getDao(VendaDao.class).update(PdvService.get().getVendaAtiva());
-
-                                AriusAlertDialog.getAlertDialog().dismiss();
-
-                                montaRodape();
-                            }
-                });
-            }
-        };
-
         btnDescontoTotal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                vdescontototal = true;
-                clickDesconto_Acrescimo_Total.onClick(view);
+                AriusAlertDialog.exibirDialog(context,R.layout.contentariusdialogpercvalor);
+                dialogDesc_Juros = AriusAlertDialog.getAlertDialog();
+                ariusActivityPercValor.montaDialog_Campos(dialogDesc_Juros,view);
+                ariusActivityPercValor.setValor(PdvService.get().getVendaAtiva().getValorLiquido() +
+                                                PdvService.get().getVendaAtiva().getDesconto() -
+                                                PdvService.get().getVendaAtiva().getAcrescimo());
+                ariusActivityPercValor.setTitulo("Desconto");
+                ariusActivityPercValor.setAceitaporcentagem(false);
+                ariusActivityPercValor.setEdtValor(PdvService.get().getVendaAtiva().getDesconto());
+
+                dialogDesc_Juros.findViewById(R.id.btnContentDialogValorConfirmar).setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                PdvService.get().getVendaAtiva().setDesconto(ariusActivityPercValor.getRetorno_valor());
+
+                                AppContext.get().getDao(VendaDao.class).update(PdvService.get().getVendaAtiva());
+
+                                dialogDesc_Juros.dismiss();
+
+                                montaRodape();
+
+                            }
+                        }
+                );
             }
         });
+
         btnAcrescimoTotal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                vdescontototal = false;
-                clickDesconto_Acrescimo_Total.onClick(view);
+                AriusAlertDialog.exibirDialog(context,R.layout.contentariusdialogpercvalor);
+                dialogDesc_Juros = AriusAlertDialog.getAlertDialog();
+                ariusActivityPercValor.montaDialog_Campos(dialogDesc_Juros,view);
+                ariusActivityPercValor.setValor(PdvService.get().getVendaAtiva().getValorLiquido() +
+                        PdvService.get().getVendaAtiva().getDesconto() -
+                        PdvService.get().getVendaAtiva().getAcrescimo());
+                ariusActivityPercValor.setTitulo("Acréscimo");
+                ariusActivityPercValor.setAceitaporcentagem(true);
+                ariusActivityPercValor.setEdtValor(PdvService.get().getVendaAtiva().getAcrescimo());
+
+                dialogDesc_Juros.findViewById(R.id.btnContentDialogValorConfirmar).setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                PdvService.get().getVendaAtiva().setAcrescimo(ariusActivityPercValor.getRetorno_valor());
+
+                                AppContext.get().getDao(VendaDao.class).update(PdvService.get().getVendaAtiva());
+
+                                dialogDesc_Juros.dismiss();
+
+                                montaRodape();
+
+                            }
+                        }
+                );
             }
         });
     }
