@@ -49,4 +49,8 @@ public class VendaFinalizadora extends Entity {
 	public void setJuro(double juro) {
 		this.juro = juro;
 	}
+
+	public double getValorLiquido(){
+		return this.valor + this.juro - this.desconto;
+	}
 }

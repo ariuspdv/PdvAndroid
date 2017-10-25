@@ -60,14 +60,16 @@
                 android:layout_weight="1"
                 android:text="R$ 0,00"
                 android:textAlignment="textEnd"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnlayoutFinalizaVendaRodapeDesconto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Desconto" />
+                android:text="Desconto"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -101,7 +103,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="ACRÉSCIMO" />
+                android:text="ACRÉSCIMO"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </LinearLayout>
