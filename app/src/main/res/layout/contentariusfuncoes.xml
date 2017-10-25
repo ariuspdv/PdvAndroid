@@ -108,33 +108,55 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/funcoes_fecharcaixa" />
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:layout_margin="10dp"
                 android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/btnFuncoesConfig"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/funcoes_configuracoes" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight=".5"
+                    android:background="#4763c6"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
+                    android:layout_height="match_parent">
+                        <ImageButton
+                            android:id="@+id/btnFuncoesConfig"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@mipmap/config"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Configuração"
+                        android:textStyle="bold"
+                        android:textColor="#fff"
+                        android:textSize="15dp"
+                        android:textAlignment="center"/>
+                </LinearLayout>
 
-                <ImageButton
-                    android:id="@+id/btnFuncoesSincronizacao"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/funcoes_sincronizar" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight=".5"
+                    android:background="#4763c6"
+                    android:layout_height="match_parent">
+                        <ImageButton
+                            android:id="@+id/btnFuncoesSincronizacao"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight=".5"/>
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>

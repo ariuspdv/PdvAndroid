@@ -13,32 +13,31 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/lblayoutDialogItemVendaVrUnitario"
-            android:text="Valor Unitário"
-            style="@style/AriusTextView"/>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edtlayoutDialogItemVendaVrUnitario"
+                android:focusedByDefault="false"
+                android:inputType="number"
+                android:hint="Valor Unitário"
+                android:textAlignment="textEnd"
+                style="@style/AriusTextEdit"/>
+        </android.support.design.widget.TextInputLayout>
 
-        <EditText
-            android:id="@+id/edtlayoutDialogItemVendaVrUnitario"
-            android:ems="10"
-            android:focusedByDefault="false"
-            android:inputType="number"
-            android:textAlignment="textEnd"
-            style="@style/AriusTextEdit"/>
-
-        <TextView
-            android:id="@+id/lblayoutDialogItemVendaDesconto"
-            android:text="Desconto"
-            style="@style/AriusTextView"/>
-
-        <EditText
-            android:id="@+id/edtlayoutDialogItemVendaDesconto"
-            android:ems="10"
-            android:textAlignment="textEnd"
-            android:focusedByDefault="false"
-            android:layout_marginBottom="9dp"
-            android:inputType="number"
-            style="@style/AriusTextEdit"/>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edtlayoutDialogItemVendaDesconto"
+                android:ems="10"
+                android:textAlignment="textEnd"
+                android:focusedByDefault="false"
+                android:hint="Desconto"
+                android:layout_marginBottom="9dp"
+                android:inputType="number"
+                style="@style/AriusTextEdit"/>
+        </android.support.design.widget.TextInputLayout>
 
         <Button
             android:id="@+id/btnlayoutDialogItemVendaCancelar"
@@ -58,23 +57,19 @@
         android:paddingTop="10dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/lblayoutDialogItemVendaAcrescimo"
-            android:text="Acréscimo"
-            style="@style/AriusTextView"/>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edtlayoutDialogItemVendaAcrescimo"
+                android:ems="10"
+                android:focusedByDefault="false"
+                android:inputType="number"
+                android:hint="Acréscimo"
+                android:textAlignment="textEnd"
+                style="@style/AriusTextEdit" />
+        </android.support.design.widget.TextInputLayout>
 
-        <EditText
-            android:id="@+id/edtlayoutDialogItemVendaAcrescimo"
-            android:ems="10"
-            android:focusedByDefault="false"
-            android:inputType="number"
-            android:textAlignment="textEnd"
-            style="@style/AriusTextEdit" />
-
-        <TextView
-            android:id="@+id/lblayoutDialogItemVendaQtde"
-            style="@style/AriusTextView"
-            android:text="Quantidade"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,14 +86,19 @@
                 android:layout_gravity="center"
                 android:background="@mipmap/minus" />
 
-            <EditText
-                android:id="@+id/edtlayoutDialogItemVendaQtde"
-                android:layout_weight="2.5"
-                android:ems="10"
-                android:focusedByDefault="true"
-                android:inputType="number"
-                style="@style/AriusTextEdit"
-                android:textAlignment="center"/>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_weight="2"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/edtlayoutDialogItemVendaQtde"
+                    android:ems="10"
+                    android:focusedByDefault="true"
+                    android:inputType="number"
+                    android:hint="Quantidade"
+                    style="@style/AriusTextEdit"
+                    android:textAlignment="center"/>
+            </android.support.design.widget.TextInputLayout>
 
             <ImageButton
                 android:id="@+id/btnlayoutDialogItemVendaAumentaQtde"

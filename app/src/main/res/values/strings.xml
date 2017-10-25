@@ -38,7 +38,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_venda_finalizacao">Finalização</string>
-    <string name="title_activity_arius_principal">AriusActivityPrincipal</string>
+    <string name="title_activity_arius_principal">PDV Arius</string>
     <string name="title_prodcategoria">Produtos</string>
     <string name="title_itensvenda">Itens</string>
     <string name="title_finalizadorasvenda">Finalização</string>
