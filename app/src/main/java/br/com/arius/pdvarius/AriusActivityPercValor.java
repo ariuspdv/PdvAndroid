@@ -5,6 +5,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -27,7 +28,9 @@ public class AriusActivityPercValor {
     private boolean digitadoPorc = false;
     private boolean digitadoValor = false;
     private boolean aceitaporcentagem;
+    private boolean utilizaPorcentagem;
     private String titulo = "";
+    private LinearLayout pnlPorcentagem;
 
     private double valor;
     private double retorno_valor;
@@ -60,11 +63,19 @@ public class AriusActivityPercValor {
             edtValor.setText(AndroidUtils.FormatarValor_Monetario(valor));
     }
 
+    public void setUtilizaPorcentagem(boolean value){
+        this.utilizaPorcentagem = value;
+        if (pnlPorcentagem != null)
+            pnlPorcentagem.setVisibility(value ? View.VISIBLE : View.GONE);
+    }
+
     public void montaDialog_Campos(final AlertDialog alertDialog, View view){
         lbTitulo = (TextView) alertDialog.findViewById(R.id.lbContentDialogPercValorTitulo);
 
         edtValor = (EditText) alertDialog.findViewById(R.id.edtContentDialogPercValorValor);
         edtPorc = (EditText) alertDialog.findViewById(R.id.edtContentDialogPercValorPerc);
+
+        pnlPorcentagem = (LinearLayout) alertDialog.findViewById(R.id.pnlContentDialogoPercValorPerc);
 
         clickbotao = new View.OnClickListener() {
             @Override
