@@ -24,16 +24,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:layout_margin="10dp"
                 android:orientation="horizontal">
 
-                <ImageButton
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight=".5"
                     android:id="@+id/btnFuncoesVendas"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/funcoes_vendas" />
+                    android:background="@drawable/button_orange"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="25dp">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:background="@mipmap/pesquisar_venda" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Vendas"
+                            android:textAlignment="center"
+                            android:textColor="#fff"
+                            android:textSize="17dp"
+                            android:textStyle="bold" />
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -41,74 +59,186 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:layout_margin="10dp"
                 android:orientation="horizontal">
 
-                <ImageButton
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight=".5"
                     android:id="@+id/btnFuncoesSangria"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/funcoes_sangria" />
+                    android:background="@drawable/button_orange"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="25dp">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:background="@mipmap/sangria" />
 
-                <ImageButton
-                    android:id="@+id/btnFuncoesReforco"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/funcoes_reforco" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Sangria"
+                            android:textAlignment="center"
+                            android:textColor="#fff"
+                            android:textSize="17dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight=".5"
+                        android:id="@+id/btnFuncoesReforco"
+                        android:background="@drawable/button_orange"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="25dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:background="@mipmap/reforco" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Reforço"
+                            android:textAlignment="center"
+                            android:textColor="#fff"
+                            android:textSize="17dp"
+                            android:textStyle="bold" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:layout_margin="10dp"
                 android:orientation="horizontal">
 
-                <ImageButton
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight=".5"
                     android:id="@+id/btnFuncoesRetirada"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/funcoes_retirada" />
+                    android:background="@drawable/button_orange"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="25dp">
 
-                <ImageButton
-                    android:id="@+id/btnFuncoesFechaVenda"
-                    android:layout_width="0dp"
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:background="@mipmap/retirada" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Retirada"
+                            android:textAlignment="center"
+                            android:textColor="#fff"
+                            android:textSize="17dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/funcoes_fechavendaativa" />
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight=".5"
+                    android:id="@+id/btnFuncoesFechaVenda"
+                    android:background="@drawable/button_orange"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="25dp">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:background="@mipmap/fechar_venda" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Fechar Venda Ativa"
+                            android:textAlignment="center"
+                            android:textColor="#fff"
+                            android:textSize="17dp"
+                            android:textStyle="bold" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:layout_margin="10dp"
                 android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/btnFuncoesCancelaVenda"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/funcoes_cancelavenda" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight=".5"
+                        android:id="@+id/btnFuncoesCancelaVenda"
+                        android:background="@drawable/button_orange"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="25dp">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:background="@mipmap/cancelar_venda" />
 
-                <ImageButton
-                    android:id="@+id/btnFuncoesFecharCaixa"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Cancelar Venda"
+                            android:textAlignment="center"
+                            android:textColor="#fff"
+                            android:textSize="17dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight=".5"
+                        android:id="@+id/btnFuncoesFecharCaixa"
+                        android:background="@drawable/button_orange"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="25dp">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:background="@mipmap/cancelar_venda" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Fechar Caixa"
+                            android:textAlignment="center"
+                            android:textColor="#fff"
+                            android:textSize="17dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+
             </LinearLayout>
 
             <LinearLayout

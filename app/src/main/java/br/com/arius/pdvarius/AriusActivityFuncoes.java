@@ -27,13 +27,13 @@ import arius.pdv.db.AriusAlertDialog;
 
 public class AriusActivityFuncoes extends ActivityPadrao {
 
-    private ImageButton btnReforco;
-    private ImageButton btnFecharCaixa;
-    private ImageButton btnSangria;
-    private ImageButton btnFechaVenda;
-    private ImageButton btnCancelarVenda;
-    private ImageButton btnListabgeVenda;
-    private ImageButton btnRetirada;
+    private LinearLayout btnReforco;
+    private LinearLayout btnFecharCaixa;
+    private LinearLayout btnSangria;
+    private LinearLayout btnFechaVenda;
+    private LinearLayout btnCancelarVenda;
+    private LinearLayout btnListabgeVenda;
+    private LinearLayout btnRetirada;
     private Context context;
     private LinearLayout btnteste;
 
@@ -59,13 +59,13 @@ public class AriusActivityFuncoes extends ActivityPadrao {
     public void montaFuncoes(View view, final Context context){
         this.context = context;
         if (view == null){
-            btnReforco = (ImageButton) findViewById(R.id.btnFuncoesReforco);
-            btnFecharCaixa = (ImageButton) findViewById(R.id.btnFuncoesFecharCaixa);
-            btnSangria = (ImageButton) findViewById(R.id.btnFuncoesSangria);
-            btnFechaVenda = (ImageButton) findViewById(R.id.btnFuncoesFechaVenda);
-            btnCancelarVenda = (ImageButton) findViewById(R.id.btnFuncoesCancelaVenda);
-            btnListabgeVenda = (ImageButton) findViewById(R.id.btnFuncoesVendas);
-            btnRetirada = (ImageButton) findViewById(R.id.btnFuncoesRetirada);
+            btnReforco = (LinearLayout) findViewById(R.id.btnFuncoesReforco);
+            btnFecharCaixa = (LinearLayout) findViewById(R.id.btnFuncoesFecharCaixa);
+            btnSangria = (LinearLayout) findViewById(R.id.btnFuncoesSangria);
+            btnFechaVenda = (LinearLayout) findViewById(R.id.btnFuncoesFechaVenda);
+            btnCancelarVenda = (LinearLayout) findViewById(R.id.btnFuncoesCancelaVenda);
+            btnListabgeVenda = (LinearLayout) findViewById(R.id.btnFuncoesVendas);
+            btnRetirada = (LinearLayout) findViewById(R.id.btnFuncoesRetirada);
         } else {
             btnReforco = view.findViewById(R.id.btnFuncoesReforco);
             btnFecharCaixa = view.findViewById(R.id.btnFuncoesFecharCaixa);
