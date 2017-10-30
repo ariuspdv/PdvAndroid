@@ -3,18 +3,8 @@ package br.com.arius.pdvarius;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
-
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Locale;
-
 import arius.pdv.base.PdvDao;
 import arius.pdv.base.PdvService;
 import arius.pdv.base.PdvTipo;
@@ -35,7 +25,7 @@ public class AriusActivityFuncoes extends ActivityPadrao {
     private LinearLayout btnListabgeVenda;
     private LinearLayout btnRetirada;
     private Context context;
-    private LinearLayout btnteste;
+    private  AriusActivityPercValor ariusActivityPercValor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +48,7 @@ public class AriusActivityFuncoes extends ActivityPadrao {
 
     public void montaFuncoes(View view, final Context context){
         this.context = context;
+        ariusActivityPercValor = new AriusActivityPercValor();
         if (view == null){
             btnReforco = (LinearLayout) findViewById(R.id.btnFuncoesReforco);
             btnFecharCaixa = (LinearLayout) findViewById(R.id.btnFuncoesFecharCaixa);
@@ -74,7 +65,6 @@ public class AriusActivityFuncoes extends ActivityPadrao {
             btnCancelarVenda = view.findViewById(R.id.btnFuncoesCancelaVenda);
             btnListabgeVenda = view.findViewById(R.id.btnFuncoesVendas);
             btnRetirada = view.findViewById(R.id.btnFuncoesRetirada);
-            btnteste = view.findViewById(R.id.btnconfiguracoes);
         }
 
         if (btnReforco != null){
@@ -116,83 +106,25 @@ public class AriusActivityFuncoes extends ActivityPadrao {
                 if (!validaStatusPDV())
                     return;
 
-                AriusAlertDialog.exibirDialog(context,R.layout.contentariusdialogreforco);
+                AriusAlertDialog.exibirDialog(context,R.layout.contentariusdialogpercvalor);
+                ariusActivityPercValor.montaDialog_Campos(AriusAlertDialog.getAlertDialog(), view);
+                ariusActivityPercValor.setTitulo("Reforço");
+                ariusActivityPercValor.setUtilizaPorcentagem(false);
 
-                final EditText edtReforco = AriusAlertDialog.getGetView().findViewById(R.id.edtReforcoDialog);
+                AriusAlertDialog.getGetView().findViewById(R.id.btnContentDialogValorConfirmar).setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (ariusActivityPercValor.getRetorno_valor() <= 0)
+                                    throw new UserException("Informar um valor para o reforço!");
 
-                AriusAlertDialog.getGetView().findViewById(R.id.btnReforcoDialogCancelar).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        AriusAlertDialog.getAlertDialog().dismiss();
-                    }
-                });
+                                PdvService.get().reforcoCaixa(ariusActivityPercValor.getRetorno_valor());
 
-                AriusAlertDialog.getGetView().findViewById(R.id.btnReforcoDialogOK).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
-                        Double v_valor = 0.0;
-                        try{
-                            v_valor = nf.parse(edtReforco.getText().toString().replace(" ","")).doubleValue();
-                        }catch (ParseException e){
-                            e.printStackTrace();
-                        }
-                        if (edtReforco.getText().toString().equals("") || v_valor <= 0)
-                            throw new UserException("Informar um valor para o reforço!");
+                                AriusAlertDialog.getAlertDialog().dismiss();
 
-                        PdvService.get().reforcoCaixa(v_valor);
-
-                        AriusAlertDialog.getAlertDialog().dismiss();
-
-                    }
-                });
-
-                edtReforco.addTextChangedListener(new TextWatcher() {
-                    private String texto;
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-                        edtReforco.removeTextChangedListener(this);
-
-                        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
-
-                        double parsed;
-                        if (editable.toString().contains(nf.getCurrency().getSymbol())) {
-                            String replaceable = String.format("[%s,.\\s]", nf.getCurrency().getSymbol());
-                            String  cleanString = editable.toString().replaceAll(replaceable, "");
-
-                            try {
-                                parsed = Double.parseDouble(cleanString);
-                            } catch (NumberFormatException e) {
-                                parsed = 0.00;
                             }
-
-                            parsed = parsed / 100;
-                        } else
-                            parsed = Double.parseDouble(editable.toString());
-
-                        edtReforco.setText(AndroidUtils.FormatarValor_Monetario(parsed));
-                        edtReforco.setSelection(edtReforco.getText().toString().length());
-                        texto = edtReforco.getText().toString();
-                        edtReforco.addTextChangedListener(this);
-                    }
-                });
-
-                edtReforco.setText("0");
-
-                edtReforco.requestFocus();
-
-                edtReforco.setSelection(edtReforco.getText().length());
-
+                        }
+                );
             }
         });
 

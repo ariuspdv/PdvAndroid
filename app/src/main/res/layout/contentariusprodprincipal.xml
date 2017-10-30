@@ -11,25 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/button_orange"
-        android:textColor="#fff"
         android:padding="5dp"
-        android:text="Produtos principais"
+        android:text="Principais"
         android:textAlignment="center"
+        android:textColor="#fff"
         android:textSize="30sp"
         android:textStyle="bold"
         tools:ignore="HardcodedText" />
-
-    <Button
-        android:id="@+id/btnProPrincipalVoltar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Voltar Principais" />
 
     <GridView
         android:id="@+id/grdProduto_Principal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:numColumns="4" />
+        android:numColumns="4"
+        android:paddingTop="10dp" />
 
 </LinearLayout>

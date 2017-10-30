@@ -1,5 +1,6 @@
 package br.com.arius.pdvarius;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -53,6 +54,8 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
     double vrTotalVendido = 0;
     double vrTroco = 0;
 
+    private AriusActivityPercValor ariusActivityPercValor;
+
     /*Campos Rodapé*/
     private TextView lbCampo1;
     private TextView edtCampo1;
@@ -63,6 +66,8 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contentariusresumocaixa);
+
+        ariusActivityPercValor = new AriusActivityPercValor();
 
         setButtons(true, false, false);
 
@@ -167,7 +172,7 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     resumoCaixa = (ResumoCaixa) adapterView.getItemAtPosition(i);
                     if (funcaoExecutar.toLowerCase().equals("sangria"))
-                        criarDialogSangrar();
+                        criarDialogSangrar(view);
                     if (funcaoExecutar.toLowerCase().equals("retirada"))
                         criarDialogRetirada();
                 }
@@ -179,43 +184,25 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
         setRodape();
     }
 
-    private void criarDialogSangrar(){
-        AriusAlertDialog.exibirDialog(AriusActivityResumoCaixa.this, R.layout.content_dialog_sangria);
-        AriusAlertDialog.getGetView().findViewById(R.id.cmbSangriaDialogFinalizadora).setVisibility(View.GONE);
-        AriusAlertDialog.getGetView().findViewById(R.id.lbSangriaDialogFinalizadora).setVisibility(View.GONE);
+    private void criarDialogSangrar(View view){
+        AriusAlertDialog.exibirDialog(AriusActivityResumoCaixa.this, R.layout.contentariusdialogpercvalor);
+        ariusActivityPercValor.montaDialog_Campos(AriusAlertDialog.getAlertDialog(), view);
+        ariusActivityPercValor.setUtilizaPorcentagem(false);
 
-        final EditText edtSangria = AriusAlertDialog.getGetView().findViewById(R.id.edtSangriaDialogValor);
-
-        AriusAlertDialog.getGetView().findViewById(R.id.btnSangriaDialogCancelar).setOnClickListener(new View.OnClickListener() {
+        AriusAlertDialog.getGetView().findViewById(R.id.btnContentDialogValorConfirmar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AriusAlertDialog.getAlertDialog().dismiss();
-            }
-        });
-
-        AriusAlertDialog.getGetView().findViewById(R.id.btnSangriaDialogOK).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
-                Double v_valor = 0.0;
-                try{
-                    v_valor = nf.parse(edtSangria.getText().toString().replace(" ","")).doubleValue();
-                }catch (ParseException e){
-                    e.printStackTrace();
-                }
-                if (edtSangria.getText().toString().equals("") || v_valor <= 0) {
-                    edtSangria.requestFocus();
+                if (ariusActivityPercValor.getRetorno_valor() <= 0) {
                     throw new UserException("Informar um valor para a sangria!");
                 }
 
                 for (ResumoCaixa loopresumo : lresumo) {
-                    if (loopresumo.valor - loopresumo.valor_sangrar_retirar < v_valor)
+                    if (loopresumo.valor - loopresumo.valor_sangrar_retirar < ariusActivityPercValor.getRetorno_valor())
                         throw new UserException("Saldo insuficiente da Finalizadora : " + loopresumo.finalizadora.getDescricao() +
                         " para efeutar a sangria!");
 
                     if (loopresumo.finalizadora == resumoCaixa.finalizadora)
-                        loopresumo.valor_sangrar_retirar += v_valor;
+                        loopresumo.valor_sangrar_retirar += ariusActivityPercValor.getRetorno_valor();
                 }
 
                 ((AriusCursorAdapter) grdResumoCaixa.getAdapter()).notifyDataSetChanged();
@@ -225,50 +212,6 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
                 setRodape();
             }
         });
-
-        edtSangria.addTextChangedListener(new TextWatcher() {
-            private String texto;
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                edtSangria.removeTextChangedListener(this);
-
-                NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
-
-                double parsed;
-                if (editable.toString().contains(nf.getCurrency().getSymbol())) {
-                    String replaceable = String.format("[%s,.\\s]", nf.getCurrency().getSymbol());
-                    String  cleanString = editable.toString().replaceAll(replaceable, "");
-
-                    try {
-                        parsed = Double.parseDouble(cleanString);
-                    } catch (NumberFormatException e) {
-                        parsed = 0.00;
-                    }
-
-                    parsed = parsed / 100;
-                } else
-                    parsed = Double.parseDouble(editable.toString());
-
-                edtSangria.setText(AndroidUtils.FormatarValor_Monetario(parsed));
-                edtSangria.setSelection(edtSangria.getText().toString().length());
-                texto = edtSangria.getText().toString();
-                edtSangria.addTextChangedListener(this);
-            }
-        });
-
-        edtSangria.setText("0");
-
-        edtSangria.setSelection(edtSangria.getText().length());
     }
 
     private void criarDialogRetirada() {
@@ -418,7 +361,7 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
                         }
                     }
                 }
-                if (!efetuouSangria_Retirada)
+                if (!efetuouSangria_Retirada && !funcaoExecutar.toLowerCase().equals("fecharcaixa"))
                     AndroidUtils.toast(AriusActivityResumoCaixa.this,"Nenhum valor econtrado para efetuar a " + funcaoExecutar);
                 else
                     onBackPressed();

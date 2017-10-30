@@ -162,41 +162,146 @@ public class AuxiliarCadastros {
 
     public void alteraProdutoClassificacao(){
         ProdutoCategoria produtoClassificacao = new ProdutoCategoria();
-//        AppContext.get().getDao(ProdutoCategoriaDao.class).delete(AppContext.get().getDao(ProdutoCategoriaDao.class).find(6));
-//
-//        produtoClassificacao.setDescricao("Prato Principal");
-//
-//        produtoClassificacao.setProdutoCategoria(AppContext.get().getDao(ProdutoCategoriaDao.class).find(5));
-//
-//        AppContext.get().getDao(ProdutoCategoriaDao.class).insert(produtoClassificacao);
-//
-//        produtoClassificacao.setDescricao("Cervejas");
-//
-//        produtoClassificacao.setProdutoCategoria(AppContext.get().getDao(ProdutoCategoriaDao.class).find(4));
-//
-//        AppContext.get().getDao(ProdutoCategoriaDao.class).insert(produtoClassificacao);
+        produtoClassificacao.setDescricao("Sem Alcool");
+        produtoClassificacao.setProdutoCategoria(
+                AppContext.get().getDao(ProdutoCategoriaDao.class).find(2)
+        );
+        AppContext.get().getDao(ProdutoCategoriaDao.class).insert(produtoClassificacao);
 
-//        produtoClassificacao = AppContext.get().getDao(ProdutoCategoriaDao.class).find(7);
-//
-//        produtoClassificacao.setProdutoCategoria(AppContext.get().getDao(ProdutoCategoriaDao.class).find(9));
-//
-//        AppContext.get().getDao(ProdutoCategoriaDao.class).update(produtoClassificacao);
-//
-//        produtoClassificacao = AppContext.get().getDao(ProdutoCategoriaDao.class).find(5);
-//
-//        produtoClassificacao.setProdutoCategoria(AppContext.get().getDao(ProdutoCategoriaDao.class).find(2));
-//
-//        AppContext.get().getDao(ProdutoCategoriaDao.class).update(produtoClassificacao);
+        produtoClassificacao = new ProdutoCategoria();
+        produtoClassificacao.setDescricao("Alcoolica");
+        produtoClassificacao.setProdutoCategoria(
+                AppContext.get().getDao(ProdutoCategoriaDao.class).find(2)
+        );
+        AppContext.get().getDao(ProdutoCategoriaDao.class).insert(produtoClassificacao);
+
+        produtoClassificacao = new ProdutoCategoria();
+        produtoClassificacao.setDescricao("Refrigerantes");
+        produtoClassificacao.setProdutoCategoria(
+                AppContext.get().getDao(ProdutoCategoriaDao.class).find(4)
+        );
+        AppContext.get().getDao(ProdutoCategoriaDao.class).insert(produtoClassificacao);
+
+        produtoClassificacao = new ProdutoCategoria();
+        produtoClassificacao.setDescricao("Sucos");
+        produtoClassificacao.setProdutoCategoria(
+                AppContext.get().getDao(ProdutoCategoriaDao.class).find(4)
+        );
+        AppContext.get().getDao(ProdutoCategoriaDao.class).insert(produtoClassificacao);
+
+        produtoClassificacao = new ProdutoCategoria();
+        produtoClassificacao.setDescricao("Cervejas");
+        produtoClassificacao.setProdutoCategoria(
+                AppContext.get().getDao(ProdutoCategoriaDao.class).find(5)
+        );
+        AppContext.get().getDao(ProdutoCategoriaDao.class).insert(produtoClassificacao);
+
+        produtoClassificacao = new ProdutoCategoria();
+        produtoClassificacao.setDescricao("Vinhos");
+        produtoClassificacao.setProdutoCategoria(
+                AppContext.get().getDao(ProdutoCategoriaDao.class).find(5)
+        );
+        AppContext.get().getDao(ProdutoCategoriaDao.class).insert(produtoClassificacao);
+
+        produtoClassificacao = new ProdutoCategoria();
+        produtoClassificacao.setDescricao("Destilados");
+        produtoClassificacao.setProdutoCategoria(
+                AppContext.get().getDao(ProdutoCategoriaDao.class).find(5)
+        );
+        AppContext.get().getDao(ProdutoCategoriaDao.class).insert(produtoClassificacao);
 
     }
 
+    public void alteraProduto(){
+        Produto produto = new Produto();
+//        produto.setCodigo(789123461);
+//        produto.setDescricao("Coca Cola");
+//        produto.setPrincipal(false);
+//        produto.setDescricaoReduzida("Coca Cola");
+//        produto.setProdutoCategoria(
+//                AppContext.get().getDao(ProdutoCategoriaDao.class).find(6)
+//        );
 //
-//        Produto produto = AppContext.get().getDao(ProdutoDao.class).find(1);
-//        produto.setUnidadeMedida(unidadeMedida);
-//        AppContext.get().getDao(ProdutoDao.class).update(produto);
+//        AppContext.get().getDao(ProdutoDao.class).insert(produto);
 //
-//        produto = AppContext.get().getDao(ProdutoDao.class).find(2);
-//        produto.setUnidadeMedida(unidadeMedida);
-//        AppContext.get().getDao(ProdutoDao.class).update(produto);
+//        produto = new Produto();
+//        produto.setCodigo(789123461);
+//        produto.setDescricao("Guaraná Antartica");
+//        produto.setPrincipal(false);
+//        produto.setDescricaoReduzida("Guaraná Antartica");
+//        produto.setProdutoCategoria(
+//                AppContext.get().getDao(ProdutoCategoriaDao.class).find(6)
+//        );
+//
+//        AppContext.get().getDao(ProdutoDao.class).insert(produto);
+//
+//        produto = new Produto();
+//        produto.setCodigo(789123461);
+//        produto.setDescricao("Laranja");
+//        produto.setPrincipal(false);
+//        produto.setDescricaoReduzida("Laranja");
+//        produto.setProdutoCategoria(
+//                AppContext.get().getDao(ProdutoCategoriaDao.class).find(7)
+//        );
+//
+//        AppContext.get().getDao(ProdutoDao.class).insert(produto);
+
+        produto = new Produto();
+        produto.setCodigo(789123461);
+        produto.setDescricao("Skol");
+        produto.setPrincipal(false);
+        produto.setDescricaoReduzida("Skol");
+        produto.setProdutoCategoria(
+                AppContext.get().getDao(ProdutoCategoriaDao.class).find(8)
+        );
+
+        AppContext.get().getDao(ProdutoDao.class).insert(produto);
+
+        produto = new Produto();
+        produto.setCodigo(789123461);
+        produto.setDescricao("Brahma");
+        produto.setPrincipal(false);
+        produto.setDescricaoReduzida("Brahma");
+        produto.setProdutoCategoria(
+                AppContext.get().getDao(ProdutoCategoriaDao.class).find(8)
+        );
+
+        AppContext.get().getDao(ProdutoDao.class).insert(produto);
+
+        produto = new Produto();
+        produto.setCodigo(789123461);
+        produto.setDescricao("Antartica");
+        produto.setPrincipal(false);
+        produto.setDescricaoReduzida("Laranja");
+        produto.setProdutoCategoria(
+                AppContext.get().getDao(ProdutoCategoriaDao.class).find(8)
+        );
+
+        AppContext.get().getDao(ProdutoDao.class).insert(produto);
+
+        produto = new Produto();
+        produto.setCodigo(789123461);
+        produto.setDescricao("Faroni Lopes");
+        produto.setPrincipal(false);
+        produto.setDescricaoReduzida("Faroni Lopes");
+        produto.setProdutoCategoria(
+                AppContext.get().getDao(ProdutoCategoriaDao.class).find(9)
+        );
+
+        AppContext.get().getDao(ProdutoDao.class).insert(produto);
+
+        produto = new Produto();
+        produto.setCodigo(789123461);
+        produto.setDescricao("Caipirinha de Vodka");
+        produto.setPrincipal(false);
+        produto.setDescricaoReduzida("Caipirinha de Vodka");
+        produto.setProdutoCategoria(
+                AppContext.get().getDao(ProdutoCategoriaDao.class).find(10)
+        );
+
+        AppContext.get().getDao(ProdutoDao.class).insert(produto);
+
+
+    }
 
 }

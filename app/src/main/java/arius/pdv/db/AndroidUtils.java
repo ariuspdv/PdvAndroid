@@ -2,10 +2,12 @@ package arius.pdv.db;
 
 
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +23,7 @@ import java.util.Locale;
 
 import arius.pdv.base.Produto;
 import arius.pdv.core.Entity;
+import br.com.arius.pdvarius.R;
 
 /**
  * Created by Arius on 30/08/2017.
@@ -189,5 +192,16 @@ public class AndroidUtils {
         toastTV.setTextSize(30);
         toastTV.setGravity(Gravity.CENTER);
         toast.show();
+    }
+
+    public static AlertDialog setProgressBar(Context context){
+        AlertDialog progress = new  AlertDialog.Builder(context).create();
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+
+        progress.setView(layoutInflater.inflate(R.layout.layoutprogress, null));
+        progress.setCancelable(false);
+        progress.show();
+
+        return progress;
     }
 }
