@@ -22,7 +22,6 @@ import arius.pdv.db.AndroidUtils;
 public class AriusActivityPercValor {
 
     private String error = "";
-    private TextView lbTitulo;
     private EditText edtValor;
     private EditText edtPorc;
     private View.OnClickListener clickbotao;
@@ -52,14 +51,6 @@ public class AriusActivityPercValor {
         this.aceitaporcentagem = aceitaporcentagem;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-        if (lbTitulo != null) {
-            lbTitulo.setText(titulo);
-            lbTitulo.setVisibility(View.VISIBLE);
-        }
-    }
-
     public void setEdtValor(double valor){
         if (valor > 0)
             edtValor.setText(AndroidUtils.FormatarValor_Monetario(valor));
@@ -70,16 +61,15 @@ public class AriusActivityPercValor {
         this.utilizaPorcentagem = value;
         if (pnlPorcentagem != null) {
             pnlPorcentagem.setVisibility(value ? View.VISIBLE : View.GONE);
-            textInputLayout.setHint("Valor Inicial do Caixa");
         }
 
     }
 
-    public void montaDialog_Campos(final AlertDialog alertDialog, View view){
-        lbTitulo = (TextView) alertDialog.findViewById(R.id.lbContentDialogPercValorTitulo);
+    public void montaDialog_Campos(final AlertDialog alertDialog, View view, String textHint){
         edtValor = (EditText) alertDialog.findViewById(R.id.edtContentDialogPercValorValor);
         edtPorc = (EditText) alertDialog.findViewById(R.id.edtContentDialogPercValorPerc);
         textInputLayout = (TextInputLayout) alertDialog.findViewById(R.id.pnlContentDialogoValorLayout);
+        textInputLayout.setHint(textHint);
 
         pnlPorcentagem = (LinearLayout) alertDialog.findViewById(R.id.pnlContentDialogoPercValorPerc);
         clickbotao = new View.OnClickListener() {
@@ -225,12 +215,6 @@ public class AriusActivityPercValor {
             }
         });
 
-        if (!titulo.equals("")) {
-            lbTitulo.setText(this.titulo);
-            lbTitulo.setVisibility(View.VISIBLE);
-        }
-        else
-            lbTitulo.setVisibility(View.GONE);
     }
 
 }

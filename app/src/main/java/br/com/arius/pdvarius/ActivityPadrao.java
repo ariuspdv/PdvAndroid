@@ -123,7 +123,6 @@ public class ActivityPadrao extends AppCompatActivity {
             txtStatus.setText(PdvService.get().getPdv().getStatus().toString());
             txtStatus.setBackgroundColor(PdvService.get().getPdv().getStatus() != PdvTipo.ABERTO ?
                     Color.parseColor("#bc2d2d"): Color.parseColor("#29840f"));
-            title.setText("PDV Arius");
 //            ImageView imgPDVVenda = (ImageView) findViewById(R.id.imgPDVStatus);
 //            imgPDVVenda.setImageResource(PdvService.get().getPdv().getStatus() != PdvTipo.ABERTO ?
 //                    R.drawable.ic_circle_red : R.drawable.ic_circle_green);
@@ -138,9 +137,6 @@ public class ActivityPadrao extends AppCompatActivity {
         this.iconeVendaStatus = iconeVendaStatus;
         LayoutInflater mInflater = LayoutInflater.from(this);
         View mCustomView = mInflater.inflate(R.layout.layouactionbar, null);
-        TextView mTitleTextView = mCustomView.findViewById(R.id.lbTitle_ActionBar);
-        if (PdvService.get().getPdv() != null)
-            mTitleTextView.setText("PDV Arius");
 
         if (getSupportActionBar() == null) {
             toolbar = (Toolbar) findViewById(R.id.toolbar);

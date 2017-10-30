@@ -6,18 +6,18 @@
     android:orientation="vertical"
     tools:context="br.com.arius.pdvarius.AriusActivityProdutoPrincipal">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_orange"
-        android:padding="5dp"
-        android:text="Principais"
-        android:textAlignment="center"
-        android:textColor="#fff"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        tools:ignore="HardcodedText" />
+    <!--<TextView-->
+        <!--android:id="@+id/textView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@drawable/button_orange_event"-->
+        <!--android:padding="5dp"-->
+        <!--android:text="Principais"-->
+        <!--android:textAlignment="center"-->
+        <!--android:textColor="#fff"-->
+        <!--android:textSize="30sp"-->
+        <!--android:textStyle="bold"-->
+        <!--tools:ignore="HardcodedText" />-->
 
     <GridView
         android:id="@+id/grdProduto_Principal"

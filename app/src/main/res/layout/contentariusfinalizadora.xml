@@ -10,7 +10,7 @@
         android:id="@+id/lbTituloFinalizadora"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_orange"
+        android:background="@drawable/button_orange_event"
         android:text="Finalizadoras"
         android:textColor="#fff"
         android:padding="5dp"

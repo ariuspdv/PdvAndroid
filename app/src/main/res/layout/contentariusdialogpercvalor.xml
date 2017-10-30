@@ -4,13 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    <TextView
-        android:id="@+id/lbContentDialogPercValorTitulo"
-        android:text="Valor do Reforço"
-        android:paddingTop="10dp"
-        style="@style/AriusTextView"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

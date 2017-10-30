@@ -186,7 +186,7 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
 
     private void criarDialogSangrar(View view){
         AriusAlertDialog.exibirDialog(AriusActivityResumoCaixa.this, R.layout.contentariusdialogpercvalor);
-        ariusActivityPercValor.montaDialog_Campos(AriusAlertDialog.getAlertDialog(), view);
+        ariusActivityPercValor.montaDialog_Campos(AriusAlertDialog.getAlertDialog(), view, "Sangria");
         ariusActivityPercValor.setUtilizaPorcentagem(false);
 
         AriusAlertDialog.getGetView().findViewById(R.id.btnContentDialogValorConfirmar).setOnClickListener(new View.OnClickListener() {

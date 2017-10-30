@@ -6,14 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="2"
-    android:background="#f4f4f4"
     tools:context="br.com.arius.pdvarius.AriusActivityItemVenda">
 
     <!--<TextView-->
         <!--android:id="@+id/lbTituloItemVenda"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:background="@drawable/button_orange"-->
+        <!--android:background="@drawable/button_orange_event"-->
         <!--android:text="Itens da Venda"-->
         <!--android:textAlignment="center"-->
         <!--android:textColor="#fff"-->

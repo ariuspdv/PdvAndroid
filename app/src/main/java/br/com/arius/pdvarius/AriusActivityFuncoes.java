@@ -3,6 +3,8 @@ package br.com.arius.pdvarius;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.LinearLayout;
 import arius.pdv.base.PdvDao;
@@ -107,8 +109,7 @@ public class AriusActivityFuncoes extends ActivityPadrao {
                     return;
 
                 AriusAlertDialog.exibirDialog(context,R.layout.contentariusdialogpercvalor);
-                ariusActivityPercValor.montaDialog_Campos(AriusAlertDialog.getAlertDialog(), view);
-                ariusActivityPercValor.setTitulo("Reforço");
+                ariusActivityPercValor.montaDialog_Campos(AriusAlertDialog.getAlertDialog(), view, "Reforço");
                 ariusActivityPercValor.setUtilizaPorcentagem(false);
 
                 AriusAlertDialog.getGetView().findViewById(R.id.btnContentDialogValorConfirmar).setOnClickListener(

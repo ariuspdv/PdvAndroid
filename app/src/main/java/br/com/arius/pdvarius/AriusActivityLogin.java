@@ -57,7 +57,7 @@ public class AriusActivityLogin extends ActivityPadrao {
             @Override
             public void onClick(View v) {
                 AriusAlertDialog.exibirDialog(context,R.layout.contentariusdialogpercvalor);
-                ariusActivityPercValor.montaDialog_Campos(AriusAlertDialog.getAlertDialog(), v);
+                ariusActivityPercValor.montaDialog_Campos(AriusAlertDialog.getAlertDialog(), v, "Valor Inicial do Caixa");
                 //ariusActivityPercValor.setTitulo("Valor Inicial");
                 ariusActivityPercValor.setUtilizaPorcentagem(false);
 

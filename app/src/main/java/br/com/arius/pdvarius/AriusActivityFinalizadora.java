@@ -232,9 +232,8 @@ public class AriusActivityFinalizadora extends ActivityPadrao {
                         if (vendaFinalizadora.getValor() > 0) {
                             AriusAlertDialog.exibirDialog(context, R.layout.contentariusdialogpercvalor);
                             alertDescJuro = AriusAlertDialog.getAlertDialog();
-                            ariusActivityPercValor.montaDialog_Campos(alertDescJuro, v);
+                            ariusActivityPercValor.montaDialog_Campos(alertDescJuro, v, "Desconto");
                             ariusActivityPercValor.setValor(vendaFinalizadora.getValor());
-                            ariusActivityPercValor.setTitulo("Desconto");
                             ariusActivityPercValor.setAceitaporcentagem(false);
 
                             alertDescJuro.findViewById(R.id.btnContentDialogValorConfirmar).setOnClickListener(
@@ -264,9 +263,8 @@ public class AriusActivityFinalizadora extends ActivityPadrao {
                         if (vendaFinalizadora.getValor() > 0) {
                             AriusAlertDialog.exibirDialog(context, R.layout.contentariusdialogpercvalor);
                             alertDescJuro = AriusAlertDialog.getAlertDialog();
-                            ariusActivityPercValor.montaDialog_Campos(alertDescJuro, v);
+                            ariusActivityPercValor.montaDialog_Campos(alertDescJuro, v, "Juro");
                             ariusActivityPercValor.setValor(vendaFinalizadora.getValor());
-                            ariusActivityPercValor.setTitulo("Juro");
                             ariusActivityPercValor.setAceitaporcentagem(true);
 
                             alertDescJuro.findViewById(R.id.btnContentDialogValorConfirmar).setOnClickListener(
