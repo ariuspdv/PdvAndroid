@@ -84,7 +84,7 @@
                             android:text="Sangria"
                             android:textAlignment="center"
                             android:textColor="#fff"
-                            android:textSize="17dp"
+                            android:textSize="20dp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -111,7 +111,7 @@
                             android:text="Reforço"
                             android:textAlignment="center"
                             android:textColor="#fff"
-                            android:textSize="17dp"
+                            android:textSize="20dp"
                             android:textStyle="bold" />
                 </LinearLayout>
 
@@ -147,7 +147,7 @@
                             android:text="Retirada"
                             android:textAlignment="center"
                             android:textColor="#fff"
-                            android:textSize="17dp"
+                            android:textSize="20dp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -173,7 +173,7 @@
                             android:text="Fechar Venda Ativa"
                             android:textAlignment="center"
                             android:textColor="#fff"
-                            android:textSize="17dp"
+                            android:textSize="20dp"
                             android:textStyle="bold" />
                 </LinearLayout>
 
@@ -208,7 +208,7 @@
                             android:text="Cancelar Venda"
                             android:textAlignment="center"
                             android:textColor="#fff"
-                            android:textSize="17dp"
+                            android:textSize="20dp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -226,7 +226,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
-                            android:background="@mipmap/cancelar_venda" />
+                            android:background="@mipmap/fechar_caixa" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -234,7 +234,7 @@
                             android:text="Fechar Caixa"
                             android:textAlignment="center"
                             android:textColor="#fff"
-                            android:textSize="17dp"
+                            android:textSize="20dp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -272,7 +272,7 @@
                         android:text="Configurações"
                         android:textAlignment="center"
                         android:textColor="#fff"
-                        android:textSize="17dp"
+                        android:textSize="20dp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -298,7 +298,7 @@
                         android:text="Sincronização"
                         android:textAlignment="center"
                         android:textColor="#fff"
-                        android:textSize="17dp"
+                        android:textSize="20dp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
