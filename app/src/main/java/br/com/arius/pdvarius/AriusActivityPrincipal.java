@@ -1,5 +1,6 @@
 package br.com.arius.pdvarius;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationMenuView;
@@ -13,6 +14,7 @@ import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import java.lang.reflect.Field;
 
@@ -41,6 +43,11 @@ public class AriusActivityPrincipal extends ActivityPadrao {
             switch (item.getItemId()) {
                 case R.id.navigation_prodcategoria:
                     montaFragmento(FragmentActivityCategoriaPrincipal.class);
+                    View view = getCurrentFocus();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
                     return true;
                 case R.id.navigation_itensvenda:
                     montaFragmento(FragmentActivityItemVenda.class);
