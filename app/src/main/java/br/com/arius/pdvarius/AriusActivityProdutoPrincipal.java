@@ -36,7 +36,6 @@ public class AriusActivityProdutoPrincipal extends ActivityPadrao {
 
     private GridView grdProdPrincipal;
     private Context context;
-    private Button btnVoltar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,18 +62,10 @@ public class AriusActivityProdutoPrincipal extends ActivityPadrao {
                 inserirItemVenda((Produto) adapterView.getItemAtPosition(i));
             }
         });
-
-        btnVoltar = view.findViewById(R.id.btnProPrincipalVoltar);
-        btnVoltar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pesquisaPrincipa(0);
-            }
-        });
     }
 
     public void pesquisaPrincipa(final long categoria_id){
-        AriusCursorAdapter adapter_item = null;
+        AriusCursorAdapter adapter_item;
         FuncionaisFilters<Produto> filter = new FuncionaisFilters<Produto>() {
             @Override
             public boolean test(Produto p) {
@@ -89,8 +80,6 @@ public class AriusActivityProdutoPrincipal extends ActivityPadrao {
 
         lproduto = AppContext.get().getDao(ProdutoDao.class).listCache(filter);
         Map<Integer, String> campos = new HashMap<>();
-        campos.put(R.id.combobox_codigo,"produto.codigo");
-        campos.put(R.id.combobox_descricao,"produto.descricao");
 
         if (lproduto.size() > 0) {
             adapter_item = new AriusCursorAdapter(context,
@@ -140,8 +129,6 @@ public class AriusActivityProdutoPrincipal extends ActivityPadrao {
         vndItem.setValorTotal(10);
 
         PdvService.get().insereVendaItem(vndItem);
-
-        Object t = getAppContext();
 
         if (this.context == null)
             this.context = getAppContext();

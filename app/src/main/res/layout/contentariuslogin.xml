@@ -60,7 +60,9 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight=".5"
-                        android:orientation="horizontal"></LinearLayout>
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -86,7 +88,9 @@
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:textColorHint="#c1c2c4"
-                            android:layout_height="wrap_content"></android.support.design.widget.TextInputLayout>
+                            android:layout_height="wrap_content">
+
+                        </android.support.design.widget.TextInputLayout>
 
                         <Button
                             android:id="@+id/btn_Entrar"
@@ -105,12 +109,22 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight=".5"
-                        android:orientation="horizontal"></LinearLayout>
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btnProgressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            tools:layout_editor_absoluteX="78dp"
+            tools:layout_editor_absoluteY="648dp" />
 
     </android.support.constraint.ConstraintLayout>
 

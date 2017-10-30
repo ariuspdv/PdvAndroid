@@ -110,7 +110,7 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
                 } else {
                     PdvService.get().getPdv().getVendaAtiva().setPdv(PdvService.get().getPdv());
                     PdvService.get().encerraVenda(PdvService.get().getPdv().getVendaAtiva());
-                    AriusActivityPrincipal.setNavigation();
+                    AriusActivityPrincipal.setNavigation(R.id.navigation_prodcategoria);
                 }
             }
         });

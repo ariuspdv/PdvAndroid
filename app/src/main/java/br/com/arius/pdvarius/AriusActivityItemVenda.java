@@ -410,22 +410,15 @@ public class AriusActivityItemVenda extends ActivityPadrao {
                 if (!editable.toString().equals(texto)) {
                     edtQtde.removeTextChangedListener(this);
 
-                    NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
-
                     double parsed;
-                    if (editable.toString().contains(nf.getCurrency().getSymbol())) {
-                        String replaceable = String.format("[%s,.\\s]", nf.getCurrency().getSymbol());
-                        String  cleanString = editable.toString().replaceAll(replaceable, "");
-
+                    if (editable.toString().equals(""))
+                        parsed = 1;
+                    else
                         try {
-                            parsed = Double.parseDouble(cleanString);
-                        } catch (NumberFormatException e) {
-                            parsed = 0.00;
+                            parsed = Double.parseDouble(editable.toString());
+                        } catch (NumberFormatException e){
+                            parsed = 0;
                         }
-
-                        parsed = parsed / 100;
-                    } else
-                        parsed = Double.parseDouble(editable.toString());
 
                     edtQtde.setText(AndroidUtils.FormataQuantidade(vendaItem.getProduto(),parsed));
                     edtQtde.setSelection(edtQtde.getText().toString().length());
@@ -444,7 +437,7 @@ public class AriusActivityItemVenda extends ActivityPadrao {
             @Override
             public void onClick(View view) {
                 double vqtde = Double.parseDouble(edtQtde.getText().toString());
-                if (vqtde > 0)
+                if (vqtde > 1)
                     vqtde --;
                 edtQtde.setText(AndroidUtils.FormataQuantidade(vendaItem.getProduto(),vqtde));
             }

@@ -1,6 +1,5 @@
 package br.com.arius.pdvarius;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -30,7 +29,7 @@ public class AriusActivityLogin extends ActivityPadrao {
 
     }
 
-    public void montaLogin(View view, Context context){
+    public void montaLogin(View view, final Context context){
         this.context = context;
 
         ariusActivityPercValor = new AriusActivityPercValor();
@@ -43,6 +42,14 @@ public class AriusActivityLogin extends ActivityPadrao {
 
         if (btnLogin != null)
             setButtonLogin();
+
+        Button btn = view.findViewById(R.id.btnProgressbar);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AndroidUtils.setProgressBar(context);
+            }
+        });
     }
 
     private void setButtonLogin(){

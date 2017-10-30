@@ -40,7 +40,7 @@ public class AriusActivityPrincipal extends ActivityPadrao {
                 fragmentAtivo = null;
             switch (item.getItemId()) {
                 case R.id.navigation_prodcategoria:
-                    montaFragmento(FragmentActivityProdCategoria.class);
+                    montaFragmento(FragmentActivityCategoriaPrincipal.class);
                     return true;
                 case R.id.navigation_itensvenda:
                     montaFragmento(FragmentActivityItemVenda.class);
@@ -63,24 +63,31 @@ public class AriusActivityPrincipal extends ActivityPadrao {
 
     @Override
     protected void onStart(){
+        FragmentManager fm = getSupportFragmentManager();
         super.onStart();
         if (PdvService.get().getPdv().getStatus() == PdvTipo.FECHADO){
             appBar.setVisibility(View.GONE);
             navigation.setVisibility(View.GONE);
-            FragmentManager fm = getSupportFragmentManager();
             for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-                getSupportFragmentManager().popBackStackImmediate();
+                fm.popBackStack(fm.getBackStackEntryAt(i).getName(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
+            fm.popBackStackImmediate();
             montaFragmento(FragmentActivityLogin.class);
         } else {
             if (navigation.getVisibility() != View.VISIBLE)
                 navigation.setVisibility(View.VISIBLE);
             if (appBar.getVisibility() != View.VISIBLE)
                 appBar.setVisibility(View.VISIBLE);
-            setNavigation();
-            if (getPesquisaVenda()) {
-                setPesquisaVenda(false);
+
+            for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                String tag = fm.getBackStackEntryAt(i).getName();
+                if (fm.findFragmentByTag(tag).getClass() == FragmentActivityLogin.class) {
+                    fm.beginTransaction().remove(fm.findFragmentByTag(tag)).commitNow();
+                    super.onBackPressed();
+                }
             }
+
+            setFragmentAtivo();
         }
     }
 
@@ -98,22 +105,31 @@ public class AriusActivityPrincipal extends ActivityPadrao {
 
         setButtons(false,false,false);
 
+        AuxiliarCadastros auxiliarCadastros = new AuxiliarCadastros();
+
+//        auxiliarCadastros.alteraProdutoClassificacao();
+//        auxiliarCadastros.alteraProduto();
+
     }
 
-    public static void setNavigation(){
-        setAbaNavigator();
+    public static void setNavigation(int itemNavigator){
+        navigation.setSelectedItemId(itemNavigator);
     }
 
-    private static void setAbaNavigator(){
-        if (criandoTela) {
-            navigation.setSelectedItemId(R.id.navigation_prodcategoria);
-            criandoTela = false;
-        } else {
+    private void setFragmentAtivo(){
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0){
             if (PdvService.get().getVendaAtiva() == null)
                 navigation.setSelectedItemId(R.id.navigation_prodcategoria);
             else
                 navigation.setSelectedItemId(R.id.navigation_itensvenda);
+        } else {
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                String tag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
+                fragmentAtivo = getSupportFragmentManager().findFragmentByTag(tag);
+                montaFragmento(fragmentAtivo.getClass());
+            }
         }
+
     }
 
     @Override
@@ -130,18 +146,23 @@ public class AriusActivityPrincipal extends ActivityPadrao {
             tag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
             fragment = getSupportFragmentManager().findFragmentByTag(tag);
 
-            pressBack = true;
+            if (fragment.getClass() == FragmentActivityLogin.class)
+                onBackPressed();
+            else {
+                pressBack = true;
 
-            if (fragment.getClass() == FragmentActivityProdCategoria.class)
-                navigation.setSelectedItemId(R.id.navigation_prodcategoria);
-            if (fragment.getClass() == FragmentActivityItemVenda.class)
-                navigation.setSelectedItemId(R.id.navigation_itensvenda);
-            if (fragment.getClass() == FragmentActivityFinalizadoraVenda.class)
-                navigation.setSelectedItemId(R.id.navigation_finalizadorasvenda);
-            if (fragment.getClass() == FragmentActivityFuncoes.class)
-                navigation.setSelectedItemId(R.id.navigation_funcoes);
+                if (fragment.getClass() == FragmentActivityCategoriaPrincipal.class)
+                    navigation.setSelectedItemId(R.id.navigation_prodcategoria);
+                if (fragment.getClass() == FragmentActivityItemVenda.class)
+                    navigation.setSelectedItemId(R.id.navigation_itensvenda);
+                if (fragment.getClass() == FragmentActivityFinalizadoraVenda.class)
+                    navigation.setSelectedItemId(R.id.navigation_finalizadorasvenda);
+                if (fragment.getClass() == FragmentActivityFuncoes.class)
+                    navigation.setSelectedItemId(R.id.navigation_funcoes);
 
-            pressBack = false;
+                pressBack = false;
+
+            }
         }
     }
 
@@ -158,14 +179,14 @@ public class AriusActivityPrincipal extends ActivityPadrao {
             }
         }
 
-        if (nomeClasseFragment == FragmentActivityProdCategoria.class){
+        if (nomeClasseFragment == FragmentActivityCategoriaPrincipal.class){
             if (fragmentAtivo != null && fragmentAtivo.getClass() == nomeClasseFragment)
                 return;
 
-            FragmentActivityProdCategoria fragmentActivityProdCategoria = new FragmentActivityProdCategoria();
-            ft.replace(R.id.frameprincipal, fragmentActivityProdCategoria, "fragmentActivityProdCategoria");
+            FragmentActivityCategoriaPrincipal fragmentActivityCategoriaPrincipal = new FragmentActivityCategoriaPrincipal();
+            ft.replace(R.id.frameprincipal, fragmentActivityCategoriaPrincipal, "fragmentActivityCategoriaPrincipal");
             if (!pressBack)
-                ft.addToBackStack("fragmentActivityProdCategoria");
+                ft.addToBackStack("fragmentActivityCategoriaPrincipal");
         }
 
         if (nomeClasseFragment == FragmentActivityItemVenda.class){

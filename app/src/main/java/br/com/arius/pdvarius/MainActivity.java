@@ -84,101 +84,14 @@ public class MainActivity extends ActivityPadrao {
             @Override
             public void onClick(View view) {
                 PdvService.get().setOperadorAtual(AppContext.get().getDao(UsuarioDao.class).find(1));
-                if (PdvService.get().getOperadorAtual() == null){
+                if (PdvService.get().getOperadorAtual() == null) {
                     throw new UserException("Operação não permitida! \n Operador não encontrado!");
                 }
-
+            }
+        });
 //                TesteComMetodos testeComMetodos = new TesteComMetodos();
 //                testeComMetodos.capturaMetodo();
 
-                AriusAlertDialog.exibirDialog(MainActivity.this,R.layout.contentariusdialogreforco);
-
-                final Button btnOK = AriusAlertDialog.getGetView().findViewById(R.id.btnReforcoDialogOK);
-                final Button btnCancel = AriusAlertDialog.getGetView().findViewById(R.id.btnReforcoDialogCancelar);
-                final TextView lbRefornco = AriusAlertDialog.getGetView().findViewById(R.id.lbReforcoDialog);
-                final EditText edtReforco = AriusAlertDialog.getGetView().findViewById(R.id.edtReforcoDialog);
-
-                lbRefornco.setText("Valor abertura caixa");
-
-                edtReforco.addTextChangedListener(new TextWatcher() {
-                    private String texto;
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-                        edtReforco.removeTextChangedListener(this);
-
-                        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
-
-                        double parsed;
-                        if (editable.toString().contains(nf.getCurrency().getSymbol())) {
-                            String replaceable = String.format("[%s,.\\s]", nf.getCurrency().getSymbol());
-                            String  cleanString = editable.toString().replaceAll(replaceable, "");
-
-                            try {
-                                parsed = Double.parseDouble(cleanString);
-                            } catch (NumberFormatException e) {
-                                parsed = 0.00;
-                            }
-
-                            parsed = parsed / 100;
-                        } else
-                            parsed = Double.parseDouble(editable.toString());
-
-                        edtReforco.setText(AndroidUtils.FormatarValor_Monetario(parsed));
-                        edtReforco.setSelection(edtReforco.getText().toString().length());
-                        this.texto = edtReforco.getText().toString();
-                        edtReforco.addTextChangedListener(this);
-                    }
-                });
-
-                btnOK.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
-                        Double v_valor = 0.0;
-                        try{
-                            v_valor = nf.parse(edtReforco.getText().toString().replace(" ","")).doubleValue();
-                        }catch (ParseException e){
-                            e.printStackTrace();
-                        }
-                        if (edtReforco.getText().toString().equals("") || v_valor <= 0)
-                            throw new UserException("Informar um valor para a abertura do caixa!");
-
-                        //iniciaBarraProgresso();
-
-                        PdvService.get().abreCaixa(AppContext.get().getDao(UsuarioDao.class).find(1),v_valor);
-
-                        Intent intent = new Intent(getBaseContext(), AriusActivityPrincipal.class);
-
-                        startActivity(intent);
-
-                        AriusAlertDialog.getAlertDialog().dismiss();
-
-                        appBar.setVisibility(View.VISIBLE);
-                    }
-                });
-
-                btnCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        AriusAlertDialog.getAlertDialog().dismiss();
-                    }
-                });
-
-                edtReforco.setText("0");
-                edtReforco.requestFocus();
-                edtReforco.setSelection(edtReforco.getText().length());
-            }
-        });
 
         setButtons(false, false, false);
 
