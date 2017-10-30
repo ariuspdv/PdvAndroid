@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:scrollbarStyle="insideOverlay"
+    android:background="#f4f4f4"
     android:scrollbars="vertical">
 
 

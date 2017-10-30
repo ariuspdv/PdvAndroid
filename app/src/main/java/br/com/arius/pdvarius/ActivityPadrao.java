@@ -1,6 +1,7 @@
 package br.com.arius.pdvarius;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -79,15 +80,7 @@ public class ActivityPadrao extends AppCompatActivity {
                                     "PDV não configurado ou não existente!");
         }
 
-        TextView title = (TextView) findViewById(R.id.lbTitle_ActionBar);
-        if (title != null && PdvService.get().getPdv() != null) {
-            title.setText("PdvArius - Caixa " + PdvService.get().getPdv().getStatus().toString());
-            ImageView imgPDVVenda = (ImageView) findViewById(R.id.imgPDVStatus);
-            imgPDVVenda.setImageResource(PdvService.get().getPdv().getStatus() != PdvTipo.ABERTO ?
-                    R.drawable.ic_circle_red : R.drawable.ic_circle_green);
-            this.imgVensaStatus = (ImageView) findViewById(R.id.imgVendaStatus);
-            setImagemVendaStatus();
-        }
+        setTitleToolbar();
     }
 
     @Override
@@ -122,6 +115,24 @@ public class ActivityPadrao extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //Método para criar o toolbar customizado no app
+    public void setTitleToolbar() {
+        TextView title = (TextView) findViewById(R.id.lbTitle_ActionBar);
+        if (title != null && PdvService.get().getPdv() != null) {
+            TextView txtStatus = (TextView) findViewById(R.id.lbStatus);
+            txtStatus.setText(PdvService.get().getPdv().getStatus().toString());
+            txtStatus.setBackgroundColor(PdvService.get().getPdv().getStatus() != PdvTipo.ABERTO ?
+                    Color.parseColor("#bc2d2d"): Color.parseColor("#29840f"));
+            title.setText("PDV Arius");
+//            ImageView imgPDVVenda = (ImageView) findViewById(R.id.imgPDVStatus);
+//            imgPDVVenda.setImageResource(PdvService.get().getPdv().getStatus() != PdvTipo.ABERTO ?
+//                    R.drawable.ic_circle_red : R.drawable.ic_circle_green);
+            this.imgVensaStatus = (ImageView) findViewById(R.id.imgVendaStatus);
+            setImagemVendaStatus();
+        }
+
+    }
+
     public void setButtons(boolean p_btnVoltar, boolean p_habilitaMenu, boolean iconeVendaStatus){
         this.habilita_menu = p_habilitaMenu;
         this.iconeVendaStatus = iconeVendaStatus;
@@ -129,7 +140,7 @@ public class ActivityPadrao extends AppCompatActivity {
         View mCustomView = mInflater.inflate(R.layout.layouactionbar, null);
         TextView mTitleTextView = mCustomView.findViewById(R.id.lbTitle_ActionBar);
         if (PdvService.get().getPdv() != null)
-            mTitleTextView.setText("PdvArius - Caixa " + PdvService.get().getPdv().getStatus().toString());
+            mTitleTextView.setText("PDV Arius");
 
         if (getSupportActionBar() == null) {
             toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -138,10 +149,7 @@ public class ActivityPadrao extends AppCompatActivity {
 
         if (p_btnVoltar) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            mTitleTextView.setGravity(Gravity.START);
-        } else
-
-            mTitleTextView.setGravity(Gravity.CENTER);
+        }
 
         getSupportActionBar().setDisplayShowHomeEnabled(false);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
