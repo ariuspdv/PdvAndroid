@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:background="#ededed">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,29 +25,53 @@
             android:contentDescription=""
             tools:ignore="ContentDescription" />
 
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:gravity="center_vertical|center_horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/logo_relatorio"/>
+        </LinearLayout>
+
         <TextView
             android:id="@+id/lbTitle_ActionBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10sp"
             android:layout_weight="1"
-            android:text="PdvArius - Caixa Aberto"
+            android:layout_gravity="center_vertical"
+            android:text="PDV Arius"
+            android:textColor="#636363"
+            android:textIsSelectable="false"
+            android:textSize="@dimen/textsize_actionbar"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText,SpUsage" />
+
+        <TextView
+            android:id="@+id/lbStatus"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_weight="0.5"
+            android:text="status"
             android:textAlignment="center"
             android:textColor="@android:color/background_light"
             android:textIsSelectable="false"
             android:textSize="@dimen/textsize_actionbar"
             android:textStyle="bold"
             tools:ignore="HardcodedText,SpUsage" />
-
-        <ImageView
-            android:id="@+id/imgPDVStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5sp"
-            android:contentDescription=""
-            android:scaleType="center"
-            app:srcCompat="@drawable/ic_circle_red"
-            tools:ignore="ContentDescription" />
+        <!--<ImageView-->
+            <!--android:id="@+id/imgPDVStatus"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="5sp"-->
+            <!--android:contentDescription=""-->
+            <!--android:scaleType="center"-->
+            <!--app:srcCompat="@drawable/ic_circle_red"-->
+            <!--tools:ignore="ContentDescription" />-->
     </LinearLayout>
 
 
