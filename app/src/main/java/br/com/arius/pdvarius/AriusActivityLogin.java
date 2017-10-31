@@ -2,6 +2,9 @@ package br.com.arius.pdvarius;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 
@@ -19,7 +22,7 @@ public class AriusActivityLogin extends ActivityPadrao {
 
     private Context context;
     private Button btnLogin;
-    AriusActivityPercValor ariusActivityPercValor;
+    private AriusActivityPercValor ariusActivityPercValor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +45,6 @@ public class AriusActivityLogin extends ActivityPadrao {
 
         if (btnLogin != null)
             setButtonLogin();
-
-        Button btn = view.findViewById(R.id.btnProgressbar);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AndroidUtils.setProgressBar(context);
-            }
-        });
     }
 
     private void setButtonLogin(){

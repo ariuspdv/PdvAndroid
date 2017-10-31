@@ -30,7 +30,6 @@
         <activity android:name=".CursoresActivity" />
         <activity android:name=".AriusActivityResumoCaixa" />
         <activity android:name=".AriusActivityListagemVenda" />
-
     </application>
 
 </manifest>

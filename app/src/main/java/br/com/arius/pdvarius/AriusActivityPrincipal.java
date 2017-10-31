@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,9 +16,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 
 import java.lang.reflect.Field;
 
+import FloatingActionMenu.FloatingActionMenu;
 import arius.pdv.base.PdvService;
 import arius.pdv.base.PdvTipo;
 import arius.pdv.db.AndroidUtils;
@@ -29,6 +32,7 @@ public class AriusActivityPrincipal extends ActivityPadrao {
     private boolean pressBack = false;
     private Fragment fragmentAtivo;
     private AppBarLayout appBar;
+    private FloatingActionMenu floatingActionMenu;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -103,6 +107,7 @@ public class AriusActivityPrincipal extends ActivityPadrao {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_arius_principal);
 
+        //floatingActionMenu = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         BottomNavigationViewHelper.disableShiftMode(navigation);
