@@ -149,14 +149,14 @@ public class AriusActivityItemVenda extends ActivityPadrao {
                     campoAux = v.findViewById(R.id.lbLayoutItemVendaDesconto);
                     if (campoAux != null) {
                         if (vendaItem.getDesconto() > 0)
-                            campoAux.setText(AndroidUtils.FormatarValor_Monetario(vendaItem.getDesconto()));
+                            campoAux.setText("- "+ AndroidUtils.FormatarValor_Monetario(vendaItem.getDesconto()));
                         else
                             campoAux.setText("");
                     }
                     campoAux = v.findViewById(R.id.lbLayoutItemVendaAcrescimo);
                     if (campoAux != null) {
                         if (vendaItem.getAcrescimo() > 0)
-                            campoAux.setText(AndroidUtils.FormatarValor_Monetario(vendaItem.getAcrescimo()));
+                            campoAux.setText("+ "+AndroidUtils.FormatarValor_Monetario(vendaItem.getAcrescimo()));
                         else
                             campoAux.setText("");
                     }
