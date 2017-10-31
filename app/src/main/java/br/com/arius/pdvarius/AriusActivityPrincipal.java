@@ -21,8 +21,10 @@ import android.widget.Button;
 import java.lang.reflect.Field;
 
 import FloatingActionMenu.FloatingActionMenu;
+import arius.pdv.base.PdvDao;
 import arius.pdv.base.PdvService;
 import arius.pdv.base.PdvTipo;
+import arius.pdv.core.AppContext;
 import arius.pdv.db.AndroidUtils;
 
 public class AriusActivityPrincipal extends ActivityPadrao {
@@ -119,8 +121,15 @@ public class AriusActivityPrincipal extends ActivityPadrao {
 
         AuxiliarCadastros auxiliarCadastros = new AuxiliarCadastros();
 
-//        auxiliarCadastros.alteraProdutoClassificacao();
-//        auxiliarCadastros.alteraProduto();
+        if (AppContext.get().getDao(PdvDao.class).find(1) == null) {
+            auxiliarCadastros.cadastrarPDV();
+            auxiliarCadastros.cadastrarOperador();
+            auxiliarCadastros.cadastrarFinalizadora();
+            auxiliarCadastros.cadastroeHistorico();
+            auxiliarCadastros.cadastroUnidadeMedida();
+            auxiliarCadastros.cadastroProdutoClassificacao();
+            auxiliarCadastros.cadastraProdutos();
+        }
 
     }
 

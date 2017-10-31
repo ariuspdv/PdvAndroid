@@ -152,7 +152,7 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
                 public void montarCamposTela(Object p, View v) {
                     TextView edtaux = v.findViewById(R.id.edtlayoutProdCategoria);
                     if (edtaux != null)
-                        edtaux.setText(((ProdutoCategoria) p).getDescricao() + "ID: "+String.valueOf(((ProdutoCategoria) p).getId()));
+                        edtaux.setText(((ProdutoCategoria) p).getDescricao());
                     ImageView imgaux = v.findViewById(R.id.imglayoutProdCategoria);
 
                     if(((ProdutoCategoria) p).getId() == 1) {
@@ -217,7 +217,21 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
                         if (edtaux != null)
                             edtaux.setText(((Produto) p).getDescricao());
                         ImageView imgaux = v.findViewById(R.id.imglayoutProdCategoria);
-                        imgaux.setImageResource(R.drawable.semimagem);
+
+                        if(((Produto) p).getId() == 6 || ((Produto) p).getId() == 13) {
+                            imgaux.setImageResource(R.mipmap.skol_icon);
+                        } else if(((Produto) p).getId() == 7 || ((Produto) p).getId() == 14) {
+                            imgaux.setImageResource(R.mipmap.brahma_icon);
+                        } else if(((Produto) p).getId() == 8 || ((Produto) p).getId() == 15) {
+                            imgaux.setImageResource(R.mipmap.antarctica_icon);
+                        } else if(((Produto) p).getId() == 9 || ((Produto) p).getId() == 16) {
+                            imgaux.setImageResource(R.mipmap.wine_icon);
+                        } else if(((Produto) p).getId() == 10 || ((Produto) p).getId() == 17) {
+                            imgaux.setImageResource(R.mipmap.cocktail_green_icon);
+                        } else {
+                            imgaux.setImageResource(R.drawable.semimagem);
+                        }
+
                     }
                 });
 

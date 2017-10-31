@@ -37,6 +37,7 @@ public class AuxiliarCadastros {
 
         AppContext.get().getDao(ProdutoDao.class).insert(produto);
 
+        produto = new Produto();
         produto.setCodigo(789123457);
         produto.setDescricao("Produto Teste 2");
         produto.setPrincipal(false);
@@ -44,6 +45,7 @@ public class AuxiliarCadastros {
 
         AppContext.get().getDao(ProdutoDao.class).insert(produto);
 
+        produto = new Produto();
         produto.setCodigo(789123458);
         produto.setDescricao("Produto Teste 3");
         produto.setPrincipal(true);
@@ -51,19 +53,79 @@ public class AuxiliarCadastros {
 
         AppContext.get().getDao(ProdutoDao.class).insert(produto);
 
-        produto.setCodigo(789123459);
-        produto.setDescricao("Produto Teste 4");
-        produto.setPrincipal(false);
-        produto.setDescricaoReduzida("Produto Teste 4");
+        for (int i = 0; i < 2; i++) {
+            produto = new Produto();
+            produto.setCodigo(789123459);
+            produto.setDescricao("Produto Teste 4");
+            produto.setPrincipal(false);
+            produto.setDescricaoReduzida("Produto Teste 4");
 
-        AppContext.get().getDao(ProdutoDao.class).insert(produto);
+            AppContext.get().getDao(ProdutoDao.class).insert(produto);
 
-        produto.setCodigo(789123460);
-        produto.setDescricao("Produto Teste 5");
-        produto.setPrincipal(false);
-        produto.setDescricaoReduzida("Produto Teste 5");
+            produto = new Produto();
+            produto.setCodigo(789123460);
+            produto.setDescricao("Produto Teste 5");
+            produto.setPrincipal(false);
+            produto.setDescricaoReduzida("Produto Teste 5");
 
-        AppContext.get().getDao(ProdutoDao.class).insert(produto);
+            AppContext.get().getDao(ProdutoDao.class).insert(produto);
+
+            produto = new Produto();
+            produto.setCodigo(789123461);
+            produto.setDescricao("Skol");
+            produto.setPrincipal(false);
+            produto.setDescricaoReduzida("Skol");
+            produto.setProdutoCategoria(
+                    AppContext.get().getDao(ProdutoCategoriaDao.class).find(8)
+            );
+
+            AppContext.get().getDao(ProdutoDao.class).insert(produto);
+
+            produto = new Produto();
+            produto.setCodigo(789123461);
+            produto.setDescricao("Brahma");
+            produto.setPrincipal(false);
+            produto.setDescricaoReduzida("Brahma");
+            produto.setProdutoCategoria(
+                    AppContext.get().getDao(ProdutoCategoriaDao.class).find(8)
+            );
+
+            AppContext.get().getDao(ProdutoDao.class).insert(produto);
+
+            produto = new Produto();
+            produto.setCodigo(789123461);
+            produto.setDescricao("Antartica");
+            produto.setPrincipal(false);
+            produto.setDescricaoReduzida("Laranja");
+            produto.setProdutoCategoria(
+                    AppContext.get().getDao(ProdutoCategoriaDao.class).find(8)
+            );
+
+            AppContext.get().getDao(ProdutoDao.class).insert(produto);
+
+            produto = new Produto();
+            produto.setCodigo(789123461);
+            produto.setDescricao("Faroni Lopes");
+            produto.setPrincipal(false);
+            produto.setDescricaoReduzida("Faroni Lopes");
+            produto.setProdutoCategoria(
+                    AppContext.get().getDao(ProdutoCategoriaDao.class).find(9)
+            );
+
+            AppContext.get().getDao(ProdutoDao.class).insert(produto);
+
+            produto = new Produto();
+            produto.setCodigo(789123461);
+            produto.setDescricao("Caipirinha de Vodka");
+            produto.setPrincipal(false);
+            produto.setDescricaoReduzida("Caipirinha de Vodka");
+            produto.setProdutoCategoria(
+                    AppContext.get().getDao(ProdutoCategoriaDao.class).find(10)
+            );
+
+            AppContext.get().getDao(ProdutoDao.class).insert(produto);
+        }
+
     }
 
     public void cadastrarOperador(){
@@ -150,12 +212,64 @@ public class AuxiliarCadastros {
 
         AppContext.get().getDao(ProdutoCategoriaDao.class).insert(produtoClassificacao);
 
+        produtoClassificacao = new ProdutoCategoria();
         produtoClassificacao.setDescricao("Bebidas");
 
         AppContext.get().getDao(ProdutoCategoriaDao.class).insert(produtoClassificacao);
 
+        produtoClassificacao = new ProdutoCategoria();
         produtoClassificacao.setDescricao("Sobremesas");
 
+        AppContext.get().getDao(ProdutoCategoriaDao.class).insert(produtoClassificacao);
+
+
+        produtoClassificacao = new ProdutoCategoria();
+        produtoClassificacao.setDescricao("Sem Alcool");
+        produtoClassificacao.setProdutoCategoria(
+                AppContext.get().getDao(ProdutoCategoriaDao.class).find(2)
+        );
+        AppContext.get().getDao(ProdutoCategoriaDao.class).insert(produtoClassificacao);
+
+        produtoClassificacao = new ProdutoCategoria();
+        produtoClassificacao.setDescricao("Alcoolica");
+        produtoClassificacao.setProdutoCategoria(
+                AppContext.get().getDao(ProdutoCategoriaDao.class).find(2)
+        );
+        AppContext.get().getDao(ProdutoCategoriaDao.class).insert(produtoClassificacao);
+
+        produtoClassificacao = new ProdutoCategoria();
+        produtoClassificacao.setDescricao("Refrigerantes");
+        produtoClassificacao.setProdutoCategoria(
+                AppContext.get().getDao(ProdutoCategoriaDao.class).find(4)
+        );
+        AppContext.get().getDao(ProdutoCategoriaDao.class).insert(produtoClassificacao);
+
+        produtoClassificacao = new ProdutoCategoria();
+        produtoClassificacao.setDescricao("Sucos");
+        produtoClassificacao.setProdutoCategoria(
+                AppContext.get().getDao(ProdutoCategoriaDao.class).find(4)
+        );
+        AppContext.get().getDao(ProdutoCategoriaDao.class).insert(produtoClassificacao);
+
+        produtoClassificacao = new ProdutoCategoria();
+        produtoClassificacao.setDescricao("Cervejas");
+        produtoClassificacao.setProdutoCategoria(
+                AppContext.get().getDao(ProdutoCategoriaDao.class).find(5)
+        );
+        AppContext.get().getDao(ProdutoCategoriaDao.class).insert(produtoClassificacao);
+
+        produtoClassificacao = new ProdutoCategoria();
+        produtoClassificacao.setDescricao("Vinhos");
+        produtoClassificacao.setProdutoCategoria(
+                AppContext.get().getDao(ProdutoCategoriaDao.class).find(5)
+        );
+        AppContext.get().getDao(ProdutoCategoriaDao.class).insert(produtoClassificacao);
+
+        produtoClassificacao = new ProdutoCategoria();
+        produtoClassificacao.setDescricao("Destilados");
+        produtoClassificacao.setProdutoCategoria(
+                AppContext.get().getDao(ProdutoCategoriaDao.class).find(5)
+        );
         AppContext.get().getDao(ProdutoCategoriaDao.class).insert(produtoClassificacao);
 
     }
