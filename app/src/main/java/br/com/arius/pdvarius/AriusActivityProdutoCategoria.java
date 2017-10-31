@@ -100,7 +100,7 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
 
                 precionadoVoltar = true;
 
-                edtNavegacao.setText(edtNavegacao.getText().toString().replace("> " + produtoCategoriaSelecionado.getDescricao(),""));
+                edtNavegacao.setText(edtNavegacao.getText().toString().replace(" > " + produtoCategoriaSelecionado.getDescricao(),""));
 
                 if (produtoCategoriaSelecionado.getProdutoCategoria() != null){
                     pesquisaCategoria(produtoCategoriaSelecionado.getProdutoCategoria().getId());
@@ -152,9 +152,32 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
                 public void montarCamposTela(Object p, View v) {
                     TextView edtaux = v.findViewById(R.id.edtlayoutProdCategoria);
                     if (edtaux != null)
-                        edtaux.setText(((ProdutoCategoria) p).getDescricao());
+                        edtaux.setText(((ProdutoCategoria) p).getDescricao() + "ID: "+String.valueOf(((ProdutoCategoria) p).getId()));
                     ImageView imgaux = v.findViewById(R.id.imglayoutProdCategoria);
-                    imgaux.setImageResource(R.drawable.semimagem);
+
+                    if(((ProdutoCategoria) p).getId() == 1) {
+                        imgaux.setImageResource(R.mipmap.hamburger_icon);
+                    } else if(((ProdutoCategoria) p).getId() == 2) {
+                        imgaux.setImageResource(R.mipmap.drinks_icon);
+                    } else if(((ProdutoCategoria) p).getId() == 3) {
+                        imgaux.setImageResource(R.mipmap.dessert_icon);
+                    } else if(((ProdutoCategoria) p).getId() == 4 ) {
+                        imgaux.setImageResource(R.mipmap.no_alcohol_icon);
+                    } else if(((ProdutoCategoria) p).getId() == 6) {
+                        imgaux.setImageResource(R.mipmap.soda_icon);
+                    } else if(((ProdutoCategoria) p).getId() == 7) {
+                        imgaux.setImageResource(R.mipmap.juice_icon);
+                    } else if(((ProdutoCategoria) p).getId() == 8) {
+                        imgaux.setImageResource(R.mipmap.beer_icon);
+                    } else if(((ProdutoCategoria) p).getId() == 9) {
+                        imgaux.setImageResource(R.mipmap.wine_icon);
+                    } else if(((ProdutoCategoria) p).getId() == 10 || ((ProdutoCategoria) p).getId() == 5 ) {
+                        imgaux.setImageResource(R.mipmap.alcohol_icon);
+                    } else {
+                        imgaux.setImageResource(R.drawable.semimagem);
+                    }
+
+
                 }
             });
 
