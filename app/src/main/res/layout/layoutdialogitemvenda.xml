@@ -107,26 +107,14 @@
             android:weightSum="1">
                 <Button
                     android:id="@+id/btnlayoutDialogItemVendaCancelar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Cancelar"
-                    android:layout_weight="0.5"
-                    android:layout_marginTop="33dp"
+                    style="@style/AriusButtonActionMessage"
                     android:background="@drawable/button_action_left"
-                    android:textSize="@dimen/textsize_action"
-                    android:textColor="?attr/colorPrimary"/>
-
+                    android:text="Cancelar"/>
                 <Button
                     android:id="@+id/btnlayoutDialogItemVendaConfirmar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:background="@drawable/button_action_right"
                     android:text="Confirmar"
-                    android:layout_weight="0.5"
-
-                    android:layout_marginTop="33dp"
-                    android:textColor="?attr/colorPrimary"
-                    android:textSize="@dimen/textsize_action" />
+                    style="@style/AriusButtonActionMessage"/>
         </LinearLayout>
 
     </LinearLayout>

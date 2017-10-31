@@ -22,14 +22,13 @@
 
         <EditText
             android:id="@+id/edtlayoutDialogFinalizadoraVendaValor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Valor "
+            android:hint="Valor"
+            style="@style/AriusTextEdit"
             android:imeOptions="actionNext"
             android:inputType="numberDecimal"
             android:numeric="decimal"
-            android:textAlignment="textEnd"
-            android:textSize="36sp" />
+            android:textAlignment="textEnd" />
+
     </android.support.design.widget.TextInputLayout>
 
     <LinearLayout
@@ -40,7 +39,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.4"
             android:orientation="vertical">
 
             <TextView
@@ -49,8 +48,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Valor: "
-                android:textAlignment="textEnd"
-                android:textSize="24sp"
+                android:gravity="center_vertical|right"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -59,8 +58,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Desconto: "
-                android:textAlignment="textEnd"
-                android:textSize="24sp"
+                android:gravity="center_vertical|right"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -69,8 +68,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Juros: "
-                android:textAlignment="textEnd"
-                android:textSize="24sp"
+                android:gravity="center_vertical|right"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -78,16 +77,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginTop="10dp"
                 android:text="Total: "
-                android:textAlignment="textEnd"
-                android:textSize="24sp"
+                android:textColor="#686868"
+                android:gravity="center_vertical|right"
+                android:textSize="20dp"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight=".7"
             android:orientation="vertical">
 
             <TextView
@@ -96,8 +98,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="R$ 0,00"
-                android:textAlignment="textEnd"
-                android:textSize="24sp"
+                android:gravity="center_vertical|right"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -105,9 +107,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="- R$ 0,00"
-                android:textAlignment="textEnd"
-                android:textSize="24sp"
+                android:text="R$ 0,00"
+                android:gravity="center_vertical|right"
+                android:textColor="#bc2d2d"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -115,9 +118,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="+ R$ 0,00"
-                android:textAlignment="textEnd"
-                android:textSize="24sp"
+                android:text="R$ 0,00"
+                android:textColor="#29840f"
+                android:gravity="center_vertical|right"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -126,9 +130,44 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="R$ 0,00"
-                android:textAlignment="textEnd"
-                android:textSize="24sp"
+                android:textColor="#686868"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|right"
+                android:textSize="20dp"
                 android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
+
+
+            <Button
+                android:id="@+id/btnlayoutDialogFinalizadoraVendaDesconto"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Desconto"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/button_orange_event"
+                android:textColor="#fff"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/btnlayoutDialogFinalizadoraVendaJuros"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/button_orange_event"
+                android:textColor="#fff"
+                android:text="Juros"
+                android:textStyle="bold"/>
+
         </LinearLayout>
 
     </LinearLayout>
@@ -144,23 +183,9 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btnlayoutDialogFinalizadoraVendaDesconto"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Desconto"
-                android:textSize="24sp"
-                android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/btnlayoutDialogFinalizadoraVendaJuros"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Juros"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -171,21 +196,15 @@
 
             <Button
                 android:id="@+id/btnlayoutDialogFinalizadoraVendaCancelar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Cancelar"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:background="@drawable/button_action_left"
+                style="@style/AriusButtonActionMessage"
+                android:text="Cancelar"/>
 
             <Button
                 android:id="@+id/btnlayoutDialogFinalizadoraVendaConfirmar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="Confirmar"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:background="@drawable/button_action_right"
+                style="@style/AriusButtonActionMessage"/>
         </LinearLayout>
 
     </LinearLayout>

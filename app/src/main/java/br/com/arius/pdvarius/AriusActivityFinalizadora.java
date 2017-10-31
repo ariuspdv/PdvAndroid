@@ -28,7 +28,6 @@ import arius.pdv.core.UserException;
 import arius.pdv.db.AndroidUtils;
 import arius.pdv.db.AriusAlertDialog;
 import arius.pdv.db.AriusCursorAdapter;
-import arius.pdv.db.AriusListView;
 
 /**
  * Created by Arius on 10/10/2017.
@@ -110,11 +109,11 @@ public class AriusActivityFinalizadora extends ActivityPadrao {
                 ImageView imgaux = v.findViewById(R.id.imglayoutFinalizadora);
                 if (imgaux != null) {
                     if (finalizadora.getTipo() == FinalizadoraTipo.DINHEIRO)
-                        imgaux.setImageResource(R.mipmap.dinheiro);
+                        imgaux.setImageResource(R.mipmap.money_icon);
                     if (finalizadora.getTipo() == FinalizadoraTipo.CARTAO_CREDITO)
-                        imgaux.setImageResource(R.mipmap.creditcard);
+                        imgaux.setImageResource(R.mipmap.card_icon);
                     if (finalizadora.getTipo() == FinalizadoraTipo.CARTAO_DEBITO)
-                        imgaux.setImageResource(R.mipmap.debitcard);
+                        imgaux.setImageResource(R.mipmap.card_icon);
                 }
             }
         });

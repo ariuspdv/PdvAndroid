@@ -10,23 +10,21 @@
         android:id="@+id/lbTituloFinalizadoraVenda"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#fff"
-        android:padding="5dp"
         android:text="Finalizadoras da Venda"
-        android:textAlignment="center"
-        android:background="@drawable/button_orange_event"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+        android:padding="10dp"
+        android:textColor="@color/colorPrimary"
+        android:textAlignment="textStart"
+        android:textSize="24dp"  />
 
     <arius.pdv.db.AriusListView
         android:id="@+id/grdFinalizadoraVenda"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginStart="5dp"
-        android:dividerHeight="5dp" />
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@drawable/grid_list"
+        android:paddingTop="2dp"
+        android:dividerHeight="2dp" />
 
 
 </LinearLayout>

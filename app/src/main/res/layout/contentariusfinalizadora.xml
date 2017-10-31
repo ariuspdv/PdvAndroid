@@ -10,19 +10,20 @@
         android:id="@+id/lbTituloFinalizadora"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_orange_event"
-        android:text="Finalizadoras"
-        android:textColor="#fff"
-        android:padding="5dp"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+        android:text="Formas de Pagamento"
+        android:layout_marginBottom="5dp"
+        android:padding="10dp"
+        android:textColor="@color/colorPrimary"
+        android:textAlignment="textStart"
+        android:textSize="24dp" />
 
     <GridView
         android:id="@+id/grdFinalizadoras"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
+        android:background="@drawable/grid_list"
+        android:paddingTop="2dp"
         android:numColumns="4" />
 
 </LinearLayout>
