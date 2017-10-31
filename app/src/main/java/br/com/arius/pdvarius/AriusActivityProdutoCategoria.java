@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -35,6 +36,8 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
     private boolean produtosCarregados;
     private boolean precionadoVoltar = false;
     private ProdutoCategoria produtoCategoriaSelecionado;
+    private TextView edttotalitem;
+    private LinearLayout pnlValor;
 
     private PesquisaProdutoCategoria pesquisaProdutoCategoria;
 
@@ -60,9 +63,13 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
         if (view == null) {
             grdProdCategoria = (GridView) findViewById(R.id.grdProduto_Categoria);
             edtNavegacao = (TextView) findViewById(R.id.edtContentAriusCategoriaNavegacao);
+            edttotalitem = (TextView) findViewById(R.id.edtlayoutItemVendaRodapeTotItem);
+            pnlValor = (LinearLayout) findViewById(R.id.pnlContentAriusItemVendaRodapeValor);
         } else {
             grdProdCategoria = view.findViewById(R.id.grdProduto_Categoria);
             edtNavegacao = view.findViewById(R.id.edtContentAriusCategoriaNavegacao);
+            edttotalitem = view.findViewById(R.id.edtlayoutItemVendaRodapeTotItem);
+            pnlValor = view.findViewById(R.id.pnlContentAriusItemVendaRodapeValor);
         }
 
         edtNavegacao.setText("");
@@ -86,6 +93,8 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
                     pesquisaCategoria(produtoCategoriaSelecionado.getId());
                 } else {
                     AriusActivityProdutoPrincipal ariusActivityProdutoPrincipal = new AriusActivityProdutoPrincipal();
+                    ariusActivityProdutoPrincipal.setPnlValor(pnlValor);
+                    ariusActivityProdutoPrincipal.setEdttotalitem(edttotalitem);
                     ariusActivityProdutoPrincipal.inserirItemVenda((Produto) adapterView.getItemAtPosition(i));
                 }
             }

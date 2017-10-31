@@ -49,6 +49,14 @@ public class AriusActivityProdutoPrincipal extends ActivityPadrao {
 
     }
 
+    public void setPnlValor(LinearLayout pnlValor) {
+        this.pnlValor = pnlValor;
+    }
+
+    public void setEdttotalitem(TextView edttotalitem) {
+        this.edttotalitem = edttotalitem;
+    }
+
     public void montaPrincipal(View view, Context context){
         this.context = context;
 
@@ -152,11 +160,14 @@ public class AriusActivityProdutoPrincipal extends ActivityPadrao {
     }
 
     private void montaRodape(){
-        if (pnlValor.getVisibility() == View.VISIBLE)
-            pnlValor.setVisibility(View.GONE);
-        edttotalitem.setText("0");
-        if (PdvService.get().getVendaAtiva() != null) {
-            edttotalitem.setText(String.valueOf(PdvService.get().getVendaAtiva().getItens().size()));
+        if (pnlValor != null)
+            if (pnlValor.getVisibility() == View.VISIBLE)
+                    pnlValor.setVisibility(View.GONE);
+        if (edttotalitem != null) {
+            edttotalitem.setText("0");
+            if (PdvService.get().getVendaAtiva() != null) {
+                edttotalitem.setText(String.valueOf(PdvService.get().getVendaAtiva().getItens().size()));
+            }
         }
     }
 
