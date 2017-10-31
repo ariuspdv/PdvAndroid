@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -25,6 +26,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +70,7 @@ public class FloatingActionMenu extends ViewGroup {
     private int mLabelsCornerRadius = Util.dpToPx(getContext(), 3f);
     private boolean mLabelsShowShadow;
     private int mLabelsColorNormal;
+
     private int mLabelsColorPressed;
     private int mLabelsColorRipple;
     private boolean mMenuShowShadow;
@@ -679,6 +682,15 @@ public class FloatingActionMenu extends ViewGroup {
                 }
             }, ++counter * mAnimationDelayPerItem);
         }
+
+        this.setClickable(true);
+        this.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isOpened())
+                    close(mIsAnimated);
+            }
+        });
     }
 
     public void close(final boolean animate) {
@@ -735,6 +747,8 @@ public class FloatingActionMenu extends ViewGroup {
                 }
             }, ++counter * mAnimationDelayPerItem);
         }
+
+        this.setClickable(false);
     }
 
     /**

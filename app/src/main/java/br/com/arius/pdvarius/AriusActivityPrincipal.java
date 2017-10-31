@@ -2,7 +2,9 @@ package br.com.arius.pdvarius;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.lang.reflect.Field;
 
@@ -35,6 +38,7 @@ public class AriusActivityPrincipal extends ActivityPadrao {
     private Fragment fragmentAtivo;
     private AppBarLayout appBar;
     private FloatingActionMenu floatingActionMenu;
+    private ConstraintLayout container;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -109,7 +113,7 @@ public class AriusActivityPrincipal extends ActivityPadrao {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_arius_principal);
 
-        //floatingActionMenu = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
+        floatingActionMenu = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         BottomNavigationViewHelper.disableShiftMode(navigation);
