@@ -11,11 +11,12 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:orientation="vertical"
-            android:weightSum="1">
+            android:layout_weight="3"
+            android:layout_gravity="center">
 
 
             <TextView
@@ -40,7 +41,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:layout_weight=".25"
+                    android:layout_weight=".2"
                     android:text="999"
                     android:textAlignment="center"
                     android:textSize="18sp" />
@@ -50,7 +51,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:layout_weight="0.10"
+                    android:layout_weight="0.15"
                     android:text="X"
                     android:textAlignment="center"
                     android:textSize="18sp" />
@@ -65,49 +66,56 @@
                     android:textAlignment="textEnd"
                     android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/lbLayoutItemVendaDesconto"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight=".50"
-                    android:text="R$ 9.999,99"
-                    android:textAlignment="textEnd"
-                    android:textSize="18sp" />
+                    android:layout_weight="0.7"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/lbLayoutItemVendaAcrescimo"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight=".50"
-                    android:text="R$ 9.999,99"
-                    android:textAlignment="textEnd"
-                    android:textSize="18sp" />
+                        <TextView
+                            android:id="@+id/lbLayoutItemVendaDesconto"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="5dp"
+                            style="@style/AriusTextViewDiscount"
+                            android:textAlignment="textEnd"
+                            android:text="- R$ 9.999,99"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/lbLayoutItemVendaAcrescimo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="5dp"
+                            android:textAlignment="textEnd"
+                            style="@style/AriusTextViewInterest"
+                            android:text="+ R$ 9.999,99"
+                            android:textSize="18sp" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/lbLayoutItemVendaVrTotal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginRight="5dp"
-                    android:layout_weight=".20"
+                    android:layout_weight="0.9"
                     android:text="R$ 999.999,99"
                     android:textAlignment="textEnd"
                     android:textSize="24sp" />
+
             </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/imgItemVendaDelete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:layout_gravity="center"
+            app:srcCompat="@mipmap/lixeira" />
 
-    <ImageView
-        android:id="@+id/imgItemVendaDelete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="10dp"
-        app:srcCompat="@mipmap/lixeira" />
+    </LinearLayout>
 
 </LinearLayout>

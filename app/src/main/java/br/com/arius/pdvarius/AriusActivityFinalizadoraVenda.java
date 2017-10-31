@@ -356,9 +356,9 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
             if (edtVrBruto != null)
                 edtVrBruto.setText(AndroidUtils.FormatarValor_Monetario(vendaFinalizadora.getValor()));
             if (edtDesconto != null)
-                edtDesconto.setText(AndroidUtils.FormatarValor_Monetario(vendaFinalizadora.getDesconto()));
+                edtDesconto.setText(" - " + AndroidUtils.FormatarValor_Monetario(vendaFinalizadora.getDesconto()));
             if (edtJuros != null)
-                edtJuros.setText(AndroidUtils.FormatarValor_Monetario(vendaFinalizadora.getJuro()));
+                edtJuros.setText(" + " + AndroidUtils.FormatarValor_Monetario(vendaFinalizadora.getJuro()));
             if (edtVrLiquido != null)
                 edtVrLiquido.setText(AndroidUtils.FormatarValor_Monetario(vendaFinalizadora.getValorLiquido()));
         }
