@@ -76,6 +76,7 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contentariuslistagemvenda);
 
+        setPesquisaVenda(false);
         setButtons(true, false, false);
 
         grdListagemVenda = (ListView) findViewById(R.id.grdListagemVenda);

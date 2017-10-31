@@ -28,7 +28,6 @@ import arius.pdv.db.AndroidUtils;
 
 public class AriusActivityPrincipal extends ActivityPadrao {
 
-    private static BottomNavigationView navigation;
     private static boolean criandoTela;
     private boolean pressBack = false;
     private Fragment fragmentAtivo;
@@ -48,14 +47,14 @@ public class AriusActivityPrincipal extends ActivityPadrao {
                 fragmentAtivo = getSupportFragmentManager().findFragmentByTag(tag);
             } else
                 fragmentAtivo = null;
+            View view = getCurrentFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
             switch (item.getItemId()) {
                 case R.id.navigation_prodcategoria:
                     montaFragmento(FragmentActivityCategoriaPrincipal.class);
-                    View view = getCurrentFocus();
-                    if (view != null) {
-                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    }
                     return true;
                 case R.id.navigation_itensvenda:
                     montaFragmento(FragmentActivityItemVenda.class);
@@ -80,9 +79,13 @@ public class AriusActivityPrincipal extends ActivityPadrao {
     protected void onStart(){
         FragmentManager fm = getSupportFragmentManager();
         super.onStart();
+
+        getNavigation().setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        BottomNavigationViewHelper.disableShiftMode(getNavigation());
+
         if (PdvService.get().getPdv().getStatus() == PdvTipo.FECHADO){
             appBar.setVisibility(View.GONE);
-            navigation.setVisibility(View.GONE);
+            getNavigation().setVisibility(View.GONE);
             getFloatingActionMenu().setVisibility(View.GONE);
             for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                 fm.popBackStack(fm.getBackStackEntryAt(i).getName(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -90,8 +93,8 @@ public class AriusActivityPrincipal extends ActivityPadrao {
             fm.popBackStackImmediate();
             montaFragmento(FragmentActivityLogin.class);
         } else {
-            if (navigation.getVisibility() != View.VISIBLE)
-                navigation.setVisibility(View.VISIBLE);
+            if (getNavigation().getVisibility() != View.VISIBLE)
+                getNavigation().setVisibility(View.VISIBLE);
             if (appBar.getVisibility() != View.VISIBLE)
                 appBar.setVisibility(View.VISIBLE);
             if (getFloatingActionMenu().getVisibility() != View.VISIBLE)
@@ -112,6 +115,9 @@ public class AriusActivityPrincipal extends ActivityPadrao {
             setBtnFloatingFechaVendaAtiva();
 
             setBtnFloatingCancelaVenda();
+
+            if (getPesquisaVenda())
+                getNavigation().setSelectedItemId(R.id.navigation_itensvenda);
         }
     }
 
@@ -120,9 +126,6 @@ public class AriusActivityPrincipal extends ActivityPadrao {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_arius_principal);
 
-        navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        BottomNavigationViewHelper.disableShiftMode(navigation);
         appBar = (AppBarLayout) findViewById(R.id.appBarLayout);
 
         criandoTela = true;
@@ -143,16 +146,12 @@ public class AriusActivityPrincipal extends ActivityPadrao {
 
     }
 
-    public static void setNavigation(int itemNavigator){
-        navigation.setSelectedItemId(itemNavigator);
-    }
-
     private void setFragmentAtivo(){
         if (getSupportFragmentManager().getBackStackEntryCount() == 0){
             if (PdvService.get().getVendaAtiva() == null)
-                navigation.setSelectedItemId(R.id.navigation_prodcategoria);
+                getNavigation().setSelectedItemId(R.id.navigation_prodcategoria);
             else
-                navigation.setSelectedItemId(R.id.navigation_itensvenda);
+                getNavigation().setSelectedItemId(R.id.navigation_itensvenda);
         } else {
             if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
                 String tag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
@@ -182,13 +181,13 @@ public class AriusActivityPrincipal extends ActivityPadrao {
                 pressBack = true;
 
                 if (fragment.getClass() == FragmentActivityCategoriaPrincipal.class)
-                    navigation.setSelectedItemId(R.id.navigation_prodcategoria);
+                    getNavigation().setSelectedItemId(R.id.navigation_prodcategoria);
                 if (fragment.getClass() == FragmentActivityItemVenda.class)
-                    navigation.setSelectedItemId(R.id.navigation_itensvenda);
+                    getNavigation().setSelectedItemId(R.id.navigation_itensvenda);
                 if (fragment.getClass() == FragmentActivityFinalizadoraVenda.class)
-                    navigation.setSelectedItemId(R.id.navigation_finalizadorasvenda);
+                    getNavigation().setSelectedItemId(R.id.navigation_finalizadorasvenda);
                 if (fragment.getClass() == FragmentActivityFuncoes.class)
-                    navigation.setSelectedItemId(R.id.navigation_funcoes);
+                    getNavigation().setSelectedItemId(R.id.navigation_funcoes);
 
                 pressBack = false;
 
@@ -261,7 +260,7 @@ public class AriusActivityPrincipal extends ActivityPadrao {
                     PdvService.get().getPdv().setVendaAtiva(null);
                     AppContext.get().getDao(PdvDao.class).update(PdvService.get().getPdv());
 
-                    navigation.setSelectedItemId(R.id.navigation_prodcategoria);
+                    getNavigation().setSelectedItemId(R.id.navigation_prodcategoria);
 
                     AndroidUtils.toast(getApplicationContext(),"Iniciado Venda!");
                 }
@@ -280,7 +279,7 @@ public class AriusActivityPrincipal extends ActivityPadrao {
                     PdvService.get().getPdv().setVendaAtiva(null);
                     AppContext.get().getDao(PdvDao.class).update(PdvService.get().getPdv());
 
-                    navigation.setSelectedItemId(R.id.navigation_prodcategoria);
+                    getNavigation().setSelectedItemId(R.id.navigation_prodcategoria);
 
                     AndroidUtils.toast(getApplicationContext(),"Venda Fechada!");
                 }
@@ -306,9 +305,8 @@ public class AriusActivityPrincipal extends ActivityPadrao {
 
                         if (getSupportFragmentManager().findFragmentByTag("fragmentActivityItemVenda").isVisible())
                             FragmentActivityItemVenda.getAriusActivityItemVenda().carregaVenda();
-                         else
-                            navigation.setSelectedItemId(R.id.navigation_itensvenda);
-
+                        else
+                            getNavigation().setSelectedItemId(R.id.navigation_itensvenda);
                     }
                 }
                 if (getFloatingActionMenu().isOpened())

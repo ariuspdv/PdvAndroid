@@ -3,9 +3,10 @@ package br.com.arius.pdvarius;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.internal.BottomNavigationMenu;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,6 +37,7 @@ public class ActivityPadrao extends AppCompatActivity {
     private static ActivityPadrao activityPadrao;
     private static boolean pesquisaVenda;
     private FloatingActionMenu floatingActionMenu;
+    private static BottomNavigationView navigation;
 
     public Context getAppContext(){
         try {
@@ -45,11 +47,11 @@ public class ActivityPadrao extends AppCompatActivity {
         }
     }
 
-    public static void setPesquisaVenda(boolean pesquisaVendal){
+    public void setPesquisaVenda(boolean pesquisaVendal){
         pesquisaVenda = pesquisaVendal;
     }
 
-    public static boolean getPesquisaVenda(){
+    public boolean getPesquisaVenda(){
         return pesquisaVenda;
     }
 
@@ -84,11 +86,18 @@ public class ActivityPadrao extends AppCompatActivity {
 
         setTitleToolbar();
 
-        floatingActionMenu = (FloatingActionMenu) findViewById(R.id.floatingActionMenu);
+        if (floatingActionMenu == null)
+            floatingActionMenu = (FloatingActionMenu) findViewById(R.id.floatingActionMenu);
+        if (navigation ==  null)
+            navigation = (BottomNavigationView) findViewById(R.id.navigation);
     }
 
     public FloatingActionMenu getFloatingActionMenu() {
         return floatingActionMenu;
+    }
+
+    public static BottomNavigationView getNavigation() {
+        return navigation;
     }
 
     @Override
