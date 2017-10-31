@@ -165,7 +165,7 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
                                         }
                                 );
 
-                                AriusAlertDialog.getAlertDialog().findViewById(R.id.btnContentDialogDeleteNao).setOnClickListener(
+                                AriusAlertDialog.getAlertDialog().findViewById(R.id.btnContentDialogDeleteSim).setOnClickListener(
                                         new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
