@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,8 @@ public class AriusActivityProdutoPrincipal extends ActivityPadrao {
 
     private GridView grdProdPrincipal;
     private Context context;
+    private TextView edttotalitem;
+    private LinearLayout pnlValor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +52,16 @@ public class AriusActivityProdutoPrincipal extends ActivityPadrao {
     public void montaPrincipal(View view, Context context){
         this.context = context;
 
-        if (view == null)
+        if (view == null) {
             grdProdPrincipal = (GridView) findViewById(R.id.grdProduto_Principal);
-        else
+            edttotalitem = (TextView) findViewById(R.id.edtlayoutItemVendaRodapeTotItem);
+            pnlValor = (LinearLayout) findViewById(R.id.pnlContentAriusItemVendaRodapeValor);
+        }
+        else {
             grdProdPrincipal = view.findViewById(R.id.grdProduto_Principal);
+            edttotalitem = view.findViewById(R.id.edtlayoutItemVendaRodapeTotItem);
+            pnlValor = view.findViewById(R.id.pnlContentAriusItemVendaRodapeValor);
+        }
 
         pesquisaPrincipa(0);
 
@@ -107,6 +116,8 @@ public class AriusActivityProdutoPrincipal extends ActivityPadrao {
                 AndroidUtils.toast(this.context,"Nenhum produto encontrado para a categoria!");
         }
 
+        montaRodape();
+
     }
 
     public void inserirItemVenda(Produto produto){
@@ -133,9 +144,20 @@ public class AriusActivityProdutoPrincipal extends ActivityPadrao {
         if (this.context == null)
             this.context = getAppContext();
 
+        montaRodape();
+
         AndroidUtils.toast(this.context,vndItem.getProduto().getDescricao() + " \n Incluido na venda!");
 
         progressBar(false);
+    }
+
+    private void montaRodape(){
+        if (pnlValor.getVisibility() == View.VISIBLE)
+            pnlValor.setVisibility(View.GONE);
+        edttotalitem.setText("0");
+        if (PdvService.get().getVendaAtiva() != null) {
+            edttotalitem.setText(String.valueOf(PdvService.get().getVendaAtiva().getItens().size()));
+        }
     }
 
 }

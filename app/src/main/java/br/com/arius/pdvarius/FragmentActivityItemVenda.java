@@ -13,14 +13,21 @@ import arius.pdv.base.ProdutoCategoria;
  */
 
 public class FragmentActivityItemVenda extends android.support.v4.app.Fragment {
+
+    private static AriusActivityItemVenda ariusActivityItemVenda;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmentariusitemvenda, container,false);
 
-        AriusActivityItemVenda ariusActivityItemVenda = new AriusActivityItemVenda();
+        ariusActivityItemVenda = new AriusActivityItemVenda();
         ariusActivityItemVenda.montaItemVenda(view, getContext());
 
         return view;
+    }
+
+    public static AriusActivityItemVenda getAriusActivityItemVenda() {
+        return ariusActivityItemVenda;
     }
 }

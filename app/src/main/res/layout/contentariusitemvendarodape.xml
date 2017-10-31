@@ -4,13 +4,14 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/pnlContentAriusItemVendaRodapeSacola"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight=".2"
-        android:padding="10dp"
         android:background="#167216"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -22,9 +23,9 @@
                 android:id="@+id/edtlayoutItemVendaRodapeTotItem"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="0"
-                android:paddingTop="20dp"
                 android:gravity="center|"
+                android:paddingTop="20dp"
+                android:text="0"
                 android:textColor="#167216"
                 android:textSize="26dp"
                 android:textStyle="bold" />
@@ -44,6 +45,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/pnlContentAriusItemVendaRodapeValor"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -54,12 +56,12 @@
             android:id="@+id/textView2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:hapticFeedbackEnabled="false"
-            android:text="TOTAL:"
-            android:paddingStart="10dp"
-            android:gravity="center_vertical"
-            android:textColor="#fff"
             android:layout_weight=".5"
+            android:gravity="center_vertical"
+            android:hapticFeedbackEnabled="false"
+            android:paddingStart="10dp"
+            android:text="TOTAL:"
+            android:textColor="#fff"
             android:textSize="35dp"
             android:textStyle="bold" />
 
@@ -67,10 +69,10 @@
             android:id="@+id/edtlayoutItemVendaRodapeValorVenda"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="R$ 0,00"
             android:layout_weight=".5"
-            android:textAlignment="center"
             android:gravity="center_vertical"
+            android:text="R$ 0,00"
+            android:textAlignment="center"
             android:textColor="#fff"
             android:textSize="35dp"
             android:textStyle="bold" />

@@ -3,16 +3,10 @@ package br.com.arius.pdvarius;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.LinearLayout;
-import arius.pdv.base.PdvDao;
 import arius.pdv.base.PdvService;
 import arius.pdv.base.PdvTipo;
-import arius.pdv.base.VendaDao;
-import arius.pdv.base.VendaSituacao;
-import arius.pdv.core.AppContext;
 import arius.pdv.core.UserException;
 import arius.pdv.db.AndroidUtils;
 import arius.pdv.db.AriusAlertDialog;
@@ -22,8 +16,6 @@ public class AriusActivityFuncoes extends ActivityPadrao {
     private LinearLayout btnReforco;
     private LinearLayout btnFecharCaixa;
     private LinearLayout btnSangria;
-    private LinearLayout btnFechaVenda;
-    private LinearLayout btnCancelarVenda;
     private LinearLayout btnListabgeVenda;
     private LinearLayout btnRetirada;
     private Context context;
@@ -55,16 +47,12 @@ public class AriusActivityFuncoes extends ActivityPadrao {
             btnReforco = (LinearLayout) findViewById(R.id.btnFuncoesReforco);
             btnFecharCaixa = (LinearLayout) findViewById(R.id.btnFuncoesFecharCaixa);
             btnSangria = (LinearLayout) findViewById(R.id.btnFuncoesSangria);
-            btnFechaVenda = (LinearLayout) findViewById(R.id.btnFuncoesFechaVenda);
-            btnCancelarVenda = (LinearLayout) findViewById(R.id.btnFuncoesCancelaVenda);
             btnListabgeVenda = (LinearLayout) findViewById(R.id.btnFuncoesVendas);
             btnRetirada = (LinearLayout) findViewById(R.id.btnFuncoesRetirada);
         } else {
             btnReforco = view.findViewById(R.id.btnFuncoesReforco);
             btnFecharCaixa = view.findViewById(R.id.btnFuncoesFecharCaixa);
             btnSangria = view.findViewById(R.id.btnFuncoesSangria);
-            btnFechaVenda = view.findViewById(R.id.btnFuncoesFechaVenda);
-            btnCancelarVenda = view.findViewById(R.id.btnFuncoesCancelaVenda);
             btnListabgeVenda = view.findViewById(R.id.btnFuncoesVendas);
             btnRetirada = view.findViewById(R.id.btnFuncoesRetirada);
         }
@@ -79,14 +67,6 @@ public class AriusActivityFuncoes extends ActivityPadrao {
 
         if (btnSangria != null){
             btnSangria();
-        }
-
-        if (btnFechaVenda != null){
-            btnFechaVenda();
-        }
-
-        if (btnCancelarVenda != null){
-            btnCancelarVenda();
         }
 
         if (btnListabgeVenda != null) {
@@ -159,45 +139,6 @@ public class AriusActivityFuncoes extends ActivityPadrao {
                 intent.putExtra("funcaoExecutar","Sangria");
 
                 context.startActivity(intent);
-            }
-        });
-    }
-
-    private void btnFechaVenda(){
-        btnFechaVenda.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!validaStatusPDV())
-                    return;
-
-                if (PdvService.get().getVendaAtiva() != null){
-                    PdvService.get().getPdv().setVendaAtiva(null);
-                    AppContext.get().getDao(PdvDao.class).update(PdvService.get().getPdv());
-
-                    AndroidUtils.toast(context,"Venda Fechada!");
-                }
-            }
-        });
-
-    }
-
-    private void btnCancelarVenda(){
-        btnCancelarVenda.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!validaStatusPDV())
-                    return;
-
-                if (PdvService.get().getVendaAtiva() == null){
-                    AndroidUtils.toast(context,"Nenhuma venda ativa para cancelar!");
-                } else {
-                    if (PdvService.get().getVendaAtiva().getSituacao() == VendaSituacao.CANCELADA)
-                        throw new UserException("Venda já cancelada!");
-                    else {
-                        PdvService.get().getVendaAtiva().setSituacao(VendaSituacao.CANCELADA);
-                        AppContext.get().getDao(VendaDao.class).update(PdvService.get().getVendaAtiva());
-                    }
-                }
             }
         });
     }

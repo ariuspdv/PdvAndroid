@@ -86,7 +86,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <FloatingActionMenu.FloatingActionMenu
-            android:id="@+id/material_design_android_floating_action_menu"
+            android:id="@+id/floatingActionMenu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingBottom="30dp"
@@ -140,7 +140,7 @@
             <!--app:menu_shadowYOffset="4dp">-->
 
             <FloatingActionMenu.FloatingActionButton
-                android:id="@+id/subFloatingMenu1"
+                android:id="@+id/btnFloatingNovaVenda"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_launcher_round"
@@ -148,7 +148,7 @@
                 app:fab_size="mini" />
 
             <FloatingActionMenu.FloatingActionButton
-                android:id="@+id/subFloatingMenu2"
+                android:id="@+id/btnFloatingFechaVendaAtiva"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_launcher_round"
@@ -156,7 +156,7 @@
                 app:fab_size="mini" />
 
             <FloatingActionMenu.FloatingActionButton
-                android:id="@+id/subFloatingMenu3"
+                android:id="@+id/btnFloatingCancelaVenda"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_launcher_round"

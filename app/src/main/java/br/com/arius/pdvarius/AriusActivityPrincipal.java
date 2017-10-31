@@ -2,13 +2,10 @@ package br.com.arius.pdvarius;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,16 +15,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.Toast;
-
 import java.lang.reflect.Field;
-
-import FloatingActionMenu.FloatingActionMenu;
+import FloatingActionMenu.FloatingActionButton;
 import arius.pdv.base.PdvDao;
 import arius.pdv.base.PdvService;
 import arius.pdv.base.PdvTipo;
+import arius.pdv.base.VendaDao;
+import arius.pdv.base.VendaSituacao;
 import arius.pdv.core.AppContext;
+import arius.pdv.core.UserException;
 import arius.pdv.db.AndroidUtils;
 
 public class AriusActivityPrincipal extends ActivityPadrao {
@@ -37,8 +33,10 @@ public class AriusActivityPrincipal extends ActivityPadrao {
     private boolean pressBack = false;
     private Fragment fragmentAtivo;
     private AppBarLayout appBar;
-    private FloatingActionMenu floatingActionMenu;
-    private ConstraintLayout container;
+    private FloatingActionButton btnFloatingNovaVenda;
+    private FloatingActionButton btnFloatingFechaVendaAtiva;
+    private FloatingActionButton btnFloatingCancelaVenda;
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -85,6 +83,7 @@ public class AriusActivityPrincipal extends ActivityPadrao {
         if (PdvService.get().getPdv().getStatus() == PdvTipo.FECHADO){
             appBar.setVisibility(View.GONE);
             navigation.setVisibility(View.GONE);
+            getFloatingActionMenu().setVisibility(View.GONE);
             for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                 fm.popBackStack(fm.getBackStackEntryAt(i).getName(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
@@ -95,6 +94,8 @@ public class AriusActivityPrincipal extends ActivityPadrao {
                 navigation.setVisibility(View.VISIBLE);
             if (appBar.getVisibility() != View.VISIBLE)
                 appBar.setVisibility(View.VISIBLE);
+            if (getFloatingActionMenu().getVisibility() != View.VISIBLE)
+                getFloatingActionMenu().setVisibility(View.VISIBLE);
 
             for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                 String tag = fm.getBackStackEntryAt(i).getName();
@@ -105,6 +106,12 @@ public class AriusActivityPrincipal extends ActivityPadrao {
             }
 
             setFragmentAtivo();
+
+            setBtnFloatingNovaVenda();
+
+            setBtnFloatingFechaVendaAtiva();
+
+            setBtnFloatingCancelaVenda();
         }
     }
 
@@ -113,7 +120,6 @@ public class AriusActivityPrincipal extends ActivityPadrao {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_arius_principal);
 
-        floatingActionMenu = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         BottomNavigationViewHelper.disableShiftMode(navigation);
@@ -154,7 +160,6 @@ public class AriusActivityPrincipal extends ActivityPadrao {
                 montaFragmento(fragmentAtivo.getClass());
             }
         }
-
     }
 
     @Override
@@ -247,6 +252,70 @@ public class AriusActivityPrincipal extends ActivityPadrao {
         ft.commit();
     }
 
+    private void setBtnFloatingNovaVenda(){
+        btnFloatingNovaVenda = (FloatingActionButton) findViewById(R.id.btnFloatingNovaVenda);
+        btnFloatingNovaVenda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (PdvService.get().getVendaAtiva() != null){
+                    PdvService.get().getPdv().setVendaAtiva(null);
+                    AppContext.get().getDao(PdvDao.class).update(PdvService.get().getPdv());
+
+                    navigation.setSelectedItemId(R.id.navigation_prodcategoria);
+
+                    AndroidUtils.toast(getApplicationContext(),"Iniciado Venda!");
+                }
+                if (getFloatingActionMenu().isOpened())
+                    getFloatingActionMenu().close(getFloatingActionMenu().isAnimated());
+            }
+        });
+    }
+
+    private void setBtnFloatingFechaVendaAtiva(){
+        btnFloatingFechaVendaAtiva = (FloatingActionButton) findViewById(R.id.btnFloatingFechaVendaAtiva);
+        btnFloatingFechaVendaAtiva.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (PdvService.get().getVendaAtiva() != null){
+                    PdvService.get().getPdv().setVendaAtiva(null);
+                    AppContext.get().getDao(PdvDao.class).update(PdvService.get().getPdv());
+
+                    navigation.setSelectedItemId(R.id.navigation_prodcategoria);
+
+                    AndroidUtils.toast(getApplicationContext(),"Venda Fechada!");
+                }
+                if (getFloatingActionMenu().isOpened())
+                    getFloatingActionMenu().close(getFloatingActionMenu().isAnimated());
+            }
+        });
+    }
+
+    private void setBtnFloatingCancelaVenda(){
+        btnFloatingCancelaVenda = (FloatingActionButton) findViewById(R.id.btnFloatingCancelaVenda);
+        btnFloatingCancelaVenda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (PdvService.get().getVendaAtiva() == null){
+                    AndroidUtils.toast(getApplicationContext(),"Nenhuma venda ativa para cancelar!");
+                } else {
+                    if (PdvService.get().getVendaAtiva().getSituacao() == VendaSituacao.CANCELADA)
+                        throw new UserException("Venda já cancelada!");
+                    else {
+                        PdvService.get().getVendaAtiva().setSituacao(VendaSituacao.CANCELADA);
+                        AppContext.get().getDao(VendaDao.class).update(PdvService.get().getVendaAtiva());
+
+                        if (getSupportFragmentManager().findFragmentByTag("fragmentActivityItemVenda").isVisible())
+                            FragmentActivityItemVenda.getAriusActivityItemVenda().carregaVenda();
+                         else
+                            navigation.setSelectedItemId(R.id.navigation_itensvenda);
+
+                    }
+                }
+                if (getFloatingActionMenu().isOpened())
+                    getFloatingActionMenu().close(getFloatingActionMenu().isAnimated());
+            }
+        });
+    }
 
     public static class BottomNavigationViewHelper {
         public static void disableShiftMode(BottomNavigationView view) {

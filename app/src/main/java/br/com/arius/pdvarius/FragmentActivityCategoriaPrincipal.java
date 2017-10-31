@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import arius.pdv.base.ProdutoCategoria;
 
@@ -49,6 +50,8 @@ public class FragmentActivityCategoriaPrincipal extends android.support.v4.app.F
                 produtoPrincipal.pesquisaPrincipa(produtoCategoria == null ? 0 : produtoCategoria.getId());
             }
         });
+
+
 
         return view;
     }

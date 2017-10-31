@@ -2,6 +2,7 @@ package br.com.arius.pdvarius;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -120,9 +121,9 @@ public class AriusActivityItemVenda extends ActivityPadrao {
         });
     }
 
-    private void carregaVenda(){
+    public void carregaVenda(){
         if (PdvService.get().getVendaAtiva() != null){
-            AriusCursorAdapter venda_itens = new AriusCursorAdapter(context,
+            final AriusCursorAdapter venda_itens = new AriusCursorAdapter(context,
                     R.layout.layoutitemvenda,
                     R.layout.layoutitemvenda,
                     null,
@@ -145,6 +146,21 @@ public class AriusActivityItemVenda extends ActivityPadrao {
                     if (campoAux != null)
                         campoAux.setText(AndroidUtils.FormatarValor_Monetario(vendaItem.getValorUnitario()));
 
+                    campoAux = v.findViewById(R.id.lbLayoutItemVendaDesconto);
+                    if (campoAux != null) {
+                        if (vendaItem.getDesconto() > 0)
+                            campoAux.setText(AndroidUtils.FormatarValor_Monetario(vendaItem.getDesconto()));
+                        else
+                            campoAux.setText("");
+                    }
+                    campoAux = v.findViewById(R.id.lbLayoutItemVendaAcrescimo);
+                    if (campoAux != null) {
+                        if (vendaItem.getAcrescimo() > 0)
+                            campoAux.setText(AndroidUtils.FormatarValor_Monetario(vendaItem.getAcrescimo()));
+                        else
+                            campoAux.setText("");
+                    }
+
                     campoAux = v.findViewById(R.id.lbLayoutItemVendaVrTotal);
                     if (campoAux != null)
                         campoAux.setText(AndroidUtils.FormatarValor_Monetario(vendaItem.getValorLiquido()));
@@ -155,8 +171,31 @@ public class AriusActivityItemVenda extends ActivityPadrao {
                         imgaux.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                grdItemVenda.getAriusCursorAdapter().remove(p);
-                                deleteVendaItem(p);
+
+                                AriusAlertDialog.exibirDialog(context,R.layout.contentariusdialogdelete);
+                                ((TextView) AriusAlertDialog.getAlertDialog().findViewById(R.id.edtContentDialogDeleteTexto)).setText(
+                                        "Deseja realemte excluir o produto?"
+                                );
+
+                                AriusAlertDialog.getAlertDialog().findViewById(R.id.btnContentDialogDeleteNao).setOnClickListener(
+                                        new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                AriusAlertDialog.getAlertDialog().dismiss();
+                                            }
+                                        }
+                                );
+
+                                AriusAlertDialog.getAlertDialog().findViewById(R.id.btnContentDialogDeleteSim).setOnClickListener(
+                                        new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                grdItemVenda.getAriusCursorAdapter().remove(p);
+                                                deleteVendaItem(p);
+                                                AriusAlertDialog.getAlertDialog().dismiss();
+                                            }
+                                        }
+                                );
                             }
                         });
                     } else
@@ -179,7 +218,8 @@ public class AriusActivityItemVenda extends ActivityPadrao {
             grdItemVenda.setAdapter(venda_itens);
 
             grdItemVenda.setSwipe_Delete(PdvService.get().getVendaAtiva().getSituacao() == VendaSituacao.ABERTA);
-        }
+        } else
+            grdItemVenda.setAdapter(null);
         montaRodape();
     }
 

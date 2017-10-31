@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import FloatingActionMenu.FloatingActionMenu;
 import arius.pdv.base.Pdv;
 import arius.pdv.base.PdvDao;
 import arius.pdv.base.PdvService;
@@ -34,6 +35,7 @@ public class ActivityPadrao extends AppCompatActivity {
     private ImageView imgVensaStatus;
     private static ActivityPadrao activityPadrao;
     private static boolean pesquisaVenda;
+    private FloatingActionMenu floatingActionMenu;
 
     public Context getAppContext(){
         try {
@@ -81,6 +83,12 @@ public class ActivityPadrao extends AppCompatActivity {
         }
 
         setTitleToolbar();
+
+        floatingActionMenu = (FloatingActionMenu) findViewById(R.id.floatingActionMenu);
+    }
+
+    public FloatingActionMenu getFloatingActionMenu() {
+        return floatingActionMenu;
     }
 
     @Override
@@ -89,6 +97,7 @@ public class ActivityPadrao extends AppCompatActivity {
         //Esse create faz o trabalho de inicialization da aplicação
         AppContext.get();
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
