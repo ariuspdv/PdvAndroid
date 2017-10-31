@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -38,7 +39,7 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
     private VendaFinalizadora vendaFinalizadora;
     private TextView edtValorRestante;
     private TextView lbValorRestante;
-    private Button btnFinalizaVenda;
+    private LinearLayout btnFinalizaVenda;
     private Button btnDescontoTotal;
     private Button btnAcrescimoTotal;
     private TextView edtDescontoTotalVenda;
@@ -71,7 +72,7 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
             grdFinalidora_Venda = (AriusListView) findViewById(R.id.grdFinalizadoraVenda);
             edtValorRestante = (TextView) findViewById(R.id.edtlayoutFinalizaVendaRodapeValor);
             lbValorRestante = (TextView) findViewById(R.id.lblayoutFinalizaVendaRodapeValor);
-            btnFinalizaVenda = (Button) findViewById(R.id.btnlayoutFinalizaVendaRodapeFinalizar);
+            btnFinalizaVenda = (LinearLayout) findViewById(R.id.btnlayoutFinalizaVendaRodapeFinalizar);
             btnDescontoTotal = (Button) findViewById(R.id.btnlayoutFinalizaVendaRodapeDesconto);
             btnAcrescimoTotal = (Button) findViewById(R.id.btnlayoutFinalizaVendaRodapeAcrescimo);
             edtDescontoTotalVenda = (TextView) findViewById(R.id.edtlayoutFinalizaVendaRodapeDesconto);

@@ -6,15 +6,53 @@
     android:orientation="vertical"
     tools:context="br.com.arius.pdvarius.AriusActivityFinalizadoraVenda">
 
-    <TextView
-        android:id="@+id/lbTituloFinalizadoraVenda"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Finalizadoras da Venda"
-        android:padding="10dp"
-        android:textColor="@color/colorPrimary"
-        android:textAlignment="textStart"
-        android:textSize="24dp"  />
+        android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/lbTituloFinalizadoraVenda"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Pagamentos"
+                android:padding="10dp"
+                android:layout_weight="0.3"
+                android:textColor="@color/colorPrimary"
+                android:textAlignment="textStart"
+                android:textSize="24dp"  />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:background="#29840f"
+                android:layout_weight="0.5">
+                <TextView
+                    android:id="@+id/lblayoutFinalizaVendaRodapeValor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Valor Restante:"
+                    android:layout_weight="0.1"
+                    android:paddingEnd="10dp"
+                    android:padding="10dp"
+                    android:textColor="#fff"
+                    android:textAlignment="viewEnd"
+                    android:textSize="24dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/edtlayoutFinalizaVendaRodapeValor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:textColor="#fff"
+                    android:text="R$ 9.9999,99"
+                    android:padding="10dp"
+                    android:textAlignment="viewEnd"
+                    android:textSize="24dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+    </LinearLayout>
 
     <arius.pdv.db.AriusListView
         android:id="@+id/grdFinalizadoraVenda"
