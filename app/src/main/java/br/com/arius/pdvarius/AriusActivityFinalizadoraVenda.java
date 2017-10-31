@@ -152,8 +152,29 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
                         imgaux.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                grdFinalidora_Venda.getAriusCursorAdapter().remove(p);
-                                deleteVendaFinalizadora(p);
+                                AriusAlertDialog.exibirDialog(context,R.layout.contentariusdialogdelete);
+                                ((TextView) AriusAlertDialog.getGetView().findViewById(R.id.edtContentDialogDeleteTexto)).setText(
+                                        "Deseja realmente excluir a forma de pagamento?");
+
+                                AriusAlertDialog.getAlertDialog().findViewById(R.id.btnContentDialogDeleteNao).setOnClickListener(
+                                        new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                AriusAlertDialog.getAlertDialog().dismiss();
+                                            }
+                                        }
+                                );
+
+                                AriusAlertDialog.getAlertDialog().findViewById(R.id.btnContentDialogDeleteNao).setOnClickListener(
+                                        new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                grdFinalidora_Venda.getAriusCursorAdapter().remove(p);
+                                                deleteVendaFinalizadora(p);
+                                                AriusAlertDialog.getAlertDialog().dismiss();
+                                            }
+                                        }
+                                );
                             }
                         });
                     } else

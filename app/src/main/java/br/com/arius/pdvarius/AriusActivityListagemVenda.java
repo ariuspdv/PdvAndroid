@@ -348,7 +348,6 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
         cmbSituacao.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                progressBar(true);
                 situacao = adapterView.getItemAtPosition(i).toString();
             }
 
@@ -360,6 +359,7 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
     }
 
     private void pesquisaVendas(){
+        progressBar(true);
         List vendas = AppContext.get().getDao(VendaDao.class).listCache(new FuncionaisFilters<Venda>() {
             @Override
             public boolean test(Venda p) {
@@ -418,5 +418,7 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
         });
 
         grdListagemVenda.setAdapter(adapter_vendas);
+
+        progressBar(false);
     }
 }

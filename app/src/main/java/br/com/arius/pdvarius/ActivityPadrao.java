@@ -3,7 +3,6 @@ package br.com.arius.pdvarius;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.internal.BottomNavigationMenu;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -26,6 +24,7 @@ import arius.pdv.base.VendaSituacao;
 import arius.pdv.core.AppContext;
 import arius.pdv.core.FuncionaisFilters;
 import arius.pdv.core.UserException;
+import arius.pdv.db.AriusAlertDialog;
 
 
 public class ActivityPadrao extends AppCompatActivity {
@@ -229,14 +228,19 @@ public class ActivityPadrao extends AppCompatActivity {
     }
 
     public static void progressBar(boolean exibir){
-        ProgressBar progressBar = (ProgressBar) activityPadrao.findViewById(R.id.progressBar);
+        if (!exibir) {
+            if (AriusAlertDialog.getGetView() != null)
+                if (AriusAlertDialog.getGetView().getVisibility() == View.VISIBLE )
+                    AriusAlertDialog.getAlertDialog().dismiss();
+            return;
+        } else
+            if (AriusAlertDialog.getGetView() != null)
+                if (AriusAlertDialog.getGetView().getVisibility() == View.VISIBLE )
+                    return;
 
-        if (progressBar != null){
-            if (progressBar.getVisibility() == View.GONE && exibir)
-                progressBar.setVisibility(View.VISIBLE);
-            else
-                progressBar.setVisibility(View.GONE);
-        }
+        AriusAlertDialog.exibirDialog(activityPadrao,R.layout.layoutprogress);
+        AriusAlertDialog.getAlertDialog().setCancelable(exibir);
+        AriusAlertDialog.getAlertDialog().show();
     }
 
 }

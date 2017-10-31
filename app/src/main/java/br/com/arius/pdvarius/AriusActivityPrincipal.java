@@ -42,6 +42,7 @@ public class AriusActivityPrincipal extends ActivityPadrao {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            progressBar(true);
             if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
                 String tag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
                 fragmentAtivo = getSupportFragmentManager().findFragmentByTag(tag);
@@ -193,6 +194,8 @@ public class AriusActivityPrincipal extends ActivityPadrao {
 
             }
         }
+
+        progressBar(false);
     }
 
     private void montaFragmento(Class nomeClasseFragment){
@@ -249,6 +252,7 @@ public class AriusActivityPrincipal extends ActivityPadrao {
         }
 
         ft.commit();
+        progressBar(false);
     }
 
     private void setBtnFloatingNovaVenda(){

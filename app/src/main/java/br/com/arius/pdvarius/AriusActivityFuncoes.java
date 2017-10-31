@@ -150,6 +150,8 @@ public class AriusActivityFuncoes extends ActivityPadrao {
                 if (!validaStatusPDV())
                     return;
 
+                progressBar(true);
+
                 Intent intent = new Intent(context, AriusActivityListagemVenda.class);
 
                 context.startActivity(intent);
