@@ -34,7 +34,7 @@
                     android:layout_margin="0dp"
                     android:background="@drawable/toolbar"
                     android:padding="0dp"
-                    app:popupTheme="@style/AppTheme.PopupOverlay" />
+                    app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
             </android.support.design.widget.AppBarLayout>
 

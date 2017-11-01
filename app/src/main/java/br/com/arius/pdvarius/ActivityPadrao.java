@@ -2,6 +2,7 @@ package br.com.arius.pdvarius;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -111,8 +112,8 @@ public class ActivityPadrao extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        return false;
     }
 
     @Override
@@ -124,13 +125,11 @@ public class ActivityPadrao extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
-            case R.id.itemFechar_Caixa:
-                //noinspection SimplifiableIfStatement
-                return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
 
     //Método para criar o toolbar customizado no app
     public void setTitleToolbar() {
@@ -169,6 +168,7 @@ public class ActivityPadrao extends AppCompatActivity {
 
         getSupportActionBar().setCustomView(mCustomView);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.toolbar));
 
         //ImageView imgVendaStatus = (ImageView) findViewById(R.id.imgVendaStatus);
         //imgVendaStatus.setVisibility(PdvService.get().getPdv(1).isAberto() ? View.VISIBLE : View.GONE);
