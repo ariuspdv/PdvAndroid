@@ -228,7 +228,7 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
         else
             tv.setText("Data Fim");
         tv.setTextColor(Color.parseColor("#ff0000"));
-        tv.setBackgroundColor(Color.parseColor("#FFD2DAA7"));
+        tv.setBackgroundColor(Color.parseColor("#50000000"));
         tv.setTextSize(30);
         datePickerDialog.setCustomTitle(tv);
         datePickerDialog.getDatePicker().setSpinnersShown(false);
@@ -244,6 +244,14 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
         });
 
         datePickerDialog.show();
+
+        datePickerDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(30);
+        datePickerDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.parseColor("#000000"));
+
+        datePickerDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(30);
+        datePickerDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#000000"));
+
+
     }
 
     private void carregaCategorias(final long categoria_id){
