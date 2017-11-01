@@ -5,81 +5,54 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/lbVendaListagemID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/edtVendaListagemID"
-        android:layout_weight="1"
-        android:text="Venda: "
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <TextView
         android:id="@+id/edtVendaListagemID"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toStartOf="@+id/lbVendaListagemValor"
-        android:layout_weight="2"
+        android:layout_weight="0.2"
+        android:padding="10dp"
         android:paddingRight="10dp"
+        android:textColor="#606060"
         android:text="TextView"
-        android:textAlignment="textEnd"
+        android:textAlignment="center"
         android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/lbVendaListagemValor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/edtVendaListagemValor"
-        android:layout_weight="3"
-        android:text="Valor:"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/edtVendaListagemValor"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:padding="10dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toStartOf="@+id/lbVendaListagemData"
-        android:layout_weight="4"
+        android:layout_weight="0.3"
+        android:textAlignment="viewEnd"
         android:paddingRight="10dp"
+        android:textColor="#606060"
         android:text="TextView"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/lbVendaListagemData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/edtVendaListagemData"
-        android:layout_weight="5"
-        android:text="Data: "
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <TextView
         android:id="@+id/edtVendaListagemData"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toStartOf="@+id/imgVendaListagemSituacao"
-        android:layout_weight="6"
+        android:layout_weight="0.3"
         android:text="TextView"
+        android:padding="10dp"
+        android:textColor="#606060"
+        android:textAlignment="center"
         android:textSize="20sp" />
 
     <ImageView
         android:id="@+id/imgVendaListagemSituacao"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:padding="10dp"
+        android:layout_height="match_parent"
         android:layout_alignBottom="@+id/lbVendaListagemValor"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        app:srcCompat="@mipmap/vendafechada" />
+        android:layout_weight="0.1"
+        app:srcCompat="@mipmap/correct" />
 </LinearLayout>

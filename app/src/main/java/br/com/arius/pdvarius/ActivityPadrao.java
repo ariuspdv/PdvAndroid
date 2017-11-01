@@ -167,7 +167,7 @@ public class ActivityPadrao extends AppCompatActivity {
 
         getSupportActionBar().setDisplayShowHomeEnabled(false);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
+        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.back_arrow);
         getSupportActionBar().setCustomView(mCustomView);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.toolbar));

@@ -3,10 +3,7 @@ package br.com.arius.pdvarius;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.drawable.ClipDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -227,8 +224,8 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
             tv.setText("Data Inicio");
         else
             tv.setText("Data Fim");
-        tv.setTextColor(Color.parseColor("#ff0000"));
-        tv.setBackgroundColor(Color.parseColor("#50000000"));
+        tv.setTextColor(Color.parseColor("#ffffff"));
+        tv.setBackgroundColor(Color.parseColor("#0e4777"));
         tv.setTextSize(30);
         datePickerDialog.setCustomTitle(tv);
         datePickerDialog.getDatePicker().setSpinnersShown(false);
@@ -244,20 +241,12 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
         });
 
         datePickerDialog.show();
-
-        datePickerDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(30);
-        datePickerDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.parseColor("#000000"));
-
-        datePickerDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(30);
-        datePickerDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#000000"));
-
-
     }
 
     private void carregaCategorias(final long categoria_id){
         AriusCursorAdapter adapter_categoria = new AriusCursorAdapter(getApplicationContext(),
                 R.layout.layoutcmbbasico,
-                R.layout.layoutcmbbasico,
+                android.R.layout.simple_dropdown_item_1line,
                 null,
                 AppContext.get().getDao(ProdutoCategoriaDao.class).listCache(new FuncionaisFilters<ProdutoCategoria>() {
                     @Override
@@ -271,8 +260,19 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
             public void montarCamposTela(Object p, View v) {
                 produtoCategoria = (ProdutoCategoria) p;
                 TextView campoaux = v.findViewById(R.id.lbcmbbasico);
-                if (campoaux != null)
+                if (campoaux != null){
+                    campoaux.setPadding(10, 10, 10, 10);
+                    campoaux.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.dropdown, 0);
                     campoaux.setText(produtoCategoria.getDescricao());
+                    campoaux.setTextColor(Color.parseColor("#000000"));
+                }
+
+                campoaux = v.findViewById(android.R.id.text1);
+                if (campoaux != null){
+                    campoaux.setText(produtoCategoria.getDescricao());
+                    campoaux.setTextColor(Color.parseColor("#000000"));
+                }
+
             }
         });
 
@@ -295,7 +295,7 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
     private void carregaProdutos(){
         AriusCursorAdapter adapter_produto = new AriusCursorAdapter(getApplicationContext(),
                 R.layout.layoutcmbbasico,
-                R.layout.layoutcmbbasico,
+                android.R.layout.simple_dropdown_item_1line,
                 null,
                 AppContext.get().getDao(ProdutoDao.class).listCache(new FuncionaisFilters<Produto>() {
                     @Override
@@ -309,8 +309,19 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
             public void montarCamposTela(Object p, View v) {
                 produto = (Produto) p;
                 TextView campoaux = v.findViewById(R.id.lbcmbbasico);
-                if (campoaux != null)
+
+                if (campoaux != null){
+                    campoaux.setPadding(10, 10, 10, 10);
+                    campoaux.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.dropdown, 0);
                     campoaux.setText(produto.getDescricao());
+                    campoaux.setTextColor(Color.parseColor("#000000"));
+                }
+
+                campoaux = v.findViewById(android.R.id.text1);
+                if (campoaux != null){
+                    campoaux.setText(produto.getDescricao());
+                    campoaux.setTextColor(Color.parseColor("#000000"));
+                }
             }
         });
 
@@ -339,7 +350,7 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
 
         final AriusCursorAdapter adapter_situacao = new AriusCursorAdapter(getApplicationContext(),
                 R.layout.layoutcmbbasico,
-                R.layout.layoutcmbbasico,
+                android.R.layout.simple_dropdown_item_1line,
                 null,
                 list_situacao);
 
@@ -348,8 +359,20 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
             public void montarCamposTela(Object p, View v) {
                 String sitacao = String.valueOf(p);
                 TextView campoaux = v.findViewById(R.id.lbcmbbasico);
-                if (campoaux != null)
+                if (campoaux != null){
+                    campoaux.setPadding(10, 10, 10, 10);
+                    campoaux.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.dropdown, 0);
                     campoaux.setText(sitacao);
+                    campoaux.setTextColor(Color.parseColor("#000000"));
+                }
+
+                campoaux = v.findViewById(android.R.id.text1);
+                if (campoaux != null){
+                    campoaux.setText(sitacao);
+                    campoaux.setTextColor(Color.parseColor("#000000"));
+                }
+
+
             }
         });
 
@@ -421,9 +444,9 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
                     campoaux.setText(PdvUtil.converteData_texto(venda.getDataHora()));
 
                 ImageView imgStatusVenda = v.findViewById(R.id.imgVendaListagemSituacao);
-                imgStatusVenda.setImageResource(((Venda) p).getSituacao() == VendaSituacao.ABERTA ? R.mipmap.vendaaberta :
-                        ((Venda) p).getSituacao() == VendaSituacao.FECHADA ? R.mipmap.vendafechada :
-                                ((Venda) p).getSituacao() == VendaSituacao.CANCELADA ? R.mipmap.vendacancelada : 0);
+                imgStatusVenda.setImageResource(((Venda) p).getSituacao() == VendaSituacao.ABERTA ? R.mipmap.edit :
+                        ((Venda) p).getSituacao() == VendaSituacao.FECHADA ? R.mipmap.correct :
+                                ((Venda) p).getSituacao() == VendaSituacao.CANCELADA ? R.mipmap.cancel : 0);
 
             }
         });
