@@ -173,6 +173,7 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
                                                 grdFinalidora_Venda.getAriusCursorAdapter().remove(p);
                                                 deleteVendaFinalizadora(p);
                                                 AriusAlertDialog.getAlertDialog().dismiss();
+                                                montaRodape();
                                             }
                                         }
                                 );

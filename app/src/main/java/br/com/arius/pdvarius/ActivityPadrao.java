@@ -5,12 +5,14 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -112,8 +114,8 @@ public class ActivityPadrao extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
-        return false;
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     @Override
@@ -169,6 +171,13 @@ public class ActivityPadrao extends AppCompatActivity {
         getSupportActionBar().setCustomView(mCustomView);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.toolbar));
+
+        toolbar = (Toolbar) mCustomView.getParent();
+        toolbar.setContentInsetsAbsolute(0,0);
+        toolbar.setContentInsetStartWithNavigation(0);
+        toolbar.setContentInsetEndWithActions(0);
+        toolbar.setPadding(0, 0, 0, 0);
+
 
         //ImageView imgVendaStatus = (ImageView) findViewById(R.id.imgVendaStatus);
         //imgVendaStatus.setVisibility(PdvService.get().getPdv(1).isAberto() ? View.VISIBLE : View.GONE);

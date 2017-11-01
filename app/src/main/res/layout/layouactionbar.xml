@@ -53,15 +53,14 @@
             android:id="@+id/lbStatus"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
             android:layout_weight="0.5"
+            android:gravity="center_vertical"
             android:text="status"
             android:textAlignment="center"
             android:textColor="@android:color/background_light"
             android:textIsSelectable="false"
             android:textSize="@dimen/textsize_actionbar"
-            android:textStyle="bold"
-            tools:ignore="HardcodedText,SpUsage" />
+            android:textStyle="bold" />
         <!--<ImageView-->
             <!--android:id="@+id/imgPDVStatus"-->
             <!--android:layout_width="wrap_content"-->

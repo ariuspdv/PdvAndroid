@@ -193,6 +193,7 @@ public class AriusActivityItemVenda extends ActivityPadrao {
                                                 grdItemVenda.getAriusCursorAdapter().remove(p);
                                                 deleteVendaItem(p);
                                                 AriusAlertDialog.getAlertDialog().dismiss();
+                                                montaRodape();
                                             }
                                         }
                                 );
