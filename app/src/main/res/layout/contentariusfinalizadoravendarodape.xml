@@ -19,36 +19,115 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/lblayoutFinalizaVendaRodapeDesconto"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Desconto Total Venda"
-                android:textAlignment="center"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/edtlayoutFinalizaVendaRodapeDesconto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="R$ 0,00"
-                android:textAlignment="textEnd"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/lblayoutFinalizaVendaRodapeValor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Valor da Venda"
+                    android:paddingStart="5dp"
+                    android:textAlignment="textStart"
+                    android:textSize="18sp" />
 
-            <Button
-                android:id="@+id/btnlayoutFinalizaVendaRodapeDesconto"
+                <TextView
+                    android:id="@+id/edtlayoutFinalizaVendaRodapeValorVenda"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="R$ 0,00"
+                    android:textStyle="bold"
+                    android:textAlignment="textEnd"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#fff"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_orange_event"
-                android:text="Desconto"
-                android:textStyle="bold" />
+                android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/lblayoutFinalizaVendaRodapeDesconto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Desconto Total"
+                        android:paddingStart="5dp"
+                        android:textAlignment="textStart"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/edtlayoutFinalizaVendaRodapeDesconto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="R$ 0,00"
+                        style="@style/AriusTextViewDiscount"
+                        android:textAlignment="textEnd"
+                        android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblayoutFinalizaVendaRodapeAcrescimo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Acréscimo Total"
+                    android:paddingStart="5dp"
+                    android:textAlignment="textStart"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/edtlayoutFinalizaVendaRodapeAcrescimo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="R$ 0,00"
+                    style="@style/AriusTextViewInterest"
+                    android:textAlignment="textEnd"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Valor Total"
+                    android:paddingStart="5dp"
+                    android:textAlignment="textStart"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/edtlayoutFinalizaVendaValorLiquido"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="R$ 9.999,00"
+                    android:textAlignment="textEnd"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -57,62 +136,68 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/lblayoutFinalizaVendaRodapeAcrescimo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Acréscimo Total Venda"
-                android:textAlignment="center"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/edtlayoutFinalizaVendaRodapeAcrescimo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="R$ 0,00"
-                android:textAlignment="textEnd"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                <Button
+                    android:id="@+id/btnlayoutFinalizaVendaRodapeDesconto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_orange_event"
+                    android:text="Desconto"
+                    android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnlayoutFinalizaVendaRodapeAcrescimo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="#fff"
                 android:layout_margin="5dp"
-                android:text="ACRÉSCIMO"
+                android:layout_weight="1"
                 android:background="@drawable/button_orange_event"
+                android:text="ACRÉSCIMO"
+                android:textColor="#fff"
                 android:textStyle="bold" />
 
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/btnlayoutFinalizaVendaRodapeFinalizar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/button_red_event"
-        android:elevation="0dp"
-        android:padding="10dp"
-        android:layout_margin="5dp"
-        android:textColor="@android:color/background_light"
-        android:textSize="24sp"
-        android:textStyle="bold">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Finalizar Venda"
-            android:textColor="#fff"
-            android:textAlignment="center"
-            android:textSize="24dp"
-            android:textStyle="bold"/>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.4"/>
+            <LinearLayout
+                android:id="@+id/btnlayoutFinalizaVendaRodapeFinalizar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/button_red_event"
+                android:elevation="0dp"
+                android:layout_weight="0.5"
+                android:padding="10dp"
+                android:layout_margin="5dp"
+                android:textColor="@android:color/background_light"
+                android:textSize="24sp"
+                android:textStyle="bold">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Finalizar Venda"
+                    android:textColor="#fff"
+                    android:textAlignment="center"
+                    android:textSize="24dp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.4"/>
     </LinearLayout>
 
 </LinearLayout>

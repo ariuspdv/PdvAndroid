@@ -3,8 +3,6 @@ package br.com.arius.pdvarius;
 import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -12,7 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import java.text.DecimalFormat;
+
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
@@ -47,6 +45,8 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
     private AlertDialog dialogFinalizadora;
     private AlertDialog dialogDesc_Juros;
     private AriusActivityPercValor ariusActivityPercValor;
+    private TextView edtValorTotalVenda;
+    private TextView edtValorTotalLiquido;
 
     /*Campos rodapé dialog finalizadora*/
     private TextView edtVrBruto;
@@ -77,6 +77,8 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
             btnAcrescimoTotal = (Button) findViewById(R.id.btnlayoutFinalizaVendaRodapeAcrescimo);
             edtDescontoTotalVenda = (TextView) findViewById(R.id.edtlayoutFinalizaVendaRodapeDesconto);
             edtAcrescimoTotalVenda = (TextView) findViewById(R.id.edtlayoutFinalizaVendaRodapeAcrescimo);
+            edtValorTotalVenda = (TextView) findViewById(R.id.edtlayoutFinalizaVendaRodapeValorVenda);
+            edtValorTotalLiquido = (TextView) findViewById(R.id.edtlayoutFinalizaVendaValorLiquido);
         } else {
             grdFinalidora_Venda = view.findViewById(R.id.grdFinalizadoraVenda);
             edtValorRestante = view.findViewById(R.id.edtlayoutFinalizaVendaRodapeValor);
@@ -86,6 +88,8 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
             btnAcrescimoTotal = view.findViewById(R.id.btnlayoutFinalizaVendaRodapeAcrescimo);
             edtDescontoTotalVenda = view.findViewById(R.id.edtlayoutFinalizaVendaRodapeDesconto);
             edtAcrescimoTotalVenda = view.findViewById(R.id.edtlayoutFinalizaVendaRodapeAcrescimo);
+            edtValorTotalVenda = view.findViewById(R.id.edtlayoutFinalizaVendaRodapeValorVenda);
+            edtValorTotalLiquido = view.findViewById(R.id.edtlayoutFinalizaVendaValorLiquido);
         }
 
         grdFinalidora_Venda.setSwipe_Delete(true);
@@ -121,6 +125,7 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
 
     private void carregaFinalizadora_Venda(){
         if (PdvService.get().getVendaAtiva() != null){
+
             AriusCursorAdapter venda_finalizadoras = new AriusCursorAdapter(context,
                     R.layout.layoutfinalizadoravenda,
                     R.layout.layoutfinalizadoravenda,
@@ -347,6 +352,9 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
         edtValorRestante.setText(AndroidUtils.FormatarValor_Monetario(0.0));
         lbValorRestante.setText("Valor Restante:");
         if (PdvService.get().getVendaAtiva() != null) {
+            edtValorTotalVenda.setText(AndroidUtils.FormatarValor_Monetario(PdvService.get().getVendaAtiva().getValorLiquido()
+                    + PdvService.get().getVendaAtiva().getDesconto() - PdvService.get().getVendaAtiva().getAcrescimo()));
+
             edtValorRestante.setText(AndroidUtils.FormatarValor_Monetario(PdvService.get().getVendaAtiva().getValorRestante()));
             if (PdvService.get().getVendaAtiva().getValorRestante() < 0){
                 lbValorRestante.setText("Valor Troco:");
@@ -354,7 +362,7 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
             }
             edtDescontoTotalVenda.setText(AndroidUtils.FormatarValor_Monetario(PdvService.get().getVendaAtiva().getDesconto()));
             edtAcrescimoTotalVenda.setText(AndroidUtils.FormatarValor_Monetario(PdvService.get().getVendaAtiva().getAcrescimo()));
-
+            edtValorTotalLiquido.setText(AndroidUtils.FormatarValor_Monetario(PdvService.get().getVendaAtiva().getValorLiquido()));
             if (edtVrBruto != null)
                 edtVrBruto.setText(AndroidUtils.FormatarValor_Monetario(vendaFinalizadora.getValor()));
             if (edtDesconto != null)
