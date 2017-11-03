@@ -10,79 +10,56 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="sans-serif"
+        android:paddingStart="10dp"
         android:text="Histórico da Retirada"
-        android:textSize="30sp"
+        android:textSize="24dp"
         android:textStyle="bold" />
 
     <Spinner
         android:id="@+id/cmbRetiradaDialogHistorico"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
+        android:background="@drawable/arius_spinner"
         android:spinnerMode="dialog" />
 
-    <TextView
-        android:id="@+id/lbRetiradaDialogValor"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="sans-serif"
-        android:text="Valor da Retirada"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edtRetiradaDialogValor"
+                android:ellipsize="end"
+                android:ems="10"
+                android:hint="Valor da Retirada"
+                android:imeOptions="actionNext"
+                android:inputType="numberDecimal"
+                android:textAlignment="textEnd"
+                style="@style/AriusTextEdit"/>
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/edtRetiradaDialogValor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:ellipsize="end"
-        android:ems="10"
-        android:hint="Informar o valor para retirada"
-        android:imeOptions="actionNext"
-        android:inputType="numberDecimal"
-        android:textAlignment="textEnd"
-        android:textSize="30sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:orientation="horizontal">
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.25"
-            android:visibility="gone" />
 
         <Button
             android:id="@+id/btnRetiradaDialogOK"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="left"
             android:layout_weight="1"
-            android:maxLines="2"
             android:text="OK"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            android:background="@drawable/button_action_left"
+            style="@style/AriusButtonActionMessage" />
 
         <Button
             android:id="@+id/btnRetiradaDialogCancelar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
             android:layout_weight="1"
-            android:maxLines="2"
             android:text="Cancelar"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            android:background="@drawable/button_action_right"
+            style="@style/AriusButtonActionMessage" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.25"
-            android:visibility="gone" />
     </LinearLayout>
 
 

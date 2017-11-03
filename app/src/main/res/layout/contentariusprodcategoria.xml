@@ -40,9 +40,8 @@
             android:id="@+id/btnProCategoriaVoltar"
             android:layout_width="0dp"
             android:layout_margin="5dp"
-            android:textColor="#fff"
+            style="@style/AriusButton"
             android:layout_height="match_parent"
-            android:background="@drawable/button_orange_event"
             android:layout_weight="0.20"
             android:text="Voltar" />
     </LinearLayout>

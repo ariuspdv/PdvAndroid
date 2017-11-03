@@ -2,6 +2,7 @@ package br.com.arius.pdvarius;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -227,7 +228,7 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
         final Spinner cmbHistorico = AriusAlertDialog.getGetView().findViewById(R.id.cmbRetiradaDialogHistorico);
         AriusCursorAdapter adapter_historico = new AriusCursorAdapter(getAppContext(),
                 R.layout.layoutcmbbasico,
-                R.layout.layoutcmbbasico,
+                android.R.layout.simple_dropdown_item_1line,
                 null,
                 AppContext.get().getDao(HistoricoDao.class).listCache(new FuncionaisFilters<Historico>() {
                     @Override
@@ -240,8 +241,19 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
             public void montarCamposTela(Object p, View v) {
                 Historico historico = (Historico) p;
                 TextView campoaux = v.findViewById(R.id.lbcmbbasico);
-                if (campoaux != null)
+                if (campoaux != null) {
+                    campoaux.setPadding(10, 10, 10, 10);
+                    campoaux.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.dropdown, 0);
                     campoaux.setText(historico.getDescricao());
+                    campoaux.setTextColor(Color.parseColor("#000000"));
+                }
+
+                campoaux = v.findViewById(android.R.id.text1);
+                if (campoaux != null){
+                    campoaux.setText(historico.getDescricao());
+                    campoaux.setTextColor(Color.parseColor("#000000"));
+                }
+
             }
         });
         cmbHistorico.setAdapter(adapter_historico);

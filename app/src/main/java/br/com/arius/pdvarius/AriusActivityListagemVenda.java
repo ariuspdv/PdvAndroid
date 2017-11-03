@@ -8,6 +8,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -58,7 +59,7 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
     private EditText dtFim;
     private Calendar newDate;
     private ListView grdListagemVenda;
-    private ImageButton btnPesquisar;
+    private Button btnPesquisar;
     private TabHost host;
     private Date dataInicio;
     private Date dataFim;
@@ -80,7 +81,7 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
         setButtons(true, false, false);
 
         grdListagemVenda = (ListView) findViewById(R.id.grdListagemVenda);
-        btnPesquisar = (ImageButton) findViewById(R.id.btnListagemVendaPesquisar);
+        btnPesquisar = (Button) findViewById(R.id.btnListagemVendaPesquisar);
 
         btnPesquisar.setOnClickListener(new View.OnClickListener() {
             @Override

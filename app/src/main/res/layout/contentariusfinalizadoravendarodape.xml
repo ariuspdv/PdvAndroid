@@ -140,12 +140,10 @@
                     android:id="@+id/btnlayoutFinalizaVendaRodapeDesconto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#fff"
                     android:layout_margin="5dp"
+                    style="@style/AriusButton"
                     android:layout_weight="1"
-                    android:background="@drawable/button_orange_event"
-                    android:text="Desconto"
-                    android:textStyle="bold" />
+                    android:text="Desconto" />
 
             <Button
                 android:id="@+id/btnlayoutFinalizaVendaRodapeAcrescimo"
@@ -153,10 +151,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="@drawable/button_orange_event"
-                android:text="ACRÉSCIMO"
-                android:textColor="#fff"
-                android:textStyle="bold" />
+                style="@style/AriusButton"
+                android:text="ACRÉSCIMO"/>
 
         </LinearLayout>
     </LinearLayout>
