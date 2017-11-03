@@ -28,7 +28,6 @@ import arius.pdv.db.AndroidUtils;
 
 public class AriusActivityPrincipal extends ActivityPadrao {
 
-    private static boolean criandoTela;
     private boolean pressBack = false;
     private Fragment fragmentAtivo;
     private AppBarLayout appBar;
@@ -128,8 +127,6 @@ public class AriusActivityPrincipal extends ActivityPadrao {
         setContentView(R.layout.activity_arius_principal);
 
         appBar = (AppBarLayout) findViewById(R.id.appBarLayout);
-
-        criandoTela = true;
 
         setButtons(false,false,false);
 

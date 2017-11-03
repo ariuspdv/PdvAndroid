@@ -2,17 +2,14 @@ package br.com.arius.pdvarius;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -104,11 +101,8 @@ public class ActivityPadrao extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        //Esse create faz o trabalho de inicialization da aplicação
-        AppContext.get();
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.contentariussplashscreen);
     }
 
     @Override

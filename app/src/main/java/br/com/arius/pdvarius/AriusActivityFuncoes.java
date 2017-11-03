@@ -18,6 +18,7 @@ public class AriusActivityFuncoes extends ActivityPadrao {
     private LinearLayout btnSangria;
     private LinearLayout btnListabgeVenda;
     private LinearLayout btnRetirada;
+    private LinearLayout btnSincronizacao;
     private Context context;
     private  AriusActivityPercValor ariusActivityPercValor;
 
@@ -49,12 +50,14 @@ public class AriusActivityFuncoes extends ActivityPadrao {
             btnSangria = (LinearLayout) findViewById(R.id.btnFuncoesSangria);
             btnListabgeVenda = (LinearLayout) findViewById(R.id.btnFuncoesVendas);
             btnRetirada = (LinearLayout) findViewById(R.id.btnFuncoesRetirada);
+            btnSincronizacao = (LinearLayout) findViewById(R.id.btnFuncoesSincronizacao);
         } else {
             btnReforco = view.findViewById(R.id.btnFuncoesReforco);
             btnFecharCaixa = view.findViewById(R.id.btnFuncoesFecharCaixa);
             btnSangria = view.findViewById(R.id.btnFuncoesSangria);
             btnListabgeVenda = view.findViewById(R.id.btnFuncoesVendas);
             btnRetirada = view.findViewById(R.id.btnFuncoesRetirada);
+            btnSincronizacao = view.findViewById(R.id.btnFuncoesSincronizacao);
         }
 
         if (btnReforco != null){
@@ -75,6 +78,10 @@ public class AriusActivityFuncoes extends ActivityPadrao {
 
         if (btnRetirada != null) {
             btnRetirada();
+        }
+
+        if (btnSincronizacao != null) {
+            btnSincronizacao();
         }
 
     }
@@ -170,6 +177,15 @@ public class AriusActivityFuncoes extends ActivityPadrao {
                 intent.putExtra("funcaoExecutar","Retirada");
 
                 context.startActivity(intent);
+            }
+        });
+    }
+
+    private void btnSincronizacao(){
+        btnSincronizacao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AriusAlertDialog.exibirDialog(context,R.layout.contentariussincronizacao);
             }
         });
     }

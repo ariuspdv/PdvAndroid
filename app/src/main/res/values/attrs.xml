@@ -12,6 +12,11 @@
         <attr name="splitterDraggingBackground" format="reference|color" />
     </declare-styleable>
 
+    <declare-styleable name="AndroidGIFView">
+        <attr name="src" format="reference" />
+    </declare-styleable>
+
+
     <declare-styleable name="AriusAutoCompleteTextView">
         <attr name="layout_arius_autocomplete" format="integer"/>
         <attr name="layout_arius_dropdown_autocomplete" format="integer"/>

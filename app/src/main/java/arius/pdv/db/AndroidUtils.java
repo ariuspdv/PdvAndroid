@@ -172,7 +172,7 @@ public class AndroidUtils {
     public static String FormatarValor_Monetario(Double pvalor){
         BigDecimal valor = new BigDecimal(pvalor);
         NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
-        return nf.format(valor).substring(0,2)+ " " + nf.format(valor).substring(2);
+        return nf.format(valor).substring(0,(valor.compareTo(BigDecimal.ZERO) < 0 ? 3 : 2))+ " " + nf.format(valor).substring(2);
     }
 
     public static String FormataQuantidade(Produto produto, Double quantidade){
