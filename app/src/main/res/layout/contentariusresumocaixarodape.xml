@@ -2,65 +2,61 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
+    android:background="@drawable/grid_list"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/borda"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/lbResumoCaixaRodapeCapo1"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:text="Total diário"
-            android:textAlignment="center"
-            android:textSize="50sp"
-            android:textStyle="bold" />
+            android:paddingStart="10dp"
+            android:textAlignment="textStart"
+            android:textSize="24dp"
+            android:layout_weight="0.5"/>
 
         <TextView
             android:id="@+id/edtResumoCaixaRodapeCapo1"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="10dp"
+            android:paddingEnd="10dp"
             android:text="R$ 0,00"
+            android:textSize="24dp"
+            android:layout_weight="0.5"
             android:textAlignment="textEnd"
-            android:textSize="50sp"
             android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/borda"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/lbResumoCaixaRodapeCapo2"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:text="Valor Venda"
-            android:textAlignment="center"
-            android:textSize="50sp"
-            android:textStyle="bold" />
+            android:layout_weight="0.5"
+            android:paddingStart="10dp"
+            android:textAlignment="textStart"
+            android:textSize="24dp" />
 
         <TextView
             android:id="@+id/edtResumoCaixaRodapeCapo2"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="10dp"
             android:text="R$ 0,00"
-            android:textAlignment="viewEnd"
-            android:textSize="50sp"
-            android:textStyle="bold" />
+            android:paddingEnd="10dp"
+            android:layout_weight="0.5"
+            android:textSize="24dp"
+            android:textAlignment="textEnd"
+            android:textStyle="bold"/>
     </LinearLayout>
 
 </LinearLayout>

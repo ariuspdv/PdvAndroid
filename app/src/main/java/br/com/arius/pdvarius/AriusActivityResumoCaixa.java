@@ -84,7 +84,7 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
         edtCampo2 = (TextView) findViewById(R.id.edtResumoCaixaRodapeCapo2);
 
         TextView lbDataAbertura = (TextView) findViewById(R.id.lbResumoCaixaDtAbertura);
-        lbDataAbertura.setText("Data Abertura Caixa: " + PdvUtil.converteData_texto(PdvService.get().getPdv().getDataAbertura()));
+        lbDataAbertura.setText("Data Abertura: " + PdvUtil.converteData_texto(PdvService.get().getPdv().getDataAbertura()));
 
         resumoCaixa();
     }
