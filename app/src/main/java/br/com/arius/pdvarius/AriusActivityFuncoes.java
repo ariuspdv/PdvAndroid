@@ -19,6 +19,7 @@ public class AriusActivityFuncoes extends ActivityPadrao {
     private LinearLayout btnListabgeVenda;
     private LinearLayout btnRetirada;
     private LinearLayout btnSincronizacao;
+    private LinearLayout btnConfiguracoes;
     private Context context;
     private  AriusActivityPercValor ariusActivityPercValor;
 
@@ -51,6 +52,7 @@ public class AriusActivityFuncoes extends ActivityPadrao {
             btnListabgeVenda = (LinearLayout) findViewById(R.id.btnFuncoesVendas);
             btnRetirada = (LinearLayout) findViewById(R.id.btnFuncoesRetirada);
             btnSincronizacao = (LinearLayout) findViewById(R.id.btnFuncoesSincronizacao);
+            btnConfiguracoes = (LinearLayout) findViewById(R.id.btnFuncoesConfig);
         } else {
             btnReforco = view.findViewById(R.id.btnFuncoesReforco);
             btnFecharCaixa = view.findViewById(R.id.btnFuncoesFecharCaixa);
@@ -58,6 +60,7 @@ public class AriusActivityFuncoes extends ActivityPadrao {
             btnListabgeVenda = view.findViewById(R.id.btnFuncoesVendas);
             btnRetirada = view.findViewById(R.id.btnFuncoesRetirada);
             btnSincronizacao = view.findViewById(R.id.btnFuncoesSincronizacao);
+            btnConfiguracoes = view.findViewById(R.id.btnFuncoesConfig);
         }
 
         if (btnReforco != null){
@@ -82,6 +85,10 @@ public class AriusActivityFuncoes extends ActivityPadrao {
 
         if (btnSincronizacao != null) {
             btnSincronizacao();
+        }
+
+        if (btnConfiguracoes != null) {
+            btnConfiguracoes();
         }
 
     }
@@ -189,4 +196,17 @@ public class AriusActivityFuncoes extends ActivityPadrao {
             }
         });
     }
+
+    private void btnConfiguracoes(){
+        btnConfiguracoes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, AriusActivityConfiguracoes.class);
+
+                context.startActivity(intent);
+
+            }
+        });
+    }
+
 }
