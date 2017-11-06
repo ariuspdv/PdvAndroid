@@ -5,8 +5,10 @@
         <color android:color="@color/background_material_light"/>
     </item>
     <item
-        >
+        android:left="3dp"
+        android:top="25dp">
         <bitmap
+
             android:gravity="center"
             android:src="@drawable/wait_reduzido"/>
     </item>
