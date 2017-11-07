@@ -142,6 +142,10 @@ public class AriusActivityPrincipal extends ActivityPadrao {
             auxiliarCadastros.cadastraProdutos();
         }
 
+        //auxiliarCadastros.performanceProduto();
+
+        //AndroidUtils.toast(getAppContext(),getAppContext().getCacheDir().toString());
+
     }
 
     private void setFragmentAtivo(){

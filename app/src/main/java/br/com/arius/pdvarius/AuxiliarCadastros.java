@@ -418,4 +418,16 @@ public class AuxiliarCadastros {
 
     }
 
+    public void performanceProduto(){
+        Produto produto;
+        for (int i = 0; i <= 10000; i++){
+            produto = new Produto();
+            produto.setCodigo(i);
+            produto.setDescricao("Produto = " + i);
+            produto.setDescricaoReduzida(produto.getDescricao());
+
+            AppContext.get().getDao(ProdutoDao.class).insert(produto);
+        }
+    }
+
 }
