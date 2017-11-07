@@ -230,7 +230,7 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
     }
 
     private void montaDialogFinalizadoraVenda() {
-        AriusAlertDialog.exibirDialog(context, R.layout.layoutdialogfinalizadoravenda);
+        AriusAlertDialog.exibirDialog(context, R.layout.dialog_arius_finalizadora_pagamento);
 
         dialogFinalizadora = AriusAlertDialog.getAlertDialog();
 
@@ -360,8 +360,8 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
                 lbValorRestante.setText("Valor Troco:");
                 edtValorRestante.setText(AndroidUtils.FormatarValor_Monetario(PdvService.get().getVendaAtiva().getValorRestante() * -1));
             }
-            edtDescontoTotalVenda.setText(AndroidUtils.FormatarValor_Monetario(PdvService.get().getVendaAtiva().getDesconto()));
-            edtAcrescimoTotalVenda.setText(AndroidUtils.FormatarValor_Monetario(PdvService.get().getVendaAtiva().getAcrescimo()));
+            edtDescontoTotalVenda.setText(" - "+AndroidUtils.FormatarValor_Monetario(PdvService.get().getVendaAtiva().getDesconto()));
+            edtAcrescimoTotalVenda.setText(" + "+AndroidUtils.FormatarValor_Monetario(PdvService.get().getVendaAtiva().getAcrescimo()));
             edtValorTotalLiquido.setText(AndroidUtils.FormatarValor_Monetario(PdvService.get().getVendaAtiva().getValorLiquido()));
             if (edtVrBruto != null)
                 edtVrBruto.setText(AndroidUtils.FormatarValor_Monetario(vendaFinalizadora.getValor()));
