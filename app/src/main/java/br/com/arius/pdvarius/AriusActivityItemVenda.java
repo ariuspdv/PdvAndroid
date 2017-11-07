@@ -1,8 +1,6 @@
 package br.com.arius.pdvarius;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.lang.reflect.Method;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
@@ -282,7 +279,7 @@ public class AriusActivityItemVenda extends ActivityPadrao {
     }
 
     private void montaDialogItemVenda(){
-        AriusAlertDialog.exibirDialog(context,R.layout.layoutdialogitemvenda);
+        AriusAlertDialog.exibirDialog(context,R.layout.dialog_item_venda);
 
         Button btnCancel = AriusAlertDialog.getGetView().findViewById(R.id.btnlayoutDialogItemVendaCancelar);
         btnCancel.setOnClickListener(new View.OnClickListener() {
