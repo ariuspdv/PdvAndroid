@@ -74,7 +74,7 @@
 
     <style name="Widget.Design.TextInputLayout" parent="AppTheme">
         <item name="hintTextAppearance">@style/AppTheme.TextFloatLabelAppearance</item>
-        <item name="android:textColorHint">#7f7f7f</item>
+        <item name="android:textColorHint">#7f7e7e</item>
         <item name="counterTextAppearance">@style/AppTheme.TextFloatLabelAppearance</item>
         <item name="counterOverflowTextAppearance">@style/AppTheme.TextFloatLabelAppearance</item>
     </style>
