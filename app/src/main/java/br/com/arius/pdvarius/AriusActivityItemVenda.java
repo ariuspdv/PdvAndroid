@@ -275,6 +275,7 @@ public class AriusActivityItemVenda extends ActivityPadrao {
             }
         });
 
+        cmbPesqProduto.hideClearButton();
         cmbPesqProduto.setAdapter(produto_pesq);
     }
 

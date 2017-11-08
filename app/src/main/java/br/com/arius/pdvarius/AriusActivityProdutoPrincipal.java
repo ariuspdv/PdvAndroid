@@ -38,7 +38,7 @@ public class AriusActivityProdutoPrincipal extends ActivityPadrao {
     private GridView grdProdPrincipal;
     private Context context;
     private TextView edttotalitem;
-    private LinearLayout pnlValor;
+    private TextView edttotalvenda;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +49,12 @@ public class AriusActivityProdutoPrincipal extends ActivityPadrao {
 
     }
 
-    public void setPnlValor(LinearLayout pnlValor) {
-        this.pnlValor = pnlValor;
-    }
-
     public void setEdttotalitem(TextView edttotalitem) {
         this.edttotalitem = edttotalitem;
+    }
+
+    public void setEdttotalvenda(TextView edttotalvenda) {
+        this.edttotalvenda = edttotalvenda;
     }
 
     public void montaPrincipal(View view, Context context){
@@ -63,12 +63,12 @@ public class AriusActivityProdutoPrincipal extends ActivityPadrao {
         if (view == null) {
             grdProdPrincipal = (GridView) findViewById(R.id.grdProduto_Principal);
             edttotalitem = (TextView) findViewById(R.id.edtlayoutItemVendaRodapeTotItem);
-            pnlValor = (LinearLayout) findViewById(R.id.pnlContentAriusItemVendaRodapeValor);
+            edttotalvenda = (TextView) findViewById(R.id.edtlayoutItemVendaRodapeValorVenda);
         }
         else {
             grdProdPrincipal = view.findViewById(R.id.grdProduto_Principal);
             edttotalitem = view.findViewById(R.id.edtlayoutItemVendaRodapeTotItem);
-            pnlValor = view.findViewById(R.id.pnlContentAriusItemVendaRodapeValor);
+            edttotalvenda = view.findViewById(R.id.edtlayoutItemVendaRodapeValorVenda);
         }
 
         pesquisaPrincipa(0);
@@ -160,9 +160,14 @@ public class AriusActivityProdutoPrincipal extends ActivityPadrao {
     }
 
     private void montaRodape(){
-        if (pnlValor != null)
-            if (pnlValor.getVisibility() == View.VISIBLE)
-                    pnlValor.setVisibility(View.GONE);
+        if (edttotalvenda != null){
+            double v_valor = 0;
+            if (PdvService.get().getVendaAtiva() != null) {
+                v_valor = PdvService.get().getVendaAtiva().getValorLiquido();
+            }
+            edttotalvenda.setText(AndroidUtils.FormatarValor_Monetario(v_valor));
+
+        }
         if (edttotalitem != null) {
             edttotalitem.setText("0");
             if (PdvService.get().getVendaAtiva() != null) {

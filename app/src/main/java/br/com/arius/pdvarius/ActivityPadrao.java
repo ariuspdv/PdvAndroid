@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -37,6 +38,7 @@ public class ActivityPadrao extends AppCompatActivity {
     private static boolean pesquisaVenda;
     private FloatingActionMenu floatingActionMenu;
     private static BottomNavigationView navigation;
+    private static AlertDialog dialogProgressbar;
 
     public Context getAppContext(){
         try {
@@ -67,8 +69,6 @@ public class ActivityPadrao extends AppCompatActivity {
 
         activityPadrao = this;
 
-        progressBar(false);
-
         List<Pdv> lpdvs = AppContext.get().getDao(PdvDao.class).listCache(new FuncionaisFilters<Pdv>() {
             @Override
             public boolean test(Pdv p) {
@@ -89,6 +89,8 @@ public class ActivityPadrao extends AppCompatActivity {
             floatingActionMenu = (FloatingActionMenu) findViewById(R.id.floatingActionMenu);
         if (navigation ==  null)
             navigation = (BottomNavigationView) findViewById(R.id.navigation);
+
+        progressBar(false);
     }
 
     public FloatingActionMenu getFloatingActionMenu() {
@@ -232,18 +234,23 @@ public class ActivityPadrao extends AppCompatActivity {
 
     public static void progressBar(boolean exibir){
         if (!exibir) {
-            if (AriusAlertDialog.getGetView() != null)
-                if (AriusAlertDialog.getGetView().getVisibility() == View.VISIBLE )
-                    AriusAlertDialog.getAlertDialog().dismiss();
+            if (dialogProgressbar != null)
+                if (dialogProgressbar.isShowing()) {
+                    dialogProgressbar.dismiss();
+                    dialogProgressbar = null;
+                }
             return;
         } else
-            if (AriusAlertDialog.getGetView() != null)
-                if (AriusAlertDialog.getGetView().getVisibility() == View.VISIBLE )
+            if (dialogProgressbar != null)
+                if (dialogProgressbar.isShowing() )
                     return;
 
-        AriusAlertDialog.exibirDialog(activityPadrao,R.layout.layoutprogress);
-        AriusAlertDialog.getAlertDialog().setCancelable(exibir);
-        AriusAlertDialog.getAlertDialog().show();
+        if (dialogProgressbar == null) {
+            AriusAlertDialog.exibirDialog(activityPadrao, R.layout.layoutprogress, false);
+            dialogProgressbar = AriusAlertDialog.getAlertDialog();
+            dialogProgressbar.setCancelable(false);
+        }
+        dialogProgressbar.show();
     }
 
 }

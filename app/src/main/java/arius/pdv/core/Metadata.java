@@ -25,6 +25,10 @@ public class Metadata {
 			    "    senha VARCHAR2(15) NOT NULL, " +
 			    "    tipo INTEGER NOT NULL);",
 
+				"CREATE TABLE configuracoes(" +
+				"	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+				"	permitir_fundo_troco_zerado VARCHAR2(1)); ",
+
 				"CREATE TABLE empresas(" +
 				"    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
 				"    razao_social VARCHAR2(100), " +

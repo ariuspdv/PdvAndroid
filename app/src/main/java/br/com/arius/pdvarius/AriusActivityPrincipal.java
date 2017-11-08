@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import java.lang.reflect.Field;
 import FloatingActionMenu.FloatingActionButton;
+import FloatingActionMenu.FloatingActionMenu;
 import arius.pdv.base.PdvDao;
 import arius.pdv.base.PdvService;
 import arius.pdv.base.PdvTipo;
@@ -31,6 +32,7 @@ public class AriusActivityPrincipal extends ActivityPadrao {
     private boolean pressBack = false;
     private Fragment fragmentAtivo;
     private AppBarLayout appBar;
+    private FloatingActionMenu floatingActionMenu;
     private FloatingActionButton btnFloatingNovaVenda;
     private FloatingActionButton btnFloatingFechaVendaAtiva;
     private FloatingActionButton btnFloatingCancelaVenda;
@@ -97,8 +99,6 @@ public class AriusActivityPrincipal extends ActivityPadrao {
                 getNavigation().setVisibility(View.VISIBLE);
             if (appBar.getVisibility() != View.VISIBLE)
                 appBar.setVisibility(View.VISIBLE);
-            if (getFloatingActionMenu().getVisibility() != View.VISIBLE)
-                getFloatingActionMenu().setVisibility(View.VISIBLE);
 
             for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                 String tag = fm.getBackStackEntryAt(i).getName();
@@ -116,9 +116,15 @@ public class AriusActivityPrincipal extends ActivityPadrao {
 
             setBtnFloatingCancelaVenda();
 
+            if (fragmentAtivo != null)
+                if (getFloatingActionMenu().getVisibility() == View.VISIBLE && fragmentAtivo.getClass() == FragmentActivityFuncoes.class)
+                    getFloatingActionMenu().setVisibility(View.GONE);
+
             if (getPesquisaVenda())
                 getNavigation().setSelectedItemId(R.id.navigation_itensvenda);
         }
+
+        progressBar(false);
     }
 
     @Override
@@ -129,6 +135,8 @@ public class AriusActivityPrincipal extends ActivityPadrao {
         appBar = (AppBarLayout) findViewById(R.id.appBarLayout);
 
         setButtons(false,false,false);
+
+        floatingActionMenu = (FloatingActionMenu) findViewById(R.id.floatingActionMenu);
 
         AuxiliarCadastros auxiliarCadastros = new AuxiliarCadastros();
 
@@ -204,11 +212,15 @@ public class AriusActivityPrincipal extends ActivityPadrao {
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
+        if (floatingActionMenu.getVisibility() == View.GONE && nomeClasseFragment != FragmentActivityFuncoes.class)
+            floatingActionMenu.setVisibility(View.VISIBLE);
+
         if (nomeClasseFragment == FragmentActivityLogin.class){
             if (getSupportFragmentManager().findFragmentByTag("fragmentActivityLogin") == null) {
                 FragmentActivityLogin fragmentActivityLogin = new FragmentActivityLogin();
                 ft.replace(R.id.frameprincipal, fragmentActivityLogin,"fragmentActivityLogin");
                 ft.addToBackStack("fragmentActivityLogin");
+                floatingActionMenu.setVisibility(View.GONE);
             }
         }
 
@@ -246,8 +258,9 @@ public class AriusActivityPrincipal extends ActivityPadrao {
             if (fragmentAtivo != null && fragmentAtivo.getClass() == nomeClasseFragment)
                 return;
 
-           FragmentActivityFuncoes fragmentActivityFuncoes = new FragmentActivityFuncoes();
-           ft.replace(R.id.frameprincipal, fragmentActivityFuncoes,"fragmentActivityFuncoes");
+            floatingActionMenu.setVisibility(View.GONE);
+            FragmentActivityFuncoes fragmentActivityFuncoes = new FragmentActivityFuncoes();
+            ft.replace(R.id.frameprincipal, fragmentActivityFuncoes,"fragmentActivityFuncoes");
             if (!pressBack)
                 ft.addToBackStack("fragmentActivityFuncoes");
         }

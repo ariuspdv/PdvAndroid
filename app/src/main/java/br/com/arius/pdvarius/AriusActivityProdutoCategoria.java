@@ -37,17 +37,8 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
     private boolean precionadoVoltar = false;
     private ProdutoCategoria produtoCategoriaSelecionado;
     private TextView edttotalitem;
-    private LinearLayout pnlValor;
-
-    private PesquisaProdutoCategoria pesquisaProdutoCategoria;
-
-    public interface PesquisaProdutoCategoria{
-        void pesquisaProdutoCategoria(ProdutoCategoria produtoCategoria);
-    }
-
-    public void setPesquisaProdutoCategoria(PesquisaProdutoCategoria pesquisaProdutoCategoria) {
-        this.pesquisaProdutoCategoria = pesquisaProdutoCategoria;
-    }
+    private TextView edttotalvenda;
+    private TextView lbProdutos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +55,17 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
             grdProdCategoria = (GridView) findViewById(R.id.grdProduto_Categoria);
             edtNavegacao = (TextView) findViewById(R.id.edtContentAriusCategoriaNavegacao);
             edttotalitem = (TextView) findViewById(R.id.edtlayoutItemVendaRodapeTotItem);
-            pnlValor = (LinearLayout) findViewById(R.id.pnlContentAriusItemVendaRodapeValor);
+            edttotalvenda = (TextView) findViewById(R.id.edtlayoutItemVendaRodapeValorVenda);
+            lbProdutos = (TextView) findViewById(R.id.lbContentAriusCategoriaProduto);
         } else {
             grdProdCategoria = view.findViewById(R.id.grdProduto_Categoria);
             edtNavegacao = view.findViewById(R.id.edtContentAriusCategoriaNavegacao);
             edttotalitem = view.findViewById(R.id.edtlayoutItemVendaRodapeTotItem);
-            pnlValor = view.findViewById(R.id.pnlContentAriusItemVendaRodapeValor);
+            edttotalvenda = view.findViewById(R.id.edtlayoutItemVendaRodapeValorVenda);
+            lbProdutos = view.findViewById(R.id.lbContentAriusCategoriaProduto);
         }
+
+        lbProdutos.setVisibility(View.GONE);
 
         edtNavegacao.setText("");
 
@@ -93,8 +88,8 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
                     pesquisaCategoria(produtoCategoriaSelecionado.getId());
                 } else {
                     AriusActivityProdutoPrincipal ariusActivityProdutoPrincipal = new AriusActivityProdutoPrincipal();
-                    ariusActivityProdutoPrincipal.setPnlValor(pnlValor);
                     ariusActivityProdutoPrincipal.setEdttotalitem(edttotalitem);
+                    ariusActivityProdutoPrincipal.setEdttotalvenda(edttotalvenda);
                     ariusActivityProdutoPrincipal.inserirItemVenda((Produto) adapterView.getItemAtPosition(i));
                 }
             }
@@ -119,10 +114,9 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
                     produtoCategoriaSelecionado = null;
                     edtNavegacao.setText("");
                 }
-                if (pesquisaProdutoCategoria != null)
-                    pesquisaProdutoCategoria.pesquisaProdutoCategoria(null);
 
                 precionadoVoltar = false;
+                lbProdutos.setVisibility(View.GONE);
             }
         });
     }
@@ -209,6 +203,8 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
 
             if (lproduto.size() > 0) {
 
+                lbProdutos.setVisibility(View.VISIBLE);
+
                 if (produtoCategoriaSelecionado != null)
                     edtNavegacao.setText(edtNavegacao.getText() +
                             (edtNavegacao.getText().toString().equals("") ? "" : " > ") +  produtoCategoriaSelecionado.getDescricao());
@@ -247,11 +243,9 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
                 grdProdCategoria.setAdapter(adapter_item);
                 produtosCarregados = true;
             } else {
+                produtoCategoriaSelecionado = produtoCategoriaSelecionado.getProdutoCategoria();
                 AndroidUtils.toast(this.context,"Nenhum produto encontrado para a categoria!");
             }
-//            if (pesquisaProdutoCategoria != null && pesquisaProdutoCategoria != null)
-//                pesquisaProdutoCategoria.pesquisaProdutoCategoria(produtoCategoriaSelecionado);
-//            produtoCategoriaSelecionado = produtoCategoriaSelecionado.getProdutoCategoria();
         }
     }
 }

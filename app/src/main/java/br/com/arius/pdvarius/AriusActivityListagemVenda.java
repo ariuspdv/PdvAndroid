@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -43,6 +45,8 @@ import arius.pdv.base.VendaSituacao;
 import arius.pdv.core.AppContext;
 import arius.pdv.core.FuncionaisFilters;
 import arius.pdv.db.AndroidUtils;
+import arius.pdv.db.AriusAlertDialog;
+import arius.pdv.db.AriusAutoCompleteTextView;
 import arius.pdv.db.AriusCursorAdapter;
 
 /**
@@ -60,6 +64,7 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
     private Calendar newDate;
     private ListView grdListagemVenda;
     private Button btnPesquisar;
+    private ImageButton btnFiltros;
     private TabHost host;
     private Date dataInicio;
     private Date dataFim;
@@ -68,9 +73,11 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
     private Produto produto;
     private String situacao = null;
 
-    private Spinner cmbCategoria;
-    private Spinner cmbProduto;
+    private AriusAutoCompleteTextView cmbCategoria;
+    private AriusAutoCompleteTextView cmbProduto;
     private Spinner cmbSituacao;
+    private LinearLayout pnlVendasStatus;
+    private AlertDialog dialogFiltro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +89,8 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
 
         grdListagemVenda = (ListView) findViewById(R.id.grdListagemVenda);
         btnPesquisar = (Button) findViewById(R.id.btnListagemVendaPesquisar);
+        pnlVendasStatus = (LinearLayout) findViewById(R.id.pnlContentAriusListagemVendaLegendaVendas);
+        pnlVendasStatus.setVisibility(View.GONE);
 
         btnPesquisar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,41 +99,73 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
             }
         });
 
+        btnFiltros = (ImageButton) findViewById(R.id.btnListagemVendaFiltro);
+        btnFiltros.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AriusAlertDialog.exibirDialog(AriusActivityListagemVenda.this,R.layout.dialog_arius_listagemvenda_filtros,false);
+                dialogFiltro = AriusAlertDialog.getAlertDialog();
+                dialogFiltro.show();
+                carregaSituacoes();
+                carregaProdutos();
+                carregaCategorias(0);
+
+                dialogFiltro.findViewById(R.id.btnlayoutDialogListagemVendaCancelar).setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialogFiltro.dismiss();
+                            }
+                        }
+                );
+
+                dialogFiltro.findViewById(R.id.btnlayoutDialogListagemVendaConfirmar).setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (cmbSituacao.getSelectedItem().toString().equals(""))
+                                    situacao = null;
+                                if (cmbCategoria.getText().toString().equals(""))
+                                    produtoCategoria = null;
+                                if (cmbProduto.getText().toString().equals(""))
+                                    produto = null;
+                                dialogFiltro.dismiss();
+                                grdListagemVenda.setAdapter(null);
+                            }
+                        }
+                );
+            }
+        });
+
         host = (TabHost)findViewById(R.id.tabhost);
         host.setup();
 
-        //Tab 1
-        TabHost.TabSpec spec = host.newTabSpec("Categoria");
-        spec.setContent(R.id.tbsListagemVendaCategoria);
-        spec.setIndicator("Categoria");
-        host.addTab(spec);
-
-        //Tab 2
-        spec = host.newTabSpec("Produtos");
+//        //Tab 1
+        TabHost.TabSpec spec = host.newTabSpec("Produto");
         spec.setContent(R.id.tbsListagemVendaProduto);
         spec.setIndicator("Produtos");
         host.addTab(spec);
 
-        //Tab 3
-        spec = host.newTabSpec("Vendas");
+        //Tab 2
+        spec = host.newTabSpec("Venda");
         spec.setContent(R.id.tbsListagemVendaVenda);
         spec.setIndicator("Vendas");
         host.addTab(spec);
 
         carregaCamposData();
 
-        carregaCategorias(0);
-        carregaProdutos();
-        carregaSituacoes();
-
         host.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String s) {
+                if(s.toLowerCase().equals("venda"))
+                    pnlVendasStatus.setVisibility(View.VISIBLE);
+                else
+                    pnlVendasStatus.setVisibility(View.GONE);
                 grdListagemVenda.setAdapter(null);
             }
         });
 
-        host.setCurrentTab(2);
+        host.setCurrentTab(0);
 
         grdListagemVenda.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -263,7 +304,6 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
                 TextView campoaux = v.findViewById(R.id.lbcmbbasico);
                 if (campoaux != null){
                     campoaux.setPadding(10, 10, 10, 10);
-                    campoaux.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.dropdown, 0);
                     campoaux.setText(produtoCategoria.getDescricao());
                     campoaux.setTextColor(Color.parseColor("#000000"));
                 }
@@ -277,20 +317,33 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
             }
         });
 
-        cmbCategoria = (Spinner) findViewById(R.id.cbmListageVendaCategoria);
-        cmbCategoria.setAdapter(adapter_categoria);
-
-        cmbCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        adapter_categoria.setFiltros(new AriusCursorAdapter.Filtros() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                produtoCategoria = (ProdutoCategoria) adapterView.getItemAtPosition(i);
+            public boolean filtroCampos(Object object, CharSequence texto) {
+                return ((ProdutoCategoria) object).getDescricao().toLowerCase().contains(texto.toString().toLowerCase());
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public String exibircampoSelecionado(Object object) {
+                return ((ProdutoCategoria) object).getDescricao();
             }
         });
+
+        cmbCategoria = (AriusAutoCompleteTextView) dialogFiltro.findViewById(R.id.cbmListageVendaCategoria);
+
+        cmbCategoria.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                produtoCategoria = (ProdutoCategoria) parent.getItemAtPosition(position);
+            }
+        });
+
+        adapter_categoria.setExibirfiltrado_zerado(true);
+        cmbCategoria.setAdapter(adapter_categoria);
+
+        if (produtoCategoria != null)
+            cmbCategoria.setText(produtoCategoria.getDescricao());
+
     }
 
     private void carregaProdutos(){
@@ -308,12 +361,11 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
         adapter_produto.setMontarCamposTela(new AriusCursorAdapter.MontarCamposTela() {
             @Override
             public void montarCamposTela(Object p, View v) {
-                produto = (Produto) p;
+                Produto produto = (Produto) p;
                 TextView campoaux = v.findViewById(R.id.lbcmbbasico);
 
                 if (campoaux != null){
                     campoaux.setPadding(10, 10, 10, 10);
-                    campoaux.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.dropdown, 0);
                     campoaux.setText(produto.getDescricao());
                     campoaux.setTextColor(Color.parseColor("#000000"));
                 }
@@ -326,21 +378,35 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
             }
         });
 
-        cmbProduto = (Spinner) findViewById(R.id.cbmListageVendaProduto);
-        cmbProduto.setAdapter(adapter_produto);
-
-        cmbProduto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        adapter_produto.setFiltros(new AriusCursorAdapter.Filtros() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                produto = (Produto) adapterView.getItemAtPosition(i);
+            public boolean filtroCampos(Object object, CharSequence texto) {
+                return ((Produto) object ).getDescricaoReduzida().toLowerCase().contains(texto.toString().toLowerCase()) ||
+                        ((Produto) object ).getDescricao().toLowerCase().contains(texto.toString().toLowerCase()) ||
+                        String.valueOf(((Produto) object ).getCodigo()).toLowerCase().contains(texto.toString().toLowerCase());
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public String exibircampoSelecionado(Object object) {
+                Produto produto = (Produto) object;
+                return (produto.getDescricaoReduzida().equals("") ? produto.getDescricao() : produto.getDescricaoReduzida());
             }
         });
 
+        cmbProduto = (AriusAutoCompleteTextView) dialogFiltro.findViewById(R.id.cbmListageVendaProduto);
+
+        cmbProduto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                produto = (Produto) parent.getItemAtPosition(position);
+            }
+        });
+
+        adapter_produto.setExibirfiltrado_zerado(true);
+        cmbProduto.setAdapter(adapter_produto);
+
+        if (produto != null)
+            cmbProduto.setText(produto.getDescricao());
     }
 
     private void carregaSituacoes(){
@@ -377,13 +443,14 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
             }
         });
 
-        cmbSituacao = (Spinner) findViewById(R.id.cbmListageVendaSituacao);
+        cmbSituacao = (Spinner) dialogFiltro.findViewById(R.id.cbmListageVendaSituacao);
         cmbSituacao.setAdapter(adapter_situacao);
 
         cmbSituacao.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                situacao = adapterView.getItemAtPosition(i).toString();
+                if (!adapterView.getItemAtPosition(i).toString().equals("TODAS"))
+                    situacao = adapterView.getItemAtPosition(i).toString();
             }
 
             @Override
@@ -395,62 +462,138 @@ public class AriusActivityListagemVenda extends ActivityPadrao {
 
     private void pesquisaVendas(){
         progressBar(true);
-        List vendas = AppContext.get().getDao(VendaDao.class).listCache(new FuncionaisFilters<Venda>() {
+        final List vendas = AppContext.get().getDao(VendaDao.class).listCache(new FuncionaisFilters<Venda>() {
             @Override
             public boolean test(Venda p) {
-                if (PdvUtil.entre_Datas(p.getDataHora(),dataInicio,dataFim)) {
-                    if (host.getCurrentTab() == 2 && situacao != null) {
-                        if (situacao.toUpperCase().equals("TODAS"))
-                            return true;
-                        if (p.getSituacao().toString().toLowerCase().equals(situacao.toLowerCase()))
-                            return true;
-                    }
-
-                    if (host.getCurrentTab() == 1 && produto != null) {
-                        for (VendaItem litem : p.getItens()) {
-                            if (litem.getProduto().getId() == produto.getId())
+                if (PdvUtil.entre_Datas(p.getDataHora(),dataInicio,dataFim) &&
+                        (situacao == null || p.getSituacao().toString().toLowerCase().equals(situacao.toLowerCase()))){
+                    if (produtoCategoria == null && produto == null)
+                        return true;
+                    else{
+                        for(VendaItem loopItens : p.getItens()){
+                            if (produto != null && loopItens.getProduto().getId() == produto.getId())
+                                return true;
+                            if (produtoCategoria !=  null && loopItens.getProduto().getProdutoCategoria().equals(produtoCategoria))
                                 return true;
                         }
                     }
 
-                    if (host.getCurrentTab() == 1 && produtoCategoria != null) {
-                        for (VendaItem litem : p.getItens()) {
-                            if (litem.getProduto().getProdutoCategoria().getId() == produtoCategoria.getId())
-                                return true;
-                        }
-                    }
                 }
                 return false;
             }
         });
 
-        AriusCursorAdapter adapter_vendas = new AriusCursorAdapter(getAppContext(),
-                R.layout.layoutvendalistagem,
-                R.layout.layoutvendalistagem,
-                null,
-                vendas);
+        AriusCursorAdapter adapter_vendas = null;
 
-        adapter_vendas.setMontarCamposTela(new AriusCursorAdapter.MontarCamposTela() {
-            @Override
-            public void montarCamposTela(Object p, View v) {
-                Venda venda = (Venda) p;
-                TextView campoaux = v.findViewById(R.id.edtVendaListagemID);
-                if (campoaux != null)
-                    campoaux.setText(String.valueOf(venda.getId()));
-                campoaux = v.findViewById(R.id.edtVendaListagemValor);
-                if (campoaux != null)
-                    campoaux.setText(AndroidUtils.FormatarValor_Monetario(venda.getValorLiquido()));
-                campoaux = v.findViewById(R.id.edtVendaListagemData);
-                if (campoaux != null)
-                    campoaux.setText(PdvUtil.converteData_texto(venda.getDataHora()));
+        if (host.getCurrentTab() == 1) {
 
-                ImageView imgStatusVenda = v.findViewById(R.id.imgVendaListagemSituacao);
-                imgStatusVenda.setImageResource(((Venda) p).getSituacao() == VendaSituacao.ABERTA ? R.mipmap.edit :
-                        ((Venda) p).getSituacao() == VendaSituacao.FECHADA ? R.mipmap.correct :
-                                ((Venda) p).getSituacao() == VendaSituacao.CANCELADA ? R.mipmap.cancel : 0);
+            adapter_vendas = new AriusCursorAdapter(getAppContext(),
+                    R.layout.layoutvendalistagemvenda,
+                    R.layout.layoutvendalistagemvenda,
+                    null,
+                    vendas);
 
+            adapter_vendas.setMontarCamposTela(new AriusCursorAdapter.MontarCamposTela() {
+                @Override
+                public void montarCamposTela(Object p, View v) {
+                    Venda venda = (Venda) p;
+                    TextView campoaux = v.findViewById(R.id.edtVendaListagemID);
+                    if (campoaux != null)
+                        campoaux.setText(String.valueOf(venda.getId()));
+                    campoaux = v.findViewById(R.id.edtVendaListagemValor);
+                    if (campoaux != null)
+                        campoaux.setText(AndroidUtils.FormatarValor_Monetario(venda.getValorLiquido()));
+                    campoaux = v.findViewById(R.id.edtVendaListagemData);
+                    if (campoaux != null)
+                        campoaux.setText(PdvUtil.converteData_texto(venda.getDataHora()));
+
+                    ImageView imgStatusVenda = v.findViewById(R.id.imgVendaListagemSituacao);
+                    imgStatusVenda.setImageResource(((Venda) p).getSituacao() == VendaSituacao.ABERTA ? R.mipmap.edit :
+                            ((Venda) p).getSituacao() == VendaSituacao.FECHADA ? R.mipmap.correct :
+                                    ((Venda) p).getSituacao() == VendaSituacao.CANCELADA ? R.mipmap.cancel : 0);
+
+                }
+            });
+
+        } else {
+            class rel{
+                private Produto produto;
+                private double qtde;
+                private double valor;
+
+                private List vendaItens = new ArrayList();
+
+                public List getVendaItens() {
+                    return vendaItens;
+                }
+
+                private void insertItem(Produto produto, double qtde, double valor){
+                    rel linha = new rel();
+                    if (vendaItens.size() == 0){
+                        linha.produto = produto;
+                        linha.qtde = qtde;
+                        linha.valor = valor;
+                        vendaItens.add(linha);
+                    } else {
+                        for (Object loopRel : vendaItens) {
+                            if (((rel) loopRel).produto.getId() == produto.getId()){
+                                ((rel) loopRel).qtde = ((rel) loopRel).qtde + qtde;
+                                ((rel) loopRel).valor = ((rel) loopRel).valor + valor;
+                                break;
+                            } else {
+                                linha.produto = produto;
+                                linha.qtde = qtde;
+                                linha.valor = valor;
+                                vendaItens.add(linha);
+                                break;
+                            }
+                        }
+                    }
+                }
             }
-        });
+
+            rel vendaItens = new rel();
+            for(Object loopVendas : vendas){
+                for(VendaItem loopItens : ((Venda) loopVendas).getItens()){
+                    if (produto == null || loopItens.getProduto().getId() == produto.getId())
+                        vendaItens.insertItem(loopItens.getProduto(),
+                                loopItens.getQtde(), loopItens.getValorLiquido());
+                    else
+                        if (produtoCategoria == null ||
+                                    loopItens.getProduto().getProdutoCategoria().getId() == produtoCategoria.getId())
+                                vendaItens.insertItem(loopItens.getProduto(),
+                                        loopItens.getQtde(), loopItens.getValorLiquido());
+                }
+            }
+
+            adapter_vendas = new AriusCursorAdapter(getAppContext(),
+                    R.layout.layoutvendalistagemproduto,
+                    R.layout.layoutvendalistagemproduto,
+                    null,
+                    vendaItens.getVendaItens());
+
+            adapter_vendas.setMontarCamposTela(new AriusCursorAdapter.MontarCamposTela() {
+                @Override
+                public void montarCamposTela(Object p, View v) {
+                    rel venda = (rel) p;
+                    TextView campoaux = v.findViewById(R.id.edtVendaListagemID);
+                    if (campoaux != null) {
+                        campoaux.setText(venda.produto.getDescricao());
+                    }
+                    campoaux = v.findViewById(R.id.edtVendaListagemValor);
+                    if (campoaux != null) {
+                        campoaux.setText(AndroidUtils.FormataQuantidade(venda.produto, venda.qtde));
+                    }
+                    campoaux = v.findViewById(R.id.edtVendaListagemData);
+                    if (campoaux != null) {
+                        campoaux.setText(AndroidUtils.FormatarValor_Monetario(venda.valor));
+                    }
+                    ImageView imgStatusVenda = v.findViewById(R.id.imgVendaListagemSituacao);
+                    imgStatusVenda.setVisibility(View.GONE);
+                }
+            });
+
+        }
 
         grdListagemVenda.setAdapter(adapter_vendas);
 

@@ -5,11 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TabHost;
-import android.widget.TextView;
-
-import arius.pdv.base.ProdutoCategoria;
 
 /**
  * Created by Arius on 06/10/2017.
@@ -44,15 +40,6 @@ public class FragmentActivityCategoriaPrincipal extends android.support.v4.app.F
         host.addTab(spec);
 
         host.setCurrentTab(0);
-
-        produtoCategoria.setPesquisaProdutoCategoria(new AriusActivityProdutoCategoria.PesquisaProdutoCategoria() {
-            @Override
-            public void pesquisaProdutoCategoria(ProdutoCategoria produtoCategoria) {
-                produtoPrincipal.pesquisaPrincipa(produtoCategoria == null ? 0 : produtoCategoria.getId());
-            }
-        });
-
-
 
         return view;
     }

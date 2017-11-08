@@ -16,6 +16,7 @@ public class PdvService {
 	private static PdvService pdvService;
 	private static String msg_padrao = "Operação não permitida. \n" ;
 	private boolean fechandoCaixa = false;
+	private Configuracao configuracao;
 	
 	//Daos
 	private UsuarioDao usuarioDao;
@@ -42,13 +43,35 @@ public class PdvService {
 		//Carga dos Daos sem cache
 		this.vendaItemDao = app.getDao(VendaItemDao.class);
 		this.vendaFinalizadoraDao = app.getDao(VendaFinalizadoraDao.class);
-		this.pdvValorDao = app.getDao(PdvValorDao.class);		
+		this.pdvValorDao = app.getDao(PdvValorDao.class);
+
+		List<Configuracao> lconfiguracoes = AppContext.get().getDao(ConfiguracaoDao.class).listCache(new FuncionaisFilters<Configuracao>() {
+			@Override
+			public boolean test(Configuracao p) {
+				return true;
+			}
+		});
+		if (lconfiguracoes.size() < 1) {
+			AppContext.get().getDao(ConfiguracaoDao.class).insert(new Configuracao());
+			this.configuracao = AppContext.get().getDao(ConfiguracaoDao.class).listCache(new FuncionaisFilters<Configuracao>() {
+				@Override
+				public boolean test(Configuracao p) {
+					return true;
+				}
+			}).get(0);
+		} else
+			this.configuracao = lconfiguracoes.get(0);
+
 	}
 	
 	public static PdvService get(){
 		if (pdvService == null)
 			pdvService = new PdvService();
 		return pdvService;
+	}
+
+	public Configuracao getConfiguracao() {
+		return this.configuracao;
 	}
 
 	public Pdv getPdv() {
@@ -83,10 +106,10 @@ public class PdvService {
 		if (pdv.getStatus() != PdvTipo.ABERTO)
 			throw new UserException(msg_padrao + "O caixa está " + this.pdv.getStatus().toString());
 
-		if (!fechandoCaixa && !PdvUtil.comparar_Datas(pdv.getDataAbertura(), new Date())) {
-			throw new UserException(msg_padrao + "O caixa do dia " + PdvUtil.converteData_texto(pdv.getDataAbertura()) +
-					" está aberto, fechar o caixa e abrir novamente com a data atual!");
-		}
+//		if (!fechandoCaixa && !PdvUtil.comparar_Datas(pdv.getDataAbertura(), new Date())) {
+//			throw new UserException(msg_padrao + "O caixa do dia " + PdvUtil.converteData_texto(pdv.getDataAbertura()) +
+//					" está aberto, fechar o caixa e abrir novamente com a data atual!");
+//		}
 	}
 
 	private void verificaVendaAberta(Venda venda){
@@ -446,7 +469,7 @@ public class PdvService {
 			throw new UserException(msg_padrao + "O caixa já está aberto!");
 		}
 		//REGRA 3
-		if (saldoInicial <= 0){
+		if (saldoInicial <= 0 && this.configuracao.getPermitir_fundo_troco_zerado() == "F"){
 			throw new UserException(msg_padrao + "O saldo Iniciao não pode ser menor ou igual a zero!");			
 		}
 		//REGRA 4 

@@ -374,9 +374,28 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
                     }
                 }
                 if (!efetuouSangria_Retirada && !funcaoExecutar.toLowerCase().equals("fecharcaixa"))
-                    AndroidUtils.toast(AriusActivityResumoCaixa.this,"Nenhum valor econtrado para efetuar a " + funcaoExecutar);
-                else
-                    onBackPressed();
+                    AndroidUtils.toast(AriusActivityResumoCaixa.this,
+                            "Clicar sobre uma finalizador para informar o valor e efetuar a " + funcaoExecutar);
+                else {
+                    AriusAlertDialog.exibirDialog(AriusActivityResumoCaixa.this, R.layout.contentariusdialogdelete);
+                    ((TextView) AriusAlertDialog.getAlertDialog().findViewById(R.id.edtContentDialogDeleteTexto)).setText(
+                            (funcaoExecutar.toLowerCase().equals("fecharcaixa") ? "Fechamento de caixa " : funcaoExecutar) + " efetuada com sucesso!");
+                    AriusAlertDialog.getAlertDialog().findViewById(R.id.btnContentDialogDeleteNao).setVisibility(View.GONE);
+
+                    ((Button) AriusAlertDialog.getAlertDialog().findViewById(R.id.btnContentDialogDeleteSim)).setText("OK");
+
+                    AriusAlertDialog.getAlertDialog().findViewById(R.id.btnContentDialogDeleteSim).setOnClickListener(
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    AriusAlertDialog.getAlertDialog().dismiss();
+                                    onBackPressed();
+                                }
+                            }
+                    );
+
+
+                }
             }
         });
     }

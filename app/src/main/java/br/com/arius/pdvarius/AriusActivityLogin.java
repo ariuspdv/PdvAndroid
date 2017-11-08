@@ -69,7 +69,8 @@ public class AriusActivityLogin extends ActivityPadrao {
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if (ariusActivityPercValor.getRetorno_valor() == 0)
+                                if (ariusActivityPercValor.getRetorno_valor() == 0 &&
+                                        PdvService.get().getConfiguracao().getPermitir_fundo_troco_zerado() == "F")
                                     AndroidUtils.toast(context,"Informar um valor para a abertura do caixa!");
                                 else {
                                     PdvService.get().setOperadorAtual(AppContext.get().getDao(UsuarioDao.class).find(1));
