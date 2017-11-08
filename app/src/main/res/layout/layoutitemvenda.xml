@@ -2,17 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/lbLayoutItemVendaProduto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="#5b5b5b"
-        android:textSize="27sp"
-        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,6 +19,15 @@
             android:layout_weight="3"
             android:layout_gravity="center">
 
+            <TextView
+                android:id="@+id/lbLayoutItemVendaProduto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:paddingTop="7dp"
+                android:textColor="#5b5b5b"
+                android:textSize="27sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -38,7 +38,7 @@
                 <TextView
                     android:id="@+id/lbLayoutItemVendaQtde"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight=".2"
                     android:text="999"
                     android:gravity="center"
@@ -47,7 +47,7 @@
                 <TextView
                     android:id="@+id/lbLayoutItemVendaMultiplicador"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.1"
                     android:text="X"
                     android:gravity="center"
@@ -56,7 +56,7 @@
                 <TextView
                     android:id="@+id/lbLayoutItemVendaVrUnitario"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.50"
                     android:text="R$ 9.999,99"
                     android:gravity="center_vertical|end"
@@ -68,35 +68,35 @@
                     android:layout_weight="0.7"
                     android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/lbLayoutItemVendaDesconto"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingStart="5dp"
-                            style="@style/AriusTextViewDiscount"
-                            android:textAlignment="textEnd"
-                            android:text="- R$ 9.999,99"
-                            android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/lbLayoutItemVendaDesconto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="5dp"
+                        style="@style/AriusTextViewDiscount"
+                        android:textAlignment="textEnd"
+                        android:text="- R$ 9.999,99"
+                        android:textSize="18sp" />
 
-                        <TextView
-                            android:id="@+id/lbLayoutItemVendaAcrescimo"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingStart="5dp"
-                            android:textAlignment="textEnd"
-                            style="@style/AriusTextViewInterest"
-                            android:text="+ R$ 9.999,99"
-                            android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/lbLayoutItemVendaAcrescimo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="5dp"
+                        android:textAlignment="textEnd"
+                        style="@style/AriusTextViewInterest"
+                        android:text="+ R$ 9.999,99"
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/lbLayoutItemVendaVrTotal"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.9"
                     android:text="R$ 999.999,99"
                     android:gravity="center_vertical|end"
-                    android:textSize="26sp" />
+                    android:textSize="24sp" />
 
             </LinearLayout>
 
@@ -104,9 +104,11 @@
 
         <ImageView
             android:id="@+id/imgItemVendaDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:srcCompat="@mipmap/lixeira" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:layout_gravity="center"
+            app:srcCompat="@mipmap/lixeira"  />
 
     </LinearLayout>
 
