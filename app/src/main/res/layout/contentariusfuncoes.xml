@@ -45,14 +45,14 @@
                             android:layout_marginBottom="10dp"
                             android:background="@mipmap/pesquisar_venda" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="Vendas"
-                            android:textAlignment="center"
-                            android:textColor="#fff"
-                            android:textSize="17dp"
-                            android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Listagem de Vendas"
+                        android:textAlignment="center"
+                        android:textColor="#fff"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>

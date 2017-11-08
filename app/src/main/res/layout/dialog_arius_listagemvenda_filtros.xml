@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Filtros"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp">
+
+        <Spinner
+            android:id="@+id/cbmListageVendaSituacao"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/arius_spinner"
+            android:paddingStart="5dp" />
+
+        <arius.pdv.db.AriusAutoCompleteTextView
+            android:id="@+id/cbmListageVendaCategoria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/arius_spinner"
+            android:hint="Categoria"
+            android:paddingStart="5dp" />
+
+        <arius.pdv.db.AriusAutoCompleteTextView
+            android:id="@+id/cbmListageVendaProduto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/arius_spinner"
+            android:hint="Produto"
+            android:paddingStart="5dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnlayoutDialogListagemVendaCancelar"
+                style="@style/AriusButtonActionMessage"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_orange_event"
+                android:text="Cancelar"
+                android:textColor="#fff"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnlayoutDialogListagemVendaConfirmar"
+                style="@style/AriusButtonActionMessage"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_orange_event"
+                android:text="Confirmar"
+                android:textColor="#fff"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

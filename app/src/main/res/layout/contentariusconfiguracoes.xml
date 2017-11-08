@@ -16,7 +16,6 @@
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -44,11 +43,44 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/chkPermitir_Fundo_Troco_Zerado"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Permitir Fundo Troco Zerado"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"></LinearLayout>
+
+            </LinearLayout>
+
+
         </LinearLayout>
+
+
     </ScrollView>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnContetAriusConfiguracoesGravar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Gravar"

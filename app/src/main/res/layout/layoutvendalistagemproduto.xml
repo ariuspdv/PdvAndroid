@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/edtVendaListagemID"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/lbVendaListagemValor"
+        android:layout_weight="1"
+        android:padding="10dp"
+        android:paddingRight="10dp"
+        android:text="TextView"
+        android:textAlignment="textStart"
+        android:textColor="#606060"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/edtVendaListagemValor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/lbVendaListagemData"
+        android:layout_weight="0.3"
+        android:padding="10dp"
+        android:paddingRight="10dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="#606060"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/edtVendaListagemData"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/imgVendaListagemSituacao"
+        android:layout_weight="0.5"
+        android:padding="10dp"
+        android:text="TextView"
+        android:textAlignment="textEnd"
+        android:textColor="#606060"
+        android:textSize="20sp" />
+
+</LinearLayout>
