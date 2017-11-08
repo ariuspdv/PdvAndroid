@@ -2,15 +2,15 @@ package arius.pdv.db;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ListAdapter;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import arius.pdv.core.AppContext;
@@ -33,6 +33,7 @@ public class AriusAutoCompleteTextView extends AppCompatAutoCompleteTextView {
     private Map<Integer, String> campos = new HashMap<>();
     private String[] campos_exibir;
     private String[] campos_filtro;
+    private boolean deleteAtivo = false;
 
     public AriusAutoCompleteTextView(Context context) {
         super(context);
@@ -71,7 +72,6 @@ public class AriusAutoCompleteTextView extends AppCompatAutoCompleteTextView {
         if (idCampos != 0) {
             campos_filtro = vAttr.getResources().getStringArray(idCampos);
         }
-
 
         try {
 
@@ -113,11 +113,40 @@ public class AriusAutoCompleteTextView extends AppCompatAutoCompleteTextView {
                 setText(vreturn);
             }
         });
+
+        this.setCompoundDrawablesWithIntrinsicBounds(null, null, imgClearButton, null);
+        this.setPadding(10,10,10,10);
+
+        // if the clear button is pressed, fire up the handler. Otherwise do nothing
+        this.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                AriusAutoCompleteTextView et = AriusAutoCompleteTextView.this;
+
+                if (et.getCompoundDrawables()[2] == null)
+                    return false;
+
+                if (event.getAction() != MotionEvent.ACTION_UP)
+                    return false;
+
+                if (event.getX() > et.getWidth() - et.getPaddingRight()	- imgClearButton.getIntrinsicWidth()) {
+                    if (deleteAtivo) {
+                        et.setText("");
+                    } else
+                        et.showDropDown();
+                }
+                return false;
+            }
+        });
     }
 
     public AriusAutoCompleteTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
+    // The image we defined for the clear button
+    private Drawable imgClearButton = getResources().getDrawable(R.mipmap.dropdown_autocomplete);
 
     public void setLayout_arius(int layout_arius) {
         this.layout_arius = layout_arius;
@@ -162,7 +191,22 @@ public class AriusAutoCompleteTextView extends AppCompatAutoCompleteTextView {
 
     @Override
     protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
+        if (!text.toString().equals("")) {
+            imgClearButton = getResources().getDrawable(R.mipmap.delete_autocomplete);
+            deleteAtivo = true;
+        } else {
+            imgClearButton = getResources().getDrawable(R.mipmap.dropdown_autocomplete);
+            deleteAtivo = false;
+        }
+        this.setCompoundDrawablesWithIntrinsicBounds(null, null, imgClearButton, null);
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
     }
 
+    public void hideClearButton() {
+        this.setCompoundDrawables(null, null, null, null);
+    }
+
+    public void showClearButton() {
+        this.setCompoundDrawablesWithIntrinsicBounds(null, null, imgClearButton, null);
+    }
 }

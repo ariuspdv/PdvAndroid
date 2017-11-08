@@ -27,6 +27,10 @@ public class AriusAlertDialog {
     }
 
     public static void exibirDialog(Context context, int layout){
+        exibirDialog(context,layout,true);
+    }
+
+    public static void exibirDialog(Context context, int layout, boolean exibir){
 
         alertDialog = new AlertDialog.Builder(context).create();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -46,7 +50,8 @@ public class AriusAlertDialog {
 
         //alertDialog.setCustomTitle(lbtitle);
 
-        alertDialog.show();
+        if (exibir)
+            alertDialog.show();
 
     }
 

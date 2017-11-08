@@ -212,7 +212,10 @@ public class AriusCursorAdapter extends ArrayAdapter {
                 filterResults.count = filtrado.size();
                 return filterResults;
             } else {
-                return new FilterResults();
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filterEntity;
+                filterResults.count = filterEntity.size();
+                return filterResults;
             }
         }
 
