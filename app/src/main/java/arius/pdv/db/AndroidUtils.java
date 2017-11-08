@@ -194,14 +194,4 @@ public class AndroidUtils {
         toast.show();
     }
 
-    public static AlertDialog setProgressBar(Context context){
-        AlertDialog progress = new  AlertDialog.Builder(context).create();
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-
-        progress.setView(layoutInflater.inflate(R.layout.layoutprogress, null));
-        progress.setCancelable(false);
-        progress.show();
-
-        return progress;
-    }
 }
