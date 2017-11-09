@@ -63,6 +63,7 @@ public class AriusActivityPrincipal extends ActivityPadrao {
                     return true;
                 case R.id.navigation_finalizadorasvenda:
                     if (PdvService.get().getVendaAtiva() == null) {
+                        progressBar(false);
                         AndroidUtils.toast(getAppContext(),"Não existe venda ativa para finalizar!");
                         return false;
                     } else {
@@ -225,8 +226,10 @@ public class AriusActivityPrincipal extends ActivityPadrao {
         }
 
         if (nomeClasseFragment == FragmentActivityCategoriaPrincipal.class){
-            if (fragmentAtivo != null && fragmentAtivo.getClass() == nomeClasseFragment)
+            if (fragmentAtivo != null && fragmentAtivo.getClass() == nomeClasseFragment) {
+                progressBar(false);
                 return;
+            }
 
             FragmentActivityCategoriaPrincipal fragmentActivityCategoriaPrincipal = new FragmentActivityCategoriaPrincipal();
             ft.replace(R.id.frameprincipal, fragmentActivityCategoriaPrincipal, "fragmentActivityCategoriaPrincipal");
@@ -235,8 +238,10 @@ public class AriusActivityPrincipal extends ActivityPadrao {
         }
 
         if (nomeClasseFragment == FragmentActivityItemVenda.class){
-            if (fragmentAtivo != null && fragmentAtivo.getClass() == nomeClasseFragment)
+            if (fragmentAtivo != null && fragmentAtivo.getClass() == nomeClasseFragment) {
+                progressBar(false);
                 return;
+            }
 
             FragmentActivityItemVenda fragmentActivityItemVenda = new FragmentActivityItemVenda();
             ft.replace(R.id.frameprincipal, fragmentActivityItemVenda,"fragmentActivityItemVenda");
@@ -245,8 +250,10 @@ public class AriusActivityPrincipal extends ActivityPadrao {
         }
 
         if (nomeClasseFragment == FragmentActivityFinalizadoraVenda.class){
-            if (fragmentAtivo != null && fragmentAtivo.getClass() == nomeClasseFragment)
+            if (fragmentAtivo != null && fragmentAtivo.getClass() == nomeClasseFragment) {
+                progressBar(false);
                 return;
+            }
 
             FragmentActivityFinalizadoraVenda fragmentActivityFinalizadoraVenda = new FragmentActivityFinalizadoraVenda();
             ft.replace(R.id.frameprincipal, fragmentActivityFinalizadoraVenda, "fragmentActivityFinalizadoraVenda");
@@ -255,8 +262,10 @@ public class AriusActivityPrincipal extends ActivityPadrao {
         }
 
         if (nomeClasseFragment == FragmentActivityFuncoes.class){
-            if (fragmentAtivo != null && fragmentAtivo.getClass() == nomeClasseFragment)
+            if (fragmentAtivo != null && fragmentAtivo.getClass() == nomeClasseFragment) {
+                progressBar(false);
                 return;
+            }
 
             floatingActionMenu.setVisibility(View.GONE);
             FragmentActivityFuncoes fragmentActivityFuncoes = new FragmentActivityFuncoes();

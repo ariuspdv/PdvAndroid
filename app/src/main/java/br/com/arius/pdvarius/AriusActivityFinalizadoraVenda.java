@@ -44,7 +44,7 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
     private TextView edtAcrescimoTotalVenda;
     private AlertDialog dialogFinalizadora;
     private AlertDialog dialogDesc_Juros;
-    private AriusActivityPercValor ariusActivityPercValor;
+    private AriusActivityPercentualValor ariusActivityPercentualValor;
     private TextView edtValorTotalVenda;
     private TextView edtValorTotalLiquido;
     private TextView edtVrRecebido;
@@ -67,7 +67,7 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
     public void montaFinalizadoraVenda(View view, final Context context){
         this.context = context;
 
-        ariusActivityPercValor = new AriusActivityPercValor();
+        ariusActivityPercentualValor = new AriusActivityPercentualValor();
 
         if (view == null){
             grdFinalidora_Venda = (AriusListView) findViewById(R.id.grdFinalizadoraVenda);
@@ -164,11 +164,11 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
                         imgaux.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                AriusAlertDialog.exibirDialog(context,R.layout.contentariusdialogdelete);
-                                ((TextView) AriusAlertDialog.getGetView().findViewById(R.id.edtContentDialogDeleteTexto)).setText(
+                                AriusAlertDialog.exibirDialog(context,R.layout.dialog_arius_delete);
+                                ((TextView) AriusAlertDialog.getGetView().findViewById(R.id.edtDialogAriusDeleteTexto)).setText(
                                         "Deseja realmente excluir a forma de pagamento?");
 
-                                AriusAlertDialog.getAlertDialog().findViewById(R.id.btnContentDialogDeleteNao).setOnClickListener(
+                                AriusAlertDialog.getAlertDialog().findViewById(R.id.btnDialogAriusDeleteNao).setOnClickListener(
                                         new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -177,7 +177,7 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
                                         }
                                 );
 
-                                AriusAlertDialog.getAlertDialog().findViewById(R.id.btnContentDialogDeleteSim).setOnClickListener(
+                                AriusAlertDialog.getAlertDialog().findViewById(R.id.btnDialogAriusDeleteSim).setOnClickListener(
                                         new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -264,19 +264,19 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AriusAlertDialog.exibirDialog(context,R.layout.contentariusdialogpercvalor);
+                        AriusAlertDialog.exibirDialog(context,R.layout.dialog_arius_perccentual_valor);
                         dialogDesc_Juros = AriusAlertDialog.getAlertDialog();
-                        ariusActivityPercValor.montaDialog_Campos(dialogDesc_Juros,v, "Desconto");
-                        ariusActivityPercValor.setValor(vendaFinalizadora.getValor());
-                        ariusActivityPercValor.setAceitaporcentagem(false);
-                        ariusActivityPercValor.setEdtValor(vendaFinalizadora.getDesconto());
+                        ariusActivityPercentualValor.montaDialog_Campos(dialogDesc_Juros,v, "Desconto");
+                        ariusActivityPercentualValor.setValor(vendaFinalizadora.getValor());
+                        ariusActivityPercentualValor.setAceitaporcentagem(false);
+                        ariusActivityPercentualValor.setEdtValor(vendaFinalizadora.getDesconto());
 
-                        dialogDesc_Juros.findViewById(R.id.btnContentDialogValorConfirmar).setOnClickListener(
+                        dialogDesc_Juros.findViewById(R.id.btnDialogAriusPerccentualValorConfirmar).setOnClickListener(
                                 new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
 
-                                        vendaFinalizadora.setDesconto(ariusActivityPercValor.getRetorno_valor());
+                                        vendaFinalizadora.setDesconto(ariusActivityPercentualValor.getRetorno_valor());
 
                                         dialogDesc_Juros.dismiss();
 
@@ -292,19 +292,19 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AriusAlertDialog.exibirDialog(context,R.layout.contentariusdialogpercvalor);
+                        AriusAlertDialog.exibirDialog(context,R.layout.dialog_arius_perccentual_valor);
                         dialogDesc_Juros = AriusAlertDialog.getAlertDialog();
-                        ariusActivityPercValor.montaDialog_Campos(dialogDesc_Juros,v, "Juro");
-                        ariusActivityPercValor.setValor(vendaFinalizadora.getValor());
-                        ariusActivityPercValor.setAceitaporcentagem(true);
-                        ariusActivityPercValor.setEdtValor(vendaFinalizadora.getJuro());
+                        ariusActivityPercentualValor.montaDialog_Campos(dialogDesc_Juros,v, "Juro");
+                        ariusActivityPercentualValor.setValor(vendaFinalizadora.getValor());
+                        ariusActivityPercentualValor.setAceitaporcentagem(true);
+                        ariusActivityPercentualValor.setEdtValor(vendaFinalizadora.getJuro());
 
-                        dialogDesc_Juros.findViewById(R.id.btnContentDialogValorConfirmar).setOnClickListener(
+                        dialogDesc_Juros.findViewById(R.id.btnDialogAriusPerccentualValorConfirmar).setOnClickListener(
                                 new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
 
-                                        vendaFinalizadora.setJuro(ariusActivityPercValor.getRetorno_valor());
+                                        vendaFinalizadora.setJuro(ariusActivityPercentualValor.getRetorno_valor());
 
                                         dialogDesc_Juros.dismiss();
 
@@ -388,21 +388,21 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
         btnDescontoTotal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AriusAlertDialog.exibirDialog(context,R.layout.contentariusdialogpercvalor);
+                AriusAlertDialog.exibirDialog(context,R.layout.dialog_arius_perccentual_valor);
                 dialogDesc_Juros = AriusAlertDialog.getAlertDialog();
-                ariusActivityPercValor.montaDialog_Campos(dialogDesc_Juros,view, "Desconto");
-                ariusActivityPercValor.setValor(PdvService.get().getVendaAtiva().getValorLiquido() +
+                ariusActivityPercentualValor.montaDialog_Campos(dialogDesc_Juros,view, "Desconto");
+                ariusActivityPercentualValor.setValor(PdvService.get().getVendaAtiva().getValorLiquido() +
                                                 PdvService.get().getVendaAtiva().getDesconto() -
                                                 PdvService.get().getVendaAtiva().getAcrescimo());
-                ariusActivityPercValor.setAceitaporcentagem(false);
-                ariusActivityPercValor.setEdtValor(PdvService.get().getVendaAtiva().getDesconto());
+                ariusActivityPercentualValor.setAceitaporcentagem(false);
+                ariusActivityPercentualValor.setEdtValor(PdvService.get().getVendaAtiva().getDesconto());
 
-                dialogDesc_Juros.findViewById(R.id.btnContentDialogValorConfirmar).setOnClickListener(
+                dialogDesc_Juros.findViewById(R.id.btnDialogAriusPerccentualValorConfirmar).setOnClickListener(
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
 
-                                PdvService.get().getVendaAtiva().setDesconto(ariusActivityPercValor.getRetorno_valor());
+                                PdvService.get().getVendaAtiva().setDesconto(ariusActivityPercentualValor.getRetorno_valor());
 
                                 AppContext.get().getDao(VendaDao.class).update(PdvService.get().getVendaAtiva());
 
@@ -419,21 +419,21 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
         btnAcrescimoTotal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AriusAlertDialog.exibirDialog(context,R.layout.contentariusdialogpercvalor);
+                AriusAlertDialog.exibirDialog(context,R.layout.dialog_arius_perccentual_valor);
                 dialogDesc_Juros = AriusAlertDialog.getAlertDialog();
-                ariusActivityPercValor.montaDialog_Campos(dialogDesc_Juros,view, "Acréscimo");
-                ariusActivityPercValor.setValor(PdvService.get().getVendaAtiva().getValorLiquido() +
+                ariusActivityPercentualValor.montaDialog_Campos(dialogDesc_Juros,view, "Acréscimo");
+                ariusActivityPercentualValor.setValor(PdvService.get().getVendaAtiva().getValorLiquido() +
                         PdvService.get().getVendaAtiva().getDesconto() -
                         PdvService.get().getVendaAtiva().getAcrescimo());
-                ariusActivityPercValor.setAceitaporcentagem(true);
-                ariusActivityPercValor.setEdtValor(PdvService.get().getVendaAtiva().getAcrescimo());
+                ariusActivityPercentualValor.setAceitaporcentagem(true);
+                ariusActivityPercentualValor.setEdtValor(PdvService.get().getVendaAtiva().getAcrescimo());
 
-                dialogDesc_Juros.findViewById(R.id.btnContentDialogValorConfirmar).setOnClickListener(
+                dialogDesc_Juros.findViewById(R.id.btnDialogAriusPerccentualValorConfirmar).setOnClickListener(
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
 
-                                PdvService.get().getVendaAtiva().setAcrescimo(ariusActivityPercValor.getRetorno_valor());
+                                PdvService.get().getVendaAtiva().setAcrescimo(ariusActivityPercentualValor.getRetorno_valor());
 
                                 AppContext.get().getDao(VendaDao.class).update(PdvService.get().getVendaAtiva());
 

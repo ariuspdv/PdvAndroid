@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -48,6 +49,8 @@ public class AriusActivityItemVenda extends ActivityPadrao {
     private TextView edttotalvenda;
     private TextView edttotalitem;
     private int linhaSelecionada;
+    private View.OnFocusChangeListener onFocusChangeListenerEdits;
+    private View.OnClickListener onClickListenerEdits;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +60,30 @@ public class AriusActivityItemVenda extends ActivityPadrao {
         montaItemVenda(null, getApplicationContext());
     }
 
-    public void montaItemVenda(View view, final Context context){
+    public void montaItemVenda(final View view, final Context context){
         this.context = context;
+
+        onClickListenerEdits = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((EditText) v).setSelection(((EditText) v).getText().length());
+            }
+        };
+
+        onFocusChangeListenerEdits = new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    final View campoEdit = v;
+                    campoEdit.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((EditText) campoEdit).setSelection(((EditText) campoEdit).getText().length());
+                        }
+                    });
+                }
+            }
+        };
 
         if (view == null) {
             grdItemVenda = (AriusListView) findViewById(R.id.grdItemVenda);
@@ -169,12 +194,12 @@ public class AriusActivityItemVenda extends ActivityPadrao {
                             @Override
                             public void onClick(View view) {
 
-                                AriusAlertDialog.exibirDialog(context,R.layout.contentariusdialogdelete);
-                                ((TextView) AriusAlertDialog.getAlertDialog().findViewById(R.id.edtContentDialogDeleteTexto)).setText(
+                                AriusAlertDialog.exibirDialog(context,R.layout.dialog_arius_delete);
+                                ((TextView) AriusAlertDialog.getAlertDialog().findViewById(R.id.edtDialogAriusDeleteTexto)).setText(
                                         "Deseja realemte excluir o produto?"
                                 );
 
-                                AriusAlertDialog.getAlertDialog().findViewById(R.id.btnContentDialogDeleteNao).setOnClickListener(
+                                AriusAlertDialog.getAlertDialog().findViewById(R.id.btnDialogAriusDeleteNao).setOnClickListener(
                                         new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -183,7 +208,7 @@ public class AriusActivityItemVenda extends ActivityPadrao {
                                         }
                                 );
 
-                                AriusAlertDialog.getAlertDialog().findViewById(R.id.btnContentDialogDeleteSim).setOnClickListener(
+                                AriusAlertDialog.getAlertDialog().findViewById(R.id.btnDialogAriusDeleteSim).setOnClickListener(
                                         new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -293,6 +318,8 @@ public class AriusActivityItemVenda extends ActivityPadrao {
         });
 
         final EditText edtVrUnitario = AriusAlertDialog.getGetView().findViewById(R.id.edtlayoutDialogItemVendaVrUnitario);
+        edtVrUnitario.setOnFocusChangeListener(onFocusChangeListenerEdits);
+        edtVrUnitario.setOnClickListener(onClickListenerEdits);
 
         edtVrUnitario.addTextChangedListener(new TextWatcher() {
             private String texto = "";
@@ -339,6 +366,8 @@ public class AriusActivityItemVenda extends ActivityPadrao {
         edtVrUnitario.setText(AndroidUtils.FormatarValor_Monetario(vendaItem.getValorUnitario()));
 
         final EditText edtAcrecsimo = AriusAlertDialog.getGetView().findViewById(R.id.edtlayoutDialogItemVendaAcrescimo);
+        edtAcrecsimo.setOnFocusChangeListener(onFocusChangeListenerEdits);
+        edtAcrecsimo.setOnClickListener(onClickListenerEdits);
 
         edtAcrecsimo.addTextChangedListener(new TextWatcher() {
             private String texto = "";
@@ -385,6 +414,8 @@ public class AriusActivityItemVenda extends ActivityPadrao {
         edtAcrecsimo.setText(AndroidUtils.FormatarValor_Monetario(vendaItem.getAcrescimo()));
 
         final EditText edtDesconto = AriusAlertDialog.getGetView().findViewById(R.id.edtlayoutDialogItemVendaDesconto);
+        edtDesconto.setOnFocusChangeListener(onFocusChangeListenerEdits);
+        edtDesconto.setOnClickListener(onClickListenerEdits);
 
         edtDesconto.addTextChangedListener(new TextWatcher() {
             private String texto = "";
@@ -431,6 +462,8 @@ public class AriusActivityItemVenda extends ActivityPadrao {
         edtDesconto.setText(AndroidUtils.FormatarValor_Monetario(vendaItem.getDesconto()));
 
         final EditText edtQtde = AriusAlertDialog.getGetView().findViewById(R.id.edtlayoutDialogItemVendaQtde);
+        edtQtde.setOnFocusChangeListener(onFocusChangeListenerEdits);
+        edtQtde.setOnClickListener(onClickListenerEdits);
 
         edtQtde.addTextChangedListener(new TextWatcher() {
             private String texto = "";

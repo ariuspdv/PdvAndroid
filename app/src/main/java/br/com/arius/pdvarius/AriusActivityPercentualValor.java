@@ -19,7 +19,7 @@ import arius.pdv.db.AndroidUtils;
  * Created by Arius on 25/10/2017.
  */
 
-public class AriusActivityPercValor {
+public class AriusActivityPercentualValor {
 
     private String error = "";
     private EditText edtValor;
@@ -33,10 +33,13 @@ public class AriusActivityPercValor {
     private LinearLayout pnlPorcentagem;
     private TextInputLayout textInputLayout;
 
+    private View.OnClickListener onClickListenerEdits;
+    private View.OnFocusChangeListener onFocusChangeListenerEdits;
+
     private double valor;
     private double retorno_valor;
 
-    public AriusActivityPercValor(){
+    public AriusActivityPercentualValor(){
     }
 
     public void setValor(double valor) {
@@ -66,10 +69,32 @@ public class AriusActivityPercValor {
     }
 
     public void montaDialog_Campos(final AlertDialog alertDialog, View view, String textHint){
-        edtValor = (EditText) alertDialog.findViewById(R.id.edtContentDialogPercValorValor);
-        edtPorc = (EditText) alertDialog.findViewById(R.id.edtContentDialogPercValorPerc);
+        edtValor = (EditText) alertDialog.findViewById(R.id.edtDialogAriusPerccentualValorValor);
+        edtPorc = (EditText) alertDialog.findViewById(R.id.edtDialogAriusPerccentualValorPerc);
         textInputLayout = (TextInputLayout) alertDialog.findViewById(R.id.pnlContentDialogoValorLayout);
         textInputLayout.setHint(textHint);
+
+        onFocusChangeListenerEdits = new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    final View campoEdit = v;
+                    campoEdit.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((EditText) campoEdit).setSelection(((EditText) campoEdit).getText().length());
+                        }
+                    });
+                }
+            }
+        };
+
+        onClickListenerEdits = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edtValor.setSelection(edtValor.getText().length());
+            }
+        };
 
         pnlPorcentagem = (LinearLayout) alertDialog.findViewById(R.id.pnlContentDialogoPercValorPerc);
         clickbotao = new View.OnClickListener() {
@@ -139,6 +164,9 @@ public class AriusActivityPercValor {
                     }
                 });
 
+                edtPorc.setOnFocusChangeListener(onFocusChangeListenerEdits);
+                edtPorc.setOnClickListener(onClickListenerEdits);
+
                 edtValor.addTextChangedListener(new TextWatcher() {
                     private String current = "";
                     @Override
@@ -203,12 +231,15 @@ public class AriusActivityPercValor {
                         }
                     }
                 });
+
+                edtValor.setOnFocusChangeListener(onFocusChangeListenerEdits);
+                edtValor.setOnClickListener(onClickListenerEdits);
             }
         };
 
         clickbotao.onClick(view);
 
-        alertDialog.findViewById(R.id.btnContentDialogValorCancelar).setOnClickListener(new View.OnClickListener() {
+        alertDialog.findViewById(R.id.btnDialogAriusPerccentualValorCancelar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();

@@ -2,8 +2,10 @@ package br.com.arius.pdvarius;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -91,6 +93,8 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
                     ariusActivityProdutoPrincipal.setEdttotalitem(edttotalitem);
                     ariusActivityProdutoPrincipal.setEdttotalvenda(edttotalvenda);
                     ariusActivityProdutoPrincipal.inserirItemVenda((Produto) adapterView.getItemAtPosition(i));
+
+                    ((BaseAdapter) grdProdCategoria.getAdapter()).notifyDataSetChanged();
                 }
             }
         });
@@ -156,6 +160,10 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
                     TextView edtaux = v.findViewById(R.id.edtlayoutProdCategoria);
                     if (edtaux != null)
                         edtaux.setText(((ProdutoCategoria) p).getDescricao());
+
+                    ConstraintLayout pnlQtde = v.findViewById(R.id.pnlTotalProdutoVenda);
+                    pnlQtde.setVisibility(View.GONE);
+
                     ImageView imgaux = v.findViewById(R.id.imglayoutProdCategoria);
 
                     if(((ProdutoCategoria) p).getId() == 1) {
@@ -221,6 +229,16 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
                         TextView edtaux = v.findViewById(R.id.edtlayoutProdCategoria);
                         if (edtaux != null)
                             edtaux.setText(((Produto) p).getDescricao());
+
+                        ConstraintLayout pnlQtde = v.findViewById(R.id.pnlTotalProdutoVenda);
+                        pnlQtde.setVisibility(View.VISIBLE);
+
+                        edtaux =  v.findViewById(R.id.edtTotalProdutoVenda);
+                        if(edtaux != null) {
+                            AriusActivityProdutoPrincipal ariusActivityProdutoPrincipal = new AriusActivityProdutoPrincipal();
+                            edtaux.setText(AndroidUtils.FormataQuantidade(((Produto) p),
+                                    ariusActivityProdutoPrincipal.getQtdeProdutoVenda((Produto) p)));
+                        }
                         ImageView imgaux = v.findViewById(R.id.imglayoutProdCategoria);
 
                         if(((Produto) p).getId() == 6 || ((Produto) p).getId() == 13) {

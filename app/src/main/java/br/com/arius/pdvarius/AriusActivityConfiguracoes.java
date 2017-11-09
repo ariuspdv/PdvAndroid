@@ -56,11 +56,11 @@ public class AriusActivityConfiguracoes extends ActivityPadrao {
 
             AppContext.get().getDao(ConfiguracaoDao.class).update(this.configuracao);
 
-            AriusAlertDialog.exibirDialog(this, R.layout.contentariusdialogdelete);
-            ((TextView) AriusAlertDialog.getAlertDialog().findViewById(R.id.edtContentDialogDeleteTexto)).setText("Configurações gravada com sucesso!");
-            AriusAlertDialog.getAlertDialog().findViewById(R.id.btnContentDialogDeleteNao).setVisibility(View.GONE);
-            ((Button) AriusAlertDialog.getAlertDialog().findViewById(R.id.btnContentDialogDeleteSim)).setText("OK");
-            AriusAlertDialog.getAlertDialog().findViewById(R.id.btnContentDialogDeleteSim).setOnClickListener(
+            AriusAlertDialog.exibirDialog(this, R.layout.dialog_arius_delete);
+            ((TextView) AriusAlertDialog.getAlertDialog().findViewById(R.id.edtDialogAriusDeleteTexto)).setText("Configurações gravada com sucesso!");
+            AriusAlertDialog.getAlertDialog().findViewById(R.id.btnDialogAriusDeleteNao).setVisibility(View.GONE);
+            ((Button) AriusAlertDialog.getAlertDialog().findViewById(R.id.btnDialogAriusDeleteSim)).setText("OK");
+            AriusAlertDialog.getAlertDialog().findViewById(R.id.btnDialogAriusDeleteSim).setOnClickListener(
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

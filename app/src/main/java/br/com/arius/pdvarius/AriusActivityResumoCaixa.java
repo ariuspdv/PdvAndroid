@@ -1,9 +1,9 @@
 package br.com.arius.pdvarius;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -13,8 +13,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -26,11 +24,11 @@ import arius.pdv.base.Finalizadora;
 import arius.pdv.base.FinalizadoraTipo;
 import arius.pdv.base.Historico;
 import arius.pdv.base.HistoricoDao;
+import arius.pdv.base.HistoricoTipo;
 import arius.pdv.base.PdvService;
 import arius.pdv.base.PdvUtil;
 import arius.pdv.base.PdvValor;
 import arius.pdv.base.PdvValorDao;
-import arius.pdv.base.PdvValorTipo;
 import arius.pdv.base.Venda;
 import arius.pdv.base.VendaDao;
 import arius.pdv.base.VendaSituacao;
@@ -55,7 +53,8 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
     double vrTotalVendido = 0;
     double vrTroco = 0;
 
-    private AriusActivityPercValor ariusActivityPercValor;
+    private AriusActivityPercentualValor ariusActivityPercentualValor;
+    private AlertDialog dialogAux;
 
     /*Campos Rodapé*/
     private TextView lbCampo1;
@@ -68,7 +67,7 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contentariusresumocaixa);
 
-        ariusActivityPercValor = new AriusActivityPercValor();
+        ariusActivityPercentualValor = new AriusActivityPercentualValor();
 
         setButtons(true, false, false);
 
@@ -186,24 +185,24 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
     }
 
     private void criarDialogSangrar(View view){
-        AriusAlertDialog.exibirDialog(AriusActivityResumoCaixa.this, R.layout.contentariusdialogpercvalor);
-        ariusActivityPercValor.montaDialog_Campos(AriusAlertDialog.getAlertDialog(), view, "Sangria");
-        ariusActivityPercValor.setUtilizaPorcentagem(false);
+        AriusAlertDialog.exibirDialog(AriusActivityResumoCaixa.this, R.layout.dialog_arius_perccentual_valor);
+        ariusActivityPercentualValor.montaDialog_Campos(AriusAlertDialog.getAlertDialog(), view, "Sangria");
+        ariusActivityPercentualValor.setUtilizaPorcentagem(false);
 
-        AriusAlertDialog.getGetView().findViewById(R.id.btnContentDialogValorConfirmar).setOnClickListener(new View.OnClickListener() {
+        AriusAlertDialog.getGetView().findViewById(R.id.btnDialogAriusPerccentualValorConfirmar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ariusActivityPercValor.getRetorno_valor() <= 0) {
+                if (ariusActivityPercentualValor.getRetorno_valor() <= 0) {
                     throw new UserException("Informar um valor para a sangria!");
                 }
 
                 for (ResumoCaixa loopresumo : lresumo) {
-                    if (loopresumo.valor - loopresumo.valor_sangrar_retirar < ariusActivityPercValor.getRetorno_valor())
+                    if (loopresumo.valor - loopresumo.valor_sangrar_retirar < ariusActivityPercentualValor.getRetorno_valor())
                         throw new UserException("Saldo insuficiente da Finalizadora : " + loopresumo.finalizadora.getDescricao() +
                         " para efeutar a sangria!");
 
                     if (loopresumo.finalizadora == resumoCaixa.finalizadora)
-                        loopresumo.valor_sangrar_retirar += ariusActivityPercValor.getRetorno_valor();
+                        loopresumo.valor_sangrar_retirar += ariusActivityPercentualValor.getRetorno_valor();
                 }
 
                 ((AriusCursorAdapter) grdResumoCaixa.getAdapter()).notifyDataSetChanged();
@@ -216,26 +215,38 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
     }
 
     private void criarDialogRetirada() {
-        AriusAlertDialog.exibirDialog(AriusActivityResumoCaixa.this,R.layout.contentariusdialogretirada);
+        AriusAlertDialog.exibirDialog(AriusActivityResumoCaixa.this,R.layout.dialog_arius_retirada,false);
+        dialogAux = AriusAlertDialog.getAlertDialog();
+        dialogAux.show();
 
-        AriusAlertDialog.getGetView().findViewById(R.id.btnRetiradaDialogCancelar).setOnClickListener(new View.OnClickListener() {
+        dialogAux.findViewById(R.id.btnDialogAriusRetiradaCancelar).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialogAux.dismiss();
+                    }
+        });
+
+        final Spinner cmbHistorico = (Spinner) dialogAux.findViewById(R.id.cmbDialogAriusRetiradaHistorico);
+        List array_historicos = AppContext.get().getDao(HistoricoDao.class).listCache(new FuncionaisFilters<Historico>() {
             @Override
-            public void onClick(View view) {
-                AriusAlertDialog.getAlertDialog().dismiss();
+            public boolean test(Historico p) {
+                return true;
             }
         });
 
-        final Spinner cmbHistorico = AriusAlertDialog.getGetView().findViewById(R.id.cmbRetiradaDialogHistorico);
+        Historico selecionar = new Historico();
+        selecionar.setId(-1);
+        selecionar.setDescricao("Selecionar um histórico");
+        selecionar.setTipo(HistoricoTipo.RETIRADA);
+
+        array_historicos.add(0,selecionar);
+
         AriusCursorAdapter adapter_historico = new AriusCursorAdapter(getAppContext(),
                 R.layout.layoutcmbbasico,
-                android.R.layout.simple_dropdown_item_1line,
+                R.layout.layoutcmbbasico,
                 null,
-                AppContext.get().getDao(HistoricoDao.class).listCache(new FuncionaisFilters<Historico>() {
-                    @Override
-                    public boolean test(Historico p) {
-                        return true;
-                    }
-                }));
+                array_historicos);
         adapter_historico.setMontarCamposTela(new AriusCursorAdapter.MontarCamposTela() {
             @Override
             public void montarCamposTela(Object p, View v) {
@@ -258,9 +269,9 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
         });
         cmbHistorico.setAdapter(adapter_historico);
 
-        final EditText edtRetirada = AriusAlertDialog.getGetView().findViewById(R.id.edtRetiradaDialogValor);
+        final EditText edtRetirada = (EditText) dialogAux.findViewById(R.id.edtDialogAriusRetiradaValor);
 
-        AriusAlertDialog.getGetView().findViewById(R.id.btnRetiradaDialogOK).setOnClickListener(new View.OnClickListener() {
+        dialogAux.findViewById(R.id.btnDialogAriusRetiradaConfirmar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -274,6 +285,11 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
                 if (edtRetirada.getText().toString().equals("") || v_valor <= 0) {
                     edtRetirada.requestFocus();
                     throw new UserException("Informar um valor para a retirada!");
+                }
+
+                if (((Historico) cmbHistorico.getSelectedItem()).getId() == -1){
+                    cmbHistorico.requestFocus();
+                    throw new UserException("Selecionar um histórico para a retirada!");
                 }
 
                 for (ResumoCaixa loopresumo : lresumo) {
@@ -290,7 +306,7 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
 
                 ((AriusCursorAdapter) grdResumoCaixa.getAdapter()).notifyDataSetChanged();
 
-                AriusAlertDialog.getAlertDialog().dismiss();
+                dialogAux.dismiss();
 
                 setRodape();
             }
@@ -337,6 +353,27 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
         });
 
         edtRetirada.setText("0");
+        edtRetirada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((EditText) v).setSelection(((EditText) v).getText().length());
+            }
+        });
+
+        edtRetirada.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    final View campoEdit = v;
+                    v.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((EditText) campoEdit).setSelection(((EditText) campoEdit).getText().length());
+                        }
+                    });
+                }
+            }
+        });
 
         edtRetirada.setSelection(edtRetirada.getText().length());
     }
@@ -377,14 +414,14 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
                     AndroidUtils.toast(AriusActivityResumoCaixa.this,
                             "Clicar sobre uma finalizador para informar o valor e efetuar a " + funcaoExecutar);
                 else {
-                    AriusAlertDialog.exibirDialog(AriusActivityResumoCaixa.this, R.layout.contentariusdialogdelete);
-                    ((TextView) AriusAlertDialog.getAlertDialog().findViewById(R.id.edtContentDialogDeleteTexto)).setText(
-                            (funcaoExecutar.toLowerCase().equals("fecharcaixa") ? "Fechamento de caixa " : funcaoExecutar) + " efetuada com sucesso!");
-                    AriusAlertDialog.getAlertDialog().findViewById(R.id.btnContentDialogDeleteNao).setVisibility(View.GONE);
+                    AriusAlertDialog.exibirDialog(AriusActivityResumoCaixa.this, R.layout.dialog_arius_delete);
+                    ((TextView) AriusAlertDialog.getAlertDialog().findViewById(R.id.edtDialogAriusDeleteTexto)).setText(
+                            (funcaoExecutar.toLowerCase().equals("fecharcaixa") ? "Fechamento de caixa" : funcaoExecutar) + " efetuada com sucesso!");
+                    AriusAlertDialog.getAlertDialog().findViewById(R.id.btnDialogAriusDeleteNao).setVisibility(View.GONE);
 
-                    ((Button) AriusAlertDialog.getAlertDialog().findViewById(R.id.btnContentDialogDeleteSim)).setText("OK");
+                    ((Button) AriusAlertDialog.getAlertDialog().findViewById(R.id.btnDialogAriusDeleteSim)).setText("OK");
 
-                    AriusAlertDialog.getAlertDialog().findViewById(R.id.btnContentDialogDeleteSim).setOnClickListener(
+                    AriusAlertDialog.getAlertDialog().findViewById(R.id.btnDialogAriusDeleteSim).setOnClickListener(
                             new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {

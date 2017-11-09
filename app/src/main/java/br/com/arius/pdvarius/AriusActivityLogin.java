@@ -2,9 +2,6 @@ package br.com.arius.pdvarius;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 
@@ -22,7 +19,7 @@ public class AriusActivityLogin extends ActivityPadrao {
 
     private Context context;
     private Button btnLogin;
-    private AriusActivityPercValor ariusActivityPercValor;
+    private AriusActivityPercentualValor ariusActivityPercentualValor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +32,7 @@ public class AriusActivityLogin extends ActivityPadrao {
     public void montaLogin(View view, final Context context){
         this.context = context;
 
-        ariusActivityPercValor = new AriusActivityPercValor();
+        ariusActivityPercentualValor = new AriusActivityPercentualValor();
 
         if (view == null){
             btnLogin = (Button) findViewById(R.id.btn_Entrar);
@@ -51,32 +48,22 @@ public class AriusActivityLogin extends ActivityPadrao {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AriusAlertDialog.exibirDialog(context,R.layout.contentariusdialogpercvalor);
-                ariusActivityPercValor.montaDialog_Campos(AriusAlertDialog.getAlertDialog(), v, "Valor Inicial do Caixa");
-                //ariusActivityPercValor.setTitulo("Valor Inicial");
-                ariusActivityPercValor.setUtilizaPorcentagem(false);
+                AriusAlertDialog.exibirDialog(context,R.layout.dialog_arius_perccentual_valor);
+                ariusActivityPercentualValor.montaDialog_Campos(AriusAlertDialog.getAlertDialog(), v, "Valor Inicial do Caixa");
+                ariusActivityPercentualValor.setUtilizaPorcentagem(false);
 
-                AriusAlertDialog.getGetView().findViewById(R.id.btnContentDialogValorCancelar).setOnClickListener(
+                AriusAlertDialog.getGetView().findViewById(R.id.btnDialogAriusPerccentualValorConfirmar).setOnClickListener(
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                AriusAlertDialog.getAlertDialog().dismiss();
-                            }
-                        }
-                );
-
-                AriusAlertDialog.getGetView().findViewById(R.id.btnContentDialogValorConfirmar).setOnClickListener(
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (ariusActivityPercValor.getRetorno_valor() == 0 &&
+                                if (ariusActivityPercentualValor.getRetorno_valor() == 0 &&
                                         PdvService.get().getConfiguracao().getPermitir_fundo_troco_zerado() == "F")
                                     AndroidUtils.toast(context,"Informar um valor para a abertura do caixa!");
                                 else {
                                     PdvService.get().setOperadorAtual(AppContext.get().getDao(UsuarioDao.class).find(1));
                                     PdvService.get().abreCaixa(
                                             PdvService.get().getOperadorAtual(),
-                                            ariusActivityPercValor.getRetorno_valor()
+                                            ariusActivityPercentualValor.getRetorno_valor()
                                     );
 
                                     AriusAlertDialog.getAlertDialog().dismiss();

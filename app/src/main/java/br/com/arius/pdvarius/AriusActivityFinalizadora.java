@@ -42,7 +42,7 @@ public class AriusActivityFinalizadora extends ActivityPadrao {
     private DataControll dataControll;
     private TextView edtValorRestante;
     private TextView lbValorRestante;
-    private AriusActivityPercValor ariusActivityPercValor;
+    private AriusActivityPercentualValor ariusActivityPercentualValor;
     private AlertDialog alertFinalizadora;
     private AlertDialog alertDescJuro;
 
@@ -83,7 +83,7 @@ public class AriusActivityFinalizadora extends ActivityPadrao {
 
         carregaFinalizadoras();
 
-        ariusActivityPercValor = new AriusActivityPercValor();
+        ariusActivityPercentualValor = new AriusActivityPercentualValor();
     }
 
     private void carregaFinalizadoras(){
@@ -229,17 +229,17 @@ public class AriusActivityFinalizadora extends ActivityPadrao {
                     @Override
                     public void onClick(View v) {
                         if (vendaFinalizadora.getValor() > 0) {
-                            AriusAlertDialog.exibirDialog(context, R.layout.contentariusdialogpercvalor);
+                            AriusAlertDialog.exibirDialog(context, R.layout.dialog_arius_perccentual_valor);
                             alertDescJuro = AriusAlertDialog.getAlertDialog();
-                            ariusActivityPercValor.montaDialog_Campos(alertDescJuro, v, "Desconto");
-                            ariusActivityPercValor.setValor(vendaFinalizadora.getValor());
-                            ariusActivityPercValor.setAceitaporcentagem(false);
+                            ariusActivityPercentualValor.montaDialog_Campos(alertDescJuro, v, "Desconto");
+                            ariusActivityPercentualValor.setValor(vendaFinalizadora.getValor());
+                            ariusActivityPercentualValor.setAceitaporcentagem(false);
 
-                            alertDescJuro.findViewById(R.id.btnContentDialogValorConfirmar).setOnClickListener(
+                            alertDescJuro.findViewById(R.id.btnDialogAriusPerccentualValorCancelar).setOnClickListener(
                                     new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            vendaFinalizadora.setDesconto(ariusActivityPercValor.getRetorno_valor());
+                                            vendaFinalizadora.setDesconto(ariusActivityPercentualValor.getRetorno_valor());
                                             alertDescJuro.dismiss();
 
                                             montaRodape();
@@ -260,17 +260,17 @@ public class AriusActivityFinalizadora extends ActivityPadrao {
                     @Override
                     public void onClick(View v) {
                         if (vendaFinalizadora.getValor() > 0) {
-                            AriusAlertDialog.exibirDialog(context, R.layout.contentariusdialogpercvalor);
+                            AriusAlertDialog.exibirDialog(context, R.layout.dialog_arius_perccentual_valor);
                             alertDescJuro = AriusAlertDialog.getAlertDialog();
-                            ariusActivityPercValor.montaDialog_Campos(alertDescJuro, v, "Juro");
-                            ariusActivityPercValor.setValor(vendaFinalizadora.getValor());
-                            ariusActivityPercValor.setAceitaporcentagem(true);
+                            ariusActivityPercentualValor.montaDialog_Campos(alertDescJuro, v, "Juro");
+                            ariusActivityPercentualValor.setValor(vendaFinalizadora.getValor());
+                            ariusActivityPercentualValor.setAceitaporcentagem(true);
 
-                            alertDescJuro.findViewById(R.id.btnContentDialogValorConfirmar).setOnClickListener(
+                            alertDescJuro.findViewById(R.id.btnDialogAriusPerccentualValorCancelar).setOnClickListener(
                                     new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            vendaFinalizadora.setJuro(ariusActivityPercValor.getRetorno_valor());
+                                            vendaFinalizadora.setJuro(ariusActivityPercentualValor.getRetorno_valor());
                                             alertDescJuro.dismiss();
 
                                             montaRodape();

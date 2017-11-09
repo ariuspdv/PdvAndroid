@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -111,6 +112,12 @@ public class AriusActivityProdutoPrincipal extends ActivityPadrao {
                     TextView edtaux = v.findViewById(R.id.edtlayoutProdPrincipal);
                     if (edtaux != null)
                         edtaux.setText(((Produto) p).getDescricao());
+
+                    edtaux =  v.findViewById(R.id.edtTotalProdutoVenda);
+                    if(edtaux != null) {
+                        edtaux.setText(AndroidUtils.FormataQuantidade(((Produto) p), getQtdeProdutoVenda((Produto) p)));
+                    }
+
                     ImageView imgaux = v.findViewById(R.id.imglayoutProdPrincipal);
                     imgaux.setImageResource(R.drawable.semimagem);
                 }
@@ -156,7 +163,21 @@ public class AriusActivityProdutoPrincipal extends ActivityPadrao {
 
         AndroidUtils.toast(this.context,vndItem.getProduto().getDescricao() + " \n Incluido na venda!");
 
+        if (grdProdPrincipal != null)
+            ((BaseAdapter) grdProdPrincipal.getAdapter()).notifyDataSetChanged();
+
         progressBar(false);
+    }
+
+    public double getQtdeProdutoVenda(Produto produto){
+        double result = 0;
+        if (PdvService.get().getVendaAtiva() != null){
+            for(VendaItem loopItens : PdvService.get().getVendaAtiva().getItens()){
+                if (loopItens.getProduto().equals(produto))
+                    result += loopItens.getQtde();
+            }
+        }
+        return  result;
     }
 
     private void montaRodape(){

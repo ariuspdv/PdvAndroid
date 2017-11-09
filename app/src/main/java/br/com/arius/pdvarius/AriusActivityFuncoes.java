@@ -21,7 +21,7 @@ public class AriusActivityFuncoes extends ActivityPadrao {
     private LinearLayout btnSincronizacao;
     private LinearLayout btnConfiguracoes;
     private Context context;
-    private  AriusActivityPercValor ariusActivityPercValor;
+    private AriusActivityPercentualValor ariusActivityPercentualValor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class AriusActivityFuncoes extends ActivityPadrao {
 
     public void montaFuncoes(View view, final Context context){
         this.context = context;
-        ariusActivityPercValor = new AriusActivityPercValor();
+        ariusActivityPercentualValor = new AriusActivityPercentualValor();
         if (view == null){
             btnReforco = (LinearLayout) findViewById(R.id.btnFuncoesReforco);
             btnFecharCaixa = (LinearLayout) findViewById(R.id.btnFuncoesFecharCaixa);
@@ -102,18 +102,18 @@ public class AriusActivityFuncoes extends ActivityPadrao {
                 if (!validaStatusPDV())
                     return;
 
-                AriusAlertDialog.exibirDialog(context,R.layout.contentariusdialogpercvalor);
-                ariusActivityPercValor.montaDialog_Campos(AriusAlertDialog.getAlertDialog(), view, "Reforço");
-                ariusActivityPercValor.setUtilizaPorcentagem(false);
+                AriusAlertDialog.exibirDialog(context,R.layout.dialog_arius_perccentual_valor);
+                ariusActivityPercentualValor.montaDialog_Campos(AriusAlertDialog.getAlertDialog(), view, "Reforço");
+                ariusActivityPercentualValor.setUtilizaPorcentagem(false);
 
-                AriusAlertDialog.getGetView().findViewById(R.id.btnContentDialogValorConfirmar).setOnClickListener(
+                AriusAlertDialog.getGetView().findViewById(R.id.btnDialogAriusPerccentualValorConfirmar).setOnClickListener(
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                if (ariusActivityPercValor.getRetorno_valor() <= 0)
+                                if (ariusActivityPercentualValor.getRetorno_valor() <= 0)
                                     throw new UserException("Informar um valor para o reforço!");
 
-                                PdvService.get().reforcoCaixa(ariusActivityPercValor.getRetorno_valor());
+                                PdvService.get().reforcoCaixa(ariusActivityPercentualValor.getRetorno_valor());
 
                                 AriusAlertDialog.getAlertDialog().dismiss();
 
