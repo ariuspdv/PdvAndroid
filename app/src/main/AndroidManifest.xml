@@ -28,7 +28,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".CursoresActivity" />
         <activity android:name=".AriusActivityResumoCaixa" />
         <activity android:name=".AriusActivityListagemVenda" />
         <activity
