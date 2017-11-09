@@ -195,15 +195,17 @@
 
             <Button
                 android:id="@+id/btnlayoutDialogFinalizadoraVendaCancelar"
-                android:background="@drawable/button_action_left"
                 style="@style/AriusButtonActionMessage"
-                android:text="Cancelar"/>
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:text="Cancelar" />
 
             <Button
                 android:id="@+id/btnlayoutDialogFinalizadoraVendaConfirmar"
-                android:text="Confirmar"
-                android:background="@drawable/button_action_right"
-                style="@style/AriusButtonActionMessage"/>
+                style="@style/AriusButtonActionMessage"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:text="Confirmar" />
         </LinearLayout>
 
     </LinearLayout>

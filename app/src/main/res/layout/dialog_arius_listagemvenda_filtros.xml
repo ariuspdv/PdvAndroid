@@ -60,26 +60,16 @@
             <Button
                 android:id="@+id/btnlayoutDialogListagemVendaCancelar"
                 style="@style/AriusButtonActionMessage"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="5dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/button_orange_event"
-                android:text="Cancelar"
-                android:textColor="#fff"
-                android:textStyle="bold" />
+                android:text="Cancelar" />
 
             <Button
                 android:id="@+id/btnlayoutDialogListagemVendaConfirmar"
                 style="@style/AriusButtonActionMessage"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/button_orange_event"
-                android:text="Confirmar"
-                android:textColor="#fff"
-                android:textStyle="bold" />
+                android:text="Confirmar" />
         </LinearLayout>
 
     </LinearLayout>

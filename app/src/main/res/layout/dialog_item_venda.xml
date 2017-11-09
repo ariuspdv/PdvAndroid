@@ -15,13 +15,14 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <EditText
                 android:id="@+id/edtlayoutDialogItemVendaVrUnitario"
+                style="@style/AriusTextEdit"
                 android:focusedByDefault="false"
-                android:inputType="number"
                 android:hint="Valor Unitário"
-                android:textAlignment="textEnd"
-                style="@style/AriusTextEdit"/>
+                android:inputType="number"
+                android:textAlignment="textEnd" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -103,18 +104,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:weightSum="1">
-                <Button
-                    android:id="@+id/btnlayoutDialogItemVendaCancelar"
-                    style="@style/AriusButtonActionMessage"
-                    android:background="@drawable/button_action_left"
-                    android:text="Cancelar"/>
-                <Button
-                    android:id="@+id/btnlayoutDialogItemVendaConfirmar"
-                    android:background="@drawable/button_action_right"
-                    android:text="Confirmar"
-                    style="@style/AriusButtonActionMessage"/>
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnlayoutDialogItemVendaCancelar"
+                style="@style/AriusButtonActionMessage"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:text="Cancelar" />
+
+            <Button
+                android:id="@+id/btnlayoutDialogItemVendaConfirmar"
+                style="@style/AriusButtonActionMessage"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:text="Confirmar" />
         </LinearLayout>
 
     </LinearLayout>

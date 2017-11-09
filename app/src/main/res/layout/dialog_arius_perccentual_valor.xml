@@ -18,13 +18,13 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/edtContentDialogPercValorPerc"
+                    android:id="@+id/edtDialogAriusPerccentualValorPerc"
+                    style="@style/AriusTextEdit"
                     android:ellipsize="end"
                     android:ems="10"
-                    style="@style/AriusTextEdit"
                     android:hint="Percetual"
                     android:imeOptions="actionNext"
-                    android:inputType="numberDecimal"/>
+                    android:inputType="numberDecimal" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -33,8 +33,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5">
+
                 <EditText
-                    android:id="@+id/edtContentDialogPercValorValor"
+                    android:id="@+id/edtDialogAriusPerccentualValorValor"
                     style="@style/AriusTextEdit"
                     android:ellipsize="end"
                     android:ems="10"
@@ -50,46 +51,25 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.25"
-            android:visibility="gone" />
+        <Button
+            android:id="@+id/btnDialogAriusPerccentualValorCancelar"
+            style="@style/AriusButtonActionMessage"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:text="Cancelar" />
 
         <Button
-            android:id="@+id/btnContentDialogValorCancelar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:id="@+id/btnDialogAriusPerccentualValorConfirmar"
+            style="@style/AriusButtonActionMessage"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:maxLines="2"
-            android:padding="20dp"
-            android:textColor="?attr/colorPrimary"
-            android:background="@drawable/button_action_left"
-            android:text="Cancelar"
-            android:textSize="@dimen/textsize_action" />
-
-        <Button
-            android:id="@+id/btnContentDialogValorConfirmar"
-            android:layout_width="0dp"
-            android:background="@drawable/button_action_right"
-            android:layout_height="match_parent"
-            android:layout_gravity="left"
-            android:layout_weight="1"
-            android:maxLines="2"
-            android:textColor="?attr/colorPrimary"
-            android:text="Confirmar"
-            android:textSize="@dimen/textsize_action" />
+            android:text="Confirmar" />
 
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.25"
-            android:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>
