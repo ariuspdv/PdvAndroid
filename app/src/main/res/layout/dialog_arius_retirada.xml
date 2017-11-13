@@ -22,8 +22,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/arius_spinner"
-        android:spinnerMode="dialog" />
+        android:background="@drawable/arius_spinner" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"

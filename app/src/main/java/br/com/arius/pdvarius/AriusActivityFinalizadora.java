@@ -45,6 +45,9 @@ public class AriusActivityFinalizadora extends ActivityPadrao {
     private AriusActivityPercentualValor ariusActivityPercentualValor;
     private AlertDialog alertFinalizadora;
     private AlertDialog alertDescJuro;
+    private View.OnClickListener onClickListenerEdits;
+    private View.OnFocusChangeListener onFocusChangeListenerEdits;
+
 
     /*Campos rodapé dialog finalizadora*/
     private TextView edtVrBruto;
@@ -84,6 +87,28 @@ public class AriusActivityFinalizadora extends ActivityPadrao {
         carregaFinalizadoras();
 
         ariusActivityPercentualValor = new AriusActivityPercentualValor();
+
+        onClickListenerEdits = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((EditText) v).setSelection(((EditText) v).getText().length());
+            }
+        };
+
+        onFocusChangeListenerEdits =  new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    final View campoEdit = v;
+                    v.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((EditText) campoEdit).setSelection(((EditText) campoEdit).getText().length());
+                        }
+                    });
+                }
+            }
+        };
     }
 
     private void carregaFinalizadoras(){
@@ -290,6 +315,9 @@ public class AriusActivityFinalizadora extends ActivityPadrao {
         edtDesconto = (TextView)  alertFinalizadora.findViewById(R.id.edtlayoutDialogFinalizadoraVendaDesconto);
         edtJuros = (TextView) alertFinalizadora.findViewById(R.id.edtlayoutDialogFinalizadoraVendaJuros);
         edtVrLiquido = (TextView) alertFinalizadora.findViewById(R.id.edtlayoutDialogFinalizadoraVendaValorLiquido);
+
+        edtValor.setOnFocusChangeListener(onFocusChangeListenerEdits);
+        edtValor.setOnClickListener(onClickListenerEdits);
 
         montaRodape();
     }

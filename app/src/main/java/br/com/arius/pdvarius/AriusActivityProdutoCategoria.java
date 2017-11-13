@@ -1,6 +1,7 @@
 package br.com.arius.pdvarius;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
@@ -24,6 +25,7 @@ import arius.pdv.core.AppContext;
 import arius.pdv.core.FuncionaisFilters;
 import arius.pdv.db.AndroidUtils;
 import arius.pdv.db.AriusCursorAdapter;
+import arius.pdv.db.AriusProdutoCategoriaNavigator;
 
 /**
  * Created by Arius on 06/10/2017.
@@ -34,13 +36,12 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
     private GridView grdProdCategoria;
     private Context context;
     private Button btnVoltar;
-    private TextView edtNavegacao;
     private boolean produtosCarregados;
-    private boolean precionadoVoltar = false;
     private ProdutoCategoria produtoCategoriaSelecionado;
     private TextView edttotalitem;
     private TextView edttotalvenda;
     private TextView lbProdutos;
+    private TesteGroupNavigation pnlProdutoCategoriaNavigator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,26 +51,33 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
         montaCategorias(null, getApplicationContext());
     }
 
-    public void montaCategorias(View view, Context context){
+    public void montaCategorias(View view, final Context context){
         this.context = context;
 
         if (view == null) {
             grdProdCategoria = (GridView) findViewById(R.id.grdProduto_Categoria);
-            edtNavegacao = (TextView) findViewById(R.id.edtContentAriusCategoriaNavegacao);
             edttotalitem = (TextView) findViewById(R.id.edtlayoutItemVendaRodapeTotItem);
             edttotalvenda = (TextView) findViewById(R.id.edtlayoutItemVendaRodapeValorVenda);
             lbProdutos = (TextView) findViewById(R.id.lbContentAriusCategoriaProduto);
+            pnlProdutoCategoriaNavigator = (TesteGroupNavigation) findViewById(R.id.pnlProdutoCategoriaNavigator);
         } else {
             grdProdCategoria = view.findViewById(R.id.grdProduto_Categoria);
-            edtNavegacao = view.findViewById(R.id.edtContentAriusCategoriaNavegacao);
             edttotalitem = view.findViewById(R.id.edtlayoutItemVendaRodapeTotItem);
             edttotalvenda = view.findViewById(R.id.edtlayoutItemVendaRodapeValorVenda);
             lbProdutos = view.findViewById(R.id.lbContentAriusCategoriaProduto);
+            pnlProdutoCategoriaNavigator = view.findViewById(R.id.pnlProdutoCategoriaNavigator);
         }
 
-        lbProdutos.setVisibility(View.GONE);
+        pnlProdutoCategoriaNavigator.setItemNavigatorAcoes(new TesteGroupNavigation.ItemNavigatorAcoes() {
+            @Override
+            public void onClickItemNavigator(Object object) {
+                pesquisaCategoria(((ProdutoCategoria) object).getId());
+                if (lbProdutos.getVisibility() == View.VISIBLE)
+                    lbProdutos.setVisibility(View.GONE);
+            }
+        });
 
-        edtNavegacao.setText("");
+        lbProdutos.setVisibility(View.GONE);
 
         pesquisaCategoria(0);
 
@@ -88,6 +96,10 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
                 if (!produtosCarregados) {
                     produtoCategoriaSelecionado = (ProdutoCategoria) adapterView.getItemAtPosition(i);
                     pesquisaCategoria(produtoCategoriaSelecionado.getId());
+
+                    if (produtoCategoriaSelecionado != null)
+                        pnlProdutoCategoriaNavigator.incluirItemNavegacao(produtoCategoriaSelecionado.getDescricao(),
+                                produtoCategoriaSelecionado);
                 } else {
                     AriusActivityProdutoPrincipal ariusActivityProdutoPrincipal = new AriusActivityProdutoPrincipal();
                     ariusActivityProdutoPrincipal.setEdttotalitem(edttotalitem);
@@ -106,20 +118,11 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
                 if (produtoCategoriaSelecionado == null)
                     return;
 
-                precionadoVoltar = true;
+                pnlProdutoCategoriaNavigator.limparItemNavigator();
 
-                edtNavegacao.setText(edtNavegacao.getText().toString().replace(" > " + produtoCategoriaSelecionado.getDescricao(),""));
+                pesquisaCategoria(0);
+                produtoCategoriaSelecionado = null;
 
-                if (produtoCategoriaSelecionado.getProdutoCategoria() != null){
-                    pesquisaCategoria(produtoCategoriaSelecionado.getProdutoCategoria().getId());
-                    produtoCategoriaSelecionado = produtoCategoriaSelecionado.getProdutoCategoria();
-                } else {
-                    pesquisaCategoria(0);
-                    produtoCategoriaSelecionado = null;
-                    edtNavegacao.setText("");
-                }
-
-                precionadoVoltar = false;
                 lbProdutos.setVisibility(View.GONE);
             }
         });
@@ -143,11 +146,6 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
         Map<Integer, String> campos = new HashMap<>();
 
         if (lprodutocategoria.size() > 0) {
-            if (produtoCategoriaSelecionado != null)
-                if (!precionadoVoltar)
-                    edtNavegacao.setText(edtNavegacao.getText() +
-                        (edtNavegacao.getText().toString().equals("") ? "" : " > ") +  produtoCategoriaSelecionado.getDescricao());
-
             adapter_item = new AriusCursorAdapter(context,
                     R.layout.layoutprodcategoria,
                     R.layout.layoutprodcategoria,
@@ -187,8 +185,6 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
                     } else {
                         imgaux.setImageResource(R.drawable.semimagem);
                     }
-
-
                 }
             });
 
@@ -212,10 +208,6 @@ public class AriusActivityProdutoCategoria extends ActivityPadrao {
             if (lproduto.size() > 0) {
 
                 lbProdutos.setVisibility(View.VISIBLE);
-
-                if (produtoCategoriaSelecionado != null)
-                    edtNavegacao.setText(edtNavegacao.getText() +
-                            (edtNavegacao.getText().toString().equals("") ? "" : " > ") +  produtoCategoriaSelecionado.getDescricao());
 
                 adapter_item = new AriusCursorAdapter(context,
                         R.layout.layoutprodcategoria,

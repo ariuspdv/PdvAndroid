@@ -244,7 +244,7 @@ public class AriusActivityResumoCaixa extends ActivityPadrao {
 
         AriusCursorAdapter adapter_historico = new AriusCursorAdapter(getAppContext(),
                 R.layout.layoutcmbbasico,
-                R.layout.layoutcmbbasico,
+                android.R.layout.simple_dropdown_item_1line,
                 null,
                 array_historicos);
         adapter_historico.setMontarCamposTela(new AriusCursorAdapter.MontarCamposTela() {

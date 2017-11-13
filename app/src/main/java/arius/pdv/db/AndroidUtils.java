@@ -110,8 +110,6 @@ public class AndroidUtils {
     }
 
     public static Method encontra_valor_campo(Entity entity, Method[] campos, String nome_campo, String entity_campo) {
-        String teste = null;
-        Class entity_fields = campos[0].getDeclaringClass();
         for(Method litem : campos){
             try {
                 Object tteste1 = litem.getReturnType().getGenericSuperclass();
@@ -126,7 +124,6 @@ public class AndroidUtils {
                     Object validacao = litem.invoke(entity, new Object[]{});
                     if (validacao != null) {
                         if(nome_campo.toLowerCase().equals(litem.getName().toLowerCase().substring(3))) {
-                            teste = validacao.toString();
                             return litem;
                         }
                     }
@@ -135,7 +132,6 @@ public class AndroidUtils {
                         Object validacao = litem.invoke(m1.invoke(entity, new Object[]{}), new Object[]{});
                         if (validacao != null) {
                             if(nome_campo.toLowerCase().equals(litem.getName().toLowerCase().substring(3))) {
-                                teste = validacao.toString();
                                 //m1.get
                                 //return (Method)  m1.
                             }

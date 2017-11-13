@@ -23,6 +23,11 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="MyText" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@drawable/button_orange_event</item>
+        <item name="android:textSize">30dp</item>
+    </style>
+
     <style name="AriusTextEdit">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

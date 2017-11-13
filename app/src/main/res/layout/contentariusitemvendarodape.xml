@@ -23,7 +23,7 @@
                 android:id="@+id/edtlayoutItemVendaRodapeTotItem"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center|"
+                android:gravity="center"
                 android:paddingTop="20dp"
                 android:text="0"
                 android:textColor="#167216"

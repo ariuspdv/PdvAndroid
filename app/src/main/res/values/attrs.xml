@@ -35,6 +35,9 @@
         <attr name="montaAdapter" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="AriusProdutoCategoriaNavigator">
+        <attr name="android:layout_marginBottom" format="integer"/>
+    </declare-styleable>
 
     <declare-styleable name="FloatingActionButton">
         <attr name="fab_colorNormal" format="color" />

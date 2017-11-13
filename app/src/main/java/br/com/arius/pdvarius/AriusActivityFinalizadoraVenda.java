@@ -48,6 +48,8 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
     private TextView edtValorTotalVenda;
     private TextView edtValorTotalLiquido;
     private TextView edtVrRecebido;
+    private View.OnClickListener onClickListenerEdits;
+    private View.OnFocusChangeListener onFocusChangeListenerEdits;
 
     /*Campos rodapé dialog finalizadora*/
     private TextView edtVrBruto;
@@ -96,6 +98,28 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
         }
 
         grdFinalidora_Venda.setSwipe_Delete(true);
+
+        onClickListenerEdits = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((EditText) v).setSelection(((EditText) v).getText().length());
+            }
+        };
+
+        onFocusChangeListenerEdits =  new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    final View campoEdit = v;
+                    v.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((EditText) campoEdit).setSelection(((EditText) campoEdit).getText().length());
+                        }
+                    });
+                }
+            }
+        };
 
         carregaFinalizadora_Venda();
 
@@ -351,6 +375,9 @@ public class AriusActivityFinalizadoraVenda extends ActivityPadrao {
         edtDesconto = (TextView)  dialogFinalizadora.findViewById(R.id.edtlayoutDialogFinalizadoraVendaDesconto);
         edtJuros = (TextView) dialogFinalizadora.findViewById(R.id.edtlayoutDialogFinalizadoraVendaJuros);
         edtVrLiquido = (TextView) dialogFinalizadora.findViewById(R.id.edtlayoutDialogFinalizadoraVendaValorLiquido);
+
+        edtValor.setOnClickListener(onClickListenerEdits);
+        edtValor.setOnFocusChangeListener(onFocusChangeListenerEdits);
 
         montaRodape();
     }
